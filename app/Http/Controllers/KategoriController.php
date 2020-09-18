@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Kategori;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -14,6 +14,7 @@ class KategoriController extends Controller
     public function index()
     {
         //
+        return view('admin.kategoriindex');
     }
 
     /**
@@ -24,6 +25,7 @@ class KategoriController extends Controller
     public function create()
     {
         //
+        return view('admin.kategoricreate');
     }
 
     /**
@@ -35,6 +37,9 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         //
+        $kategori = new Kategori();
+        $kategori->nama = $request->get('nama');
+        $kategori->save();
     }
 
     /**
@@ -57,6 +62,8 @@ class KategoriController extends Controller
     public function edit($id)
     {
         //
+        $kategori = Kategori::find($id)->firstOrFail();
+        return view('admin.kategoriupdate', compact('kategori'));
     }
 
     /**
@@ -69,6 +76,9 @@ class KategoriController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $kategori = Kategori::find($id);
+        $kategori->nama = $request->get('nama');
+        $kategori->save();
     }
 
     /**

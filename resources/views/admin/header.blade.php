@@ -236,6 +236,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
+                        <li class="nav-header">Data Master</li>
                         <li class="nav-item">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-table"></i>
@@ -244,29 +245,65 @@
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
-                           
+
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="pages/tables/simple.html" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Simple Tables</p>
+                                        <p>Tambah Barang</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/tables/data.html" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>DataTables</p>
+                                        <p>Ubah Barang</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/tables/jsgrid.html" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>jsGrid</p>
+                                        <p>Hapus Barang</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+                        
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    Kategori
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="pages/tables/simple.html" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Tambah Kategori</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="pages/tables/data.html" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Ubah Kategori</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="pages/tables/jsgrid.html" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Hapus Kategori</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+
+                        
+
                         <li class="nav-header">EXAMPLES</li>
+
                         <li class="nav-item">
                             <a href="{{route('barangcreate')}}" class="nav-link">
                                 <i class="nav-icon far fa-calendar-alt"></i>
@@ -288,16 +325,16 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
 
-            
+
             <!-- /.content-header -->
 
             <!-- Main content -->
             <section class="content">
-                
+
 
                 @yield('content')
-                
-               
+
+
             </section>
             <!-- /.content -->
         </div>
