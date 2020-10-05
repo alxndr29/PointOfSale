@@ -41,6 +41,7 @@ class KategoriController extends Controller
         $kategori = new Kategori();
         $kategori->nama = $request->get('nama');
         $kategori->save();
+        return redirect('kategori')->with('status','Berhasil Menambah Kategori Baru');
     }
 
     /**
@@ -92,6 +93,8 @@ class KategoriController extends Controller
     public function destroy($id)
     {
         //
-        return $id;
+        $kategori = Kategori::find($id);
+        $kategori->delete();
+        return redirect('kategori')->with('status','Berhasil Menghapus Kategori');
     }
 }
