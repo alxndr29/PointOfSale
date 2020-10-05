@@ -30,3 +30,4 @@ Route::get('/kategori/create','KategoriController@create')->name('kategoricreate
 Route::post('/kategori/store','KategoriController@store')->name('kategoristore');
 Route::get('/kategori/edit/{id}','KategoriController@edit')->name('kategoriedit');
 Route::put('/kategori/update/{id}','KategoriController@update')->name('kategoriupdate');
+Route::delete('/kategori/delete/{id}','KategoriController@destroy')->name('kategoridelete');

@@ -26,6 +26,11 @@
     <link rel="stylesheet" href="{{asset('templateadmin/plugins/daterangepicker/daterangepicker.css')}}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{asset('templateadmin/plugins/summernote/summernote-bs4.min.css')}}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{asset('templateadmin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{asset('templateadmin/plugins/toastr/toastr.min.css')}}">
+
 
 
     <script src="{{asset('templateadmin/plugins/jquery/jquery.min.js')}}"></script>
@@ -200,7 +205,7 @@
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
                 <img src="{{asset('templateadmin/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light">Toko Sinjai</span>
             </a>
 
             <!-- Sidebar -->
@@ -236,71 +241,37 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-                        <li class="nav-header">Data Master</li>
+                        <!--  <li class="nav-header">Data Master</li> -->
                         <li class="nav-item">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-table"></i>
                                 <p>
-                                    Barang
+                                    Master Data
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
 
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="pages/tables/simple.html" class="nav-link">
+                                    <a href="{{route('kategoriindex')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Tambah Barang</p>
+                                        <p>Kategori</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/tables/data.html" class="nav-link">
+                                    <a href="{{route('barangindex')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Ubah Barang</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/tables/jsgrid.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Hapus Barang</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-table"></i>
-                                <p>
-                                    Kategori
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="pages/tables/simple.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Tambah Kategori</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/tables/data.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Ubah Kategori</p>
+                                        <p>Barang</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/tables/jsgrid.html" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Hapus Kategori</p>
+                                        <p>Supplier</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        
-
-                        
 
                         <li class="nav-header">EXAMPLES</li>
 
@@ -358,5 +329,16 @@
     <!-- jQuery -->
 
 </body>
+
+<script type="text/javascript">
+
+    @if(session('status')) {
+        {
+            alert('{{session('status')}}');
+        }
+    }
+    @endif
+
+</script>
 
 </html>

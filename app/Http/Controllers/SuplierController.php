@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Kategori;
+
 use Illuminate\Http\Request;
 
-class KategoriController extends Controller
+class SuplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,6 @@ class KategoriController extends Controller
     public function index()
     {
         //
-        $kategori = Kategori::all();
-        return view('admin.kategoriindex', compact('kategori'));
     }
 
     /**
@@ -26,7 +24,6 @@ class KategoriController extends Controller
     public function create()
     {
         //
-        return view('admin.kategoricreate');
     }
 
     /**
@@ -38,9 +35,6 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         //
-        $kategori = new Kategori();
-        $kategori->nama = $request->get('nama');
-        $kategori->save();
     }
 
     /**
@@ -63,8 +57,6 @@ class KategoriController extends Controller
     public function edit($id)
     {
         //
-        $kategori = Kategori::find($id)->firstOrFail();
-        return view('admin.kategoriupdate', compact('kategori'));
     }
 
     /**
@@ -77,10 +69,6 @@ class KategoriController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $kategori = Kategori::find($id);
-        $kategori->nama = $request->get('nama');
-        $kategori->save();
-        return redirect('kategori')->with('status','Berhasil Mengedit Data Kategori');
     }
 
     /**
@@ -92,6 +80,5 @@ class KategoriController extends Controller
     public function destroy($id)
     {
         //
-        return $id;
     }
 }
