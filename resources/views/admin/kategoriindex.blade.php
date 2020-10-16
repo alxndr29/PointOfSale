@@ -50,7 +50,7 @@
                             </div>
                             <!-- /.card-header -->
 
-                            <div class="card-body table-responsive p-0">
+                            <div class="card-body table-responsive p-0 text-center">
                                 <table class="table table-head-fixed text-nowrap">
                                     <thead>
                                         <tr>
@@ -65,10 +65,12 @@
                                     <tbody>
                                         @foreach($kategori as $key => $value)
                                         <tr>
-                                            <td>{{$key + 1}}</td>
+                                            <td>{{$kategori->firstItem() + $key }}</td>
                                             <td>KTGR{{$value->id}}</td>
                                             <td>{{$value->nama}}</td>
-                                            <td><a type="button" class="btn btn-block btn-success btn-sm" href="{{route('kategoriedit',$value->id)}}">Edit</a></td>
+                                            <td><a class="btn btn-block btn-success btn-sm" href="{{route('kategoriedit',$value->id)}}">Edit</a></td>
+
+                                            <!--
                                             <td>
                                                 <form method="post" action="{{route('kategoridelete',$value->id) }}">
                                                     @method('DELETE')
@@ -76,10 +78,21 @@
                                                     <button class="btn btn-block btn-danger btn-sm">Hapus</button>
                                                 </form>
                                             </td>
+                                            -->
+
+                                            <td>
+                                                <a href="javascript:void(0)" id="hapuskategori" name="hapuskategori" data-id="{{$value->id}}" class="btn btn-block btn-danger btn-sm">Hapus</a>
+                                            </td>
+                                            
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+
+
+                                {{ $kategori->links() }}
+
+
                             </div>
                             <!-- /.card-body -->
                         </div>

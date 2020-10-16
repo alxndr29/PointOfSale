@@ -31,6 +31,7 @@
     <!-- Toastr -->
     <link rel="stylesheet" href="{{asset('templateadmin/plugins/toastr/toastr.min.css')}}">
 
+   
 
 
     <script src="{{asset('templateadmin/plugins/jquery/jquery.min.js')}}"></script>
@@ -46,6 +47,7 @@
     <script src="{{asset('templateadmin/plugins/chart.js/Chart.min.js')}}"></script>
     <!-- Sparkline -->
     <script src="{{asset('templateadmin/plugins/sparklines/sparkline.js')}}"></script>
+
     <!-- JQVMap -->
     <script src="{{asset('templateadmin/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
     <script src="{{asset('templateadmin/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
@@ -66,7 +68,7 @@
     <script src="{{asset('templateadmin/dist/js/demo.js')}}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{asset('templateadmin/dist/js/pages/dashboard.js')}}"></script>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -265,7 +267,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/tables/jsgrid.html" class="nav-link">
+                                    <a href="{{route('suplierindex')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Supplier</p>
                                     </a>
@@ -331,14 +333,61 @@
 </body>
 
 <script type="text/javascript">
-
-    @if(session('status')) {
-        {
-            alert('{{session('status')}}');
-        }
-    }
+    @if(session('status'))
+    alert('{{session('status')}}');
     @endif
 
+    $(document).ready(function() {
+        $("body").on("click", "#hapuskategori", function(e) {
+            var id = $(this).attr('data-id');
+            var token = $('meta[name="csrf-token"]').attr('content');
+            //alert(token);
+
+            if (confirm('Are you sure you want to save this thing into the database?')) {
+                $.ajax({
+                    url: "{{url('kategori/delete')}}/" + id, //or you can use url: "company/"+id,
+                    type: 'DELETE',
+                    data: {
+                        _token: token,
+                        id: id
+                    },
+                    success: function(response) {
+                        alert(response.status);
+                        location.reload();
+                    }
+                });
+
+            } else {
+
+
+            }
+        });
+        $("body").on("click", "#hapusbarang", function(e) {
+            var id = $(this).attr('data-id');
+            var token = $('meta[name="csrf-token"]').attr('content');
+            //alert(token);
+
+            if (confirm('Are you sure you want to save this thing into the database?')) {
+                $.ajax({
+                    url: "{{url('barang/delete')}}/" + id, //or you can use url: "company/"+id,
+                    type: 'DELETE',
+                    data: {
+                        _token: token,
+                        id: id
+                    },
+                    success: function(response) {
+                        alert(response.status);
+                        location.reload();
+                    }
+                });
+
+            } else {
+
+
+            }
+        });
+
+    });
 </script>
 
 </html>

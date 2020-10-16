@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Kategori;
+use DB;
+use App\Barang;
 class BarangController extends Controller
 {
     /**
@@ -14,7 +16,12 @@ class BarangController extends Controller
     public function index()
     {
         //
-        return view('admin.barangindex');
+        $kategori = Kategori::all();
+        $barang = DB::table('barangs')
+                    ->join('kategoris','kategoris.id','=','barangs.kategori_id')
+                    ->select('barangs.*','kategoris.nama as namakategori')
+                    ->paginate(10);
+       return view('admin.barangindex', compact('kategori','barang'));
     }
 
     /**
@@ -37,6 +44,15 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         //
+        $barang = new Barang();
+        $barang->barcode = $request->get('barcode');
+        $barang->nama = $request->get('nama');
+        $barang->harga = $request->get('harga');
+        $barang->stok = $request->get('stok');
+        $barang->kategori_id = $request->get('kategori_id');
+        $barang->save();
+        //return "hello world!";
+        return redirect('barang')->with('status','Berhasil Menambahkan Barang Baru');
     }
 
     /**
@@ -59,6 +75,13 @@ class BarangController extends Controller
     public function edit($id)
     {
         //
+        $barang = DB::table('barangs')
+                    ->join('kategoris','kategoris.id','=','barangs.kategori_id')
+                    ->select('barangs.*','kategoris.nama as namakategori','kategoris.id as idkategori')
+                    ->first();
+
+        $kategori = Kategori::all();
+        return view('admin.barangcreate', compact('kategori','barang'));
     }
 
     /**
@@ -71,6 +94,15 @@ class BarangController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $barang = Barang::find($id);
+        $barang->barcode = $request->get('barcode');
+        $barang->nama = $request->get('nama');
+        $barang->harga = $request->get('harga');
+        $barang->stok = $request->get('stok');
+        $barang->kategori_id = $request->get('kategori_id');
+        $barang->save();
+
+        return redirect('barang')->with('status','Berhasil Mengedit Data Barang');
     }
 
     /**
@@ -82,5 +114,9 @@ class BarangController extends Controller
     public function destroy($id)
     {
         //
+        $barang = Barang::find($id);
+        $barang->delete();
+        $response = ['status' => 'Berhasil Menghapus Barang'];
+        return response()->json($response);
     }
 }

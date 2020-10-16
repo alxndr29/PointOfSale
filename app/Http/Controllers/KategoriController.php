@@ -14,7 +14,7 @@ class KategoriController extends Controller
     public function index()
     {
         //
-        $kategori = Kategori::all();
+        $kategori = Kategori::paginate(5);
         return view('admin.kategoriindex', compact('kategori'));
     }
 
@@ -95,6 +95,8 @@ class KategoriController extends Controller
         //
         $kategori = Kategori::find($id);
         $kategori->delete();
-        return redirect('kategori')->with('status','Berhasil Menghapus Kategori');
+        $response = ['status' => 'Berhasil Menghapus Kategori'];
+        return response()->json($response);
+        //return redirect('kategori')->with('status','Berhasil Menghapus Kategori');
     }
 }
