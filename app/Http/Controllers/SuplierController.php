@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Suplier;
 use Illuminate\Http\Request;
 
 class SuplierController extends Controller
@@ -14,6 +15,8 @@ class SuplierController extends Controller
     public function index()
     {
         //
+        $suplier = Suplier::paginate(5);
+        return view('admin.suplierindex', compact('suplier'));
     }
 
     /**
@@ -35,6 +38,12 @@ class SuplierController extends Controller
     public function store(Request $request)
     {
         //
+        $suplier = new Suplier();
+        $suplier->nama = $request->get('nama');
+        $suplier->alamat = $request->get('alamat');
+        $suplier->telepon = $request->get('telepon');
+        $suplier->save();
+        return redirect('suplier')->with('status','Berhasil Menambah Suplier Baru');
     }
 
     /**
@@ -57,6 +66,8 @@ class SuplierController extends Controller
     public function edit($id)
     {
         //
+        $suplier = Suplier::find($id)->firstOrFail();
+        return view('admin.suplierupdate', compact('suplier'));
     }
 
     /**
@@ -69,6 +80,12 @@ class SuplierController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $suplier = Suplier::find($id);
+        $suplier->nama = $request->get('nama');
+        $suplier->alamat = $request->get('alamat');
+        $suplier->telepon = $request->get('telepon');
+        $suplier->save();
+        return redirect('suplier')->with('status','Berhasil Mengubah Data Suplier');
     }
 
     /**
@@ -80,5 +97,9 @@ class SuplierController extends Controller
     public function destroy($id)
     {
         //
+        $suplier = Suplier::find($id);
+        $suplier->delete();
+        $response = ['status' => 'Berhasil Menghapus Suplier'];
+        return response()->json($response);
     }
 }
