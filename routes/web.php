@@ -46,3 +46,5 @@ Route::get('/suplier/edit/{id}','SuplierController@edit')->name('suplieredit');
 Route::put('/suplier/update/{id}','SuplierController@update')->name('suplierupdate');
 Route::delete('/suplier/delete/{id}','SuplierController@destroy')->name('suplierdelete');
 
+//Route Penjualan
+Route::get('/penjualan','PenjualanController@index')->name('penjualanindex');

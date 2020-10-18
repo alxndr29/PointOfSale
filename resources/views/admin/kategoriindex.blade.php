@@ -2,6 +2,7 @@
 
 @section('content')
 <!-- /.col (left) -->
+
 <div class="col mt-3">
     <div class="row">
         <div class="col-4">
@@ -70,20 +71,11 @@
                                             <td>{{$value->nama}}</td>
                                             <td><a class="btn btn-block btn-success btn-sm" href="{{route('kategoriedit',$value->id)}}">Edit</a></td>
 
-                                            <!--
-                                            <td>
-                                                <form method="post" action="{{route('kategoridelete',$value->id) }}">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="btn btn-block btn-danger btn-sm">Hapus</button>
-                                                </form>
-                                            </td>
-                                            -->
 
                                             <td>
                                                 <a href="javascript:void(0)" id="hapuskategori" name="hapuskategori" data-id="{{$value->id}}" class="btn btn-block btn-danger btn-sm">Hapus</a>
                                             </td>
-                                            
+
                                         </tr>
                                         @endforeach
                                     </tbody>

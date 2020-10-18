@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Suplier;
 use Illuminate\Http\Request;
 
-class SuplierController extends Controller
+class PenjualanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,7 @@ class SuplierController extends Controller
     public function index()
     {
         //
-        $suplier = Suplier::paginate(5);
-        return view('admin.suplierindex', compact('suplier'));
+        return view('admin.indexpenjualan');
     }
 
     /**
@@ -38,18 +36,6 @@ class SuplierController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'nama' => 'required|alpha',
-            'alamat' => 'required|alpha',
-            'telepon' => 'required|numeric'
-        ]);
-
-        $suplier = new Suplier();
-        $suplier->nama = $request->get('nama');
-        $suplier->alamat = $request->get('alamat');
-        $suplier->telepon = $request->get('telepon');
-        $suplier->save();
-        return redirect('suplier')->with('status','Berhasil Menambah Suplier Baru');
     }
 
     /**
@@ -72,8 +58,6 @@ class SuplierController extends Controller
     public function edit($id)
     {
         //
-        $suplier = Suplier::findOrFail($id);
-        return view('admin.suplierupdate', compact('suplier'));
     }
 
     /**
@@ -86,18 +70,6 @@ class SuplierController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $request->validate([
-            'nama' => 'required|alpha',
-            'alamat' => 'required|alpha',
-            'telepon' => 'required|numeric'
-        ]);
-        
-        $suplier = Suplier::find($id);
-        $suplier->nama = $request->get('nama');
-        $suplier->alamat = $request->get('alamat');
-        $suplier->telepon = $request->get('telepon');
-        $suplier->save();
-        return redirect('suplier')->with('status','Berhasil Mengubah Data Suplier');
     }
 
     /**
@@ -109,9 +81,5 @@ class SuplierController extends Controller
     public function destroy($id)
     {
         //
-        $suplier = Suplier::find($id);
-        $suplier->delete();
-        $response = ['status' => 'Berhasil Menghapus Suplier'];
-        return response()->json($response);
     }
 }

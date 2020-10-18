@@ -44,6 +44,13 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'barcode' => 'required|numeric|min:12',
+            'nama' => 'required|alpha',
+            'harga' => 'required|numeric|min:3',
+            'stok' => 'required|numeric',
+            'kategori_id' => 'required'
+        ]);
         $barang = new Barang();
         $barang->barcode = $request->get('barcode');
         $barang->nama = $request->get('nama');
@@ -78,6 +85,7 @@ class BarangController extends Controller
         $barang = DB::table('barangs')
                     ->join('kategoris','kategoris.id','=','barangs.kategori_id')
                     ->select('barangs.*','kategoris.nama as namakategori','kategoris.id as idkategori')
+                    ->where('barangs.id','=',$id)
                     ->first();
 
         $kategori = Kategori::all();

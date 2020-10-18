@@ -31,7 +31,7 @@
     <!-- Toastr -->
     <link rel="stylesheet" href="{{asset('templateadmin/plugins/toastr/toastr.min.css')}}">
 
-   
+
 
 
     <script src="{{asset('templateadmin/plugins/jquery/jquery.min.js')}}"></script>
@@ -274,6 +274,30 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    Kasir
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('penjualanindex')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Penjualan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('penjualanindex')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Pembelian</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="nav-header">EXAMPLES</li>
 
@@ -303,11 +327,18 @@
 
             <!-- Main content -->
             <section class="content">
-
-
+                <div class="col mt-3">
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                </div>
                 @yield('content')
-
-
             </section>
             <!-- /.content -->
         </div>
@@ -334,10 +365,46 @@
 
 <script type="text/javascript">
     @if(session('status'))
-    alert('{{session('status')}}');
+    alert('{{session('
+        status ')}}');
     @endif
 
+    function clockUpdate() {
+        var date = new Date();
+        $('.digital-clock').css({
+            'color': '#fff',
+            'text-shadow': '0 0 6px #ff0'
+        });
+
+        function addZero(x) {
+            if (x < 10) {
+                return x = '0' + x;
+            } else {
+                return x;
+            }
+        }
+
+        function twelveHour(x) {
+            if (x > 12) {
+                return x = x - 12;
+            } else if (x == 0) {
+                return x = 12;
+            } else {
+                return x;
+            }
+        }
+       
+        var datenow = date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate();
+
+        var h = addZero(twelveHour(date.getHours()));
+        var m = addZero(date.getMinutes());
+        var s = addZero(date.getSeconds());
+        $('#digital-clock').text(  datenow+':'+ h + ':' + m + ':' + s);
+    }
     $(document).ready(function() {
+        clockUpdate();
+        setInterval(clockUpdate, 1000);
+
         $("body").on("click", "#hapuskategori", function(e) {
             var id = $(this).attr('data-id');
             var token = $('meta[name="csrf-token"]').attr('content');
@@ -389,7 +456,7 @@
         $("body").on("click", "#hapussuplier", function(e) {
             var id = $(this).attr('data-id');
             var token = $('meta[name="csrf-token"]').attr('content');
-            //alert(token);
+
 
             if (confirm('Are you sure you want to save this thing into the database?')) {
                 $.ajax({

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Kategori;
+use DB;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -37,7 +38,11 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $request->validate([
+            'nama' => 'required|alpha'
+        ]);
+
         $kategori = new Kategori();
         $kategori->nama = $request->get('nama');
         $kategori->save();
@@ -64,7 +69,12 @@ class KategoriController extends Controller
     public function edit($id)
     {
         //
-        $kategori = Kategori::find($id)->firstOrFail();
+        $kategori = Kategori::findOrFail($id);
+       /*
+       $kategori = DB::table('kategoris')
+                ->where('kategoris.id', '=',$id)
+                ->first();
+        */
         return view('admin.kategoriupdate', compact('kategori'));
     }
 
@@ -77,7 +87,10 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required|alpha'
+        ]);
+
         $kategori = Kategori::find($id);
         $kategori->nama = $request->get('nama');
         $kategori->save();
@@ -92,7 +105,7 @@ class KategoriController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
         $kategori = Kategori::find($id);
         $kategori->delete();
         $response = ['status' => 'Berhasil Menghapus Kategori'];
