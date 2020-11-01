@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
+use App\Barang;
 use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
@@ -16,7 +17,12 @@ class PenjualanController extends Controller
         //
         return view('admin.indexpenjualan');
     }
-
+    public function barang()
+    {
+        $barang = Barang::all();
+        return json_encode($barang);
+        //return $barang;
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -48,3 +48,4 @@ Route::delete('/suplier/delete/{id}','SuplierController@destroy')->name('suplier
 
 //Route Penjualan
 Route::get('/penjualan','PenjualanController@index')->name('penjualanindex');
+Route::get('/penjualan/barang','PenjualanController@barang')->name('databarang');
