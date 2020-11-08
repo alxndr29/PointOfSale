@@ -277,7 +277,7 @@
     $(document).ready(function() {
         clockUpdate();
         setInterval(clockUpdate, 1000);
-
+        
         $("body").on("click", "#hapuskategori", function(e) {
             var id = $(this).attr('data-id');
             var token = $('meta[name="csrf-token"]').attr('content');

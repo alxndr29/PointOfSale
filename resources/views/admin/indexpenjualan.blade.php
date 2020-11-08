@@ -20,7 +20,6 @@
         </div>
         <div class="card-body">
             <div class="row">
-
                 <div class="col-9">
                     <div class="row">
                         <div class="col">
@@ -62,14 +61,14 @@
     </div>
 
     <div class="row">
-        <div class="col">
+        <div class="col-10">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Daftar Penjualan</h3>
                 </div>
                 <div class="card-body">
                     <div class="card-body table-responsive p-0" style="height: 400px;">
-                        <table class="table table-hover text-nowrap">
+                        <table class="table table-hover text-nowrap table-bordered">
                             <thead>
                                 <tr>
                                     <th>Barcode</th>
@@ -77,100 +76,10 @@
                                     <th>Harga</th>
                                     <th>Jumlah</th>
                                     <th>Sub Total</th>
+                                    <th>Opt</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-success">Approved</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>219</td>
-                                    <td>Alexander Pierce</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-warning">Pending</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>657</td>
-                                    <td>Bob Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-primary">Approved</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="tag tag-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
+                            <tbody id="list-data" name="list-data">
 
                             </tbody>
                         </table>
@@ -184,30 +93,60 @@
         <div class="col">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Daftar Penjualan</h3>
+                    <h3 class="card-title">Menu Lain</h3>
                 </div>
                 <div class="card-body">
-
                     <button type="button" class="btn btn-block btn-default btn-lg">Bayar</button>
                     <button type="button" class="btn btn-block btn-default btn-lg">Transaksi Baru</button>
-                    <button type="button" class="btn btn-block btn-default btn-lg">Cari Produk</button>
+                    <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#exampleModalCenter">Cari Produk</button>
                 </div>
                 <div class="card-footer">
 
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="barcode">Nama Produk</label>
+                            <input type="text" class="form-control" id="barcode" placeholder="Masukan Nama Produk" name="barcode">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 
 </div>
 <script type="text/javascript">
-    var result = [];
-   
     $(document).ready(function() {
-        $("#barcode").keyup(function(){
+        var result = [];
+        var data = [];
+        $("body").on("click", "#hapuslist", function(e) {
+            var id = $(this).attr('data-id');
+            alert(id);
+        });
+        $("#barcode").keyup(function() {
             var input = this.value;
-            loadData(input);
+            if (input.length >= 3) {
+                cariData(input);
+            }
         });
         $.ajax({
             url: "{{url('penjualan/barang')}}",
@@ -226,17 +165,21 @@
                     result[i].qty = 0;
                     i++;
                 });
-                
+
             }
         });
-    });
-    function loadData(id){
-        for(i=0; i<result.length; i++){
-            if(result[i].barcode === id){
-                alert('nemu');
+        function cariData(id) {
+            for (i = 0; i < result.length; i++) {
+                $("#list-data").append('<tr> <td>183</td> <td>John Doe</td> <td>11-7-2014</td><td><span class="tag tag-success">Approved</span></td><td>Bacon ipsum .</td><td><button name="hapuslist" id="hapuslist" data-id="' + result[i].barcode + '" class="btn"><i class="fa fa-trash"></i></button></td> </tr>');
             }
+             //$("#list-data").append();
         }
-    }
-   
+        function hapusData(id){
+
+        }
+        function loadData(){
+            
+        }
+    });
 </script>
 @endsection
