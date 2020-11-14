@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Kategori;
-use App\Barang;
 use DB;
+use App\Pelanggan;
 use Illuminate\Http\Request;
 
-class KategoriController extends Controller
+class PelangganController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +15,8 @@ class KategoriController extends Controller
     public function index()
     {
         //
-        $kategori = Kategori::paginate(5);
-        return view('admin.kategoriindex', compact('kategori'));
+        $pelanggan = Pelanggan::paginate(5);
+        return view('admin.pelangganindex',compact('pelanggan'));
     }
 
     /**
@@ -29,7 +27,6 @@ class KategoriController extends Controller
     public function create()
     {
         //
-        return view('admin.kategoricreate');
     }
 
     /**
@@ -40,15 +37,19 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
         $request->validate([
-            'nama' => 'required|alpha'
+            'nama' => 'required',
+            'alamat' => 'required',
+            'telepon' => 'required'
         ]);
+        $pelanggan = new Pelanggan();
+        $pelanggan->nama = $request->get('nama');
+        $pelanggan->alamat = $request->get('alamat');
+        $pelanggan->telepon = $request->get('telepon');
+        $pelanggan->save();
 
-        $kategori = new Kategori();
-        $kategori->nama = $request->get('nama');
-        $kategori->save();
-        return redirect('kategori')->with('status', 'Berhasil Menambah Kategori Baru');
+        return redirect('pelanggan')->with('status', 'Berhasil Menambah Data Pelanggan');
     }
 
     /**
@@ -71,13 +72,9 @@ class KategoriController extends Controller
     public function edit($id)
     {
         //
-        $kategori = Kategori::findOrFail($id);
-        /*
-       $kategori = DB::table('kategoris')
-                ->where('kategoris.id', '=',$id)
-                ->first();
-        */
-        return view('admin.kategoriupdate', compact('kategori'));
+        $pelanggan = Pelanggan::findOrFail($id);
+       
+        return view('admin.pelangganupdate', compact('pelanggan'));
     }
 
     /**
@@ -89,14 +86,19 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //
         $request->validate([
-            'nama' => 'required|alpha'
+            'nama' => 'required',
+            'alamat' => 'required',
+            'telepon' => 'required'
         ]);
-
-        $kategori = Kategori::find($id);
-        $kategori->nama = $request->get('nama');
-        $kategori->save();
-        return redirect('kategori')->with('status', 'Berhasil Mengedit Data Kategori');
+        $pelanggan = Pelanggan::find($id);
+        $pelanggan->nama = $request->get('nama');
+        $pelanggan->alamat = $request->get('alamat');
+        $pelanggan->telepon = $request->get('telepon');
+        $pelanggan->save();
+        
+        return redirect('pelanggan')->with('status', 'Berhasil Mengubah Data Pelanggan');
     }
 
     /**
@@ -107,14 +109,11 @@ class KategoriController extends Controller
      */
     public function destroy($id)
     {
-        $count = Barang::where('kategori_id', $id)->count();
-        if ($count == 0) {
-            $kategori = Kategori::find($id);
-            $kategori->delete();
-            $response = ['status' => 'Berhasil Menghapus Data Kategori'];   
-        } else { 
-            $response = ['status' => 'Tidak Dapat Menghapus. Data Kategori Masih Digunakan Untuk Barang'];  
-        }
+        //
+        $pelanggan = Pelanggan::find($id);
+        $pelanggan->delete();
+        $response = ['status' => 'Berhasil Menghapus Data Pelanggan'];
         return response()->json($response);
+
     }
 }

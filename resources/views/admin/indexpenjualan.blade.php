@@ -30,20 +30,14 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="barcode">Jumlah</label>
-                                <input type="text" class="form-control" id="d" placeholder="Jumlah" name="barcode">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
                                 <label for="barcode">Nama</label>
-                                <input type="text" class="form-control" id="da" placeholder="Nama" name="barcode">
+                                <input type="text" class="form-control" id="namaproduk" placeholder="Nama" name="barcode" disabled>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="barcode">Harga</label>
-                                <input type="text" class="form-control" id="dad" placeholder="Harga" name="barcode">
+                                <input type="text" class="form-control" id="hargaproduk" placeholder="Harga" name="barcode" disabled>
                             </div>
                         </div>
                     </div>
@@ -52,7 +46,7 @@
                 </div>
 
                 <div class="col-3 text-left">
-                    <h1 class="p-3"> Rp. 69.000.00 </h1>
+                    <h1 class="p-3" id="jumlahtotal"> Rp. 69.000.00 </h1>
                 </div>
             </div>
         </div>
@@ -96,6 +90,14 @@
                     <h3 class="card-title">Menu Lain</h3>
                 </div>
                 <div class="card-body">
+                    <div class="form-group">
+                        <label>Pilih Pelanggan</label>
+                        <select class="form-control">
+                            @foreach($pelanggan as $key => $value)
+                            <option value="{{$value->id}}">{{$value->nama}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <button type="button" class="btn btn-block btn-default btn-lg">Bayar</button>
                     <button type="button" class="btn btn-block btn-default btn-lg">Transaksi Baru</button>
                     <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#exampleModalCenter">Cari Produk</button>
@@ -138,9 +140,10 @@
     $(document).ready(function() {
         var result = [];
         var data = [];
+        var counter = 0;
         $("body").on("click", "#hapuslist", function(e) {
             var id = $(this).attr('data-id');
-            alert(id);
+
         });
         $("#barcode").keyup(function() {
             var input = this.value;
@@ -168,17 +171,60 @@
 
             }
         });
+
+        var double = false;
+        var indexDouble = 0;
         function cariData(id) {
-            for (i = 0; i < result.length; i++) {
-                $("#list-data").append('<tr> <td>183</td> <td>John Doe</td> <td>11-7-2014</td><td><span class="tag tag-success">Approved</span></td><td>Bacon ipsum .</td><td><button name="hapuslist" id="hapuslist" data-id="' + result[i].barcode + '" class="btn"><i class="fa fa-trash"></i></button></td> </tr>');
+            for (j = 0; j < data.length; j++) {
+                if (data[j].barcode == id) {
+                    double = true;
+                    indexDouble = j;
+                    $("#barcode").val("");
+                }
             }
-             //$("#list-data").append();
-        }
-        function hapusData(id){
+            if (double == false) {
+                for (i = 0; i < result.length; i++) {
+                    if (id == result[i].barcode) {
+                        data[counter] = {};
+                        data[counter].id = result[i].id;
+                        data[counter].barcode = result[i].barcode;
+                        data[counter].nama = result[i].nama;
+                        data[counter].harga = result[i].harga;
+                        data[counter].stok = result[i].stok;
+                        data[counter].qty = 1;
+                        counter++;
+                        $("#barcode").val("");
+                        break;
+                    }
+                }
+            }else{
+                data[indexDouble].qty++;
+                double = false;
+            }
+
+            loadData();
 
         }
-        function loadData(){
+
+        function hapusData(id) {
+
+        }
+
+        function loadData() {
+            /*
+            console.log("hello world!");
+            */
             
+            console.log(data);
+            
+            $("#list-data").empty();
+            for (i = 0; i < data.length; i++) {
+                $("#list-data").append('<tr> <td>' + data[i].barcode + '</td> <td>' + data[i].nama + '</td> <td> Rp. ' + data[i].harga + '</td><td>' + '<input type="number" value="' + data[i].qty + '">' + '</td><td> Rp. ' + data[i].harga*data[i].qty + '</td><td><button name="hapuslist" id="hapuslist" data-id="' + data[i].barcode + '" class="btn"><i class="fa fa-trash"></i></button></td> </tr>');
+            }
+        }
+
+        function transaksiBaru() {
+
         }
     });
 </script>

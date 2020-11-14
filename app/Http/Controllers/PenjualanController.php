@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use DB;
+use App\Pelanggan;
 use App\Barang;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class PenjualanController extends Controller
     public function index()
     {
         //
-        return view('admin.indexpenjualan');
+        $pelanggan = Pelanggan::all();
+        return view('admin.indexpenjualan',compact('pelanggan'));
     }
     public function barang()
     {

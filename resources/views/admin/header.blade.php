@@ -74,8 +74,8 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-       
-        
+
+
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
@@ -144,6 +144,52 @@
                                     <a href="{{route('suplierindex')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Supplier</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    Manajemen
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('kategoriindex')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Pegawai</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('pelangganindex')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Pelanggan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    Laporan
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('kategoriindex')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaksi Penjualan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('barangindex')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Transaksi Pembelian</p>
                                     </a>
                                 </li>
                             </ul>
@@ -266,22 +312,21 @@
                 return x;
             }
         }
-       
-        var datenow = date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate();
+
+        var datenow = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
 
         var h = addZero(twelveHour(date.getHours()));
         var m = addZero(date.getMinutes());
         var s = addZero(date.getSeconds());
-        $('#digital-clock').text(  datenow+':'+ h + ':' + m + ':' + s);
+        $('#digital-clock').text(datenow + ':' + h + ':' + m + ':' + s);
     }
     $(document).ready(function() {
         clockUpdate();
         setInterval(clockUpdate, 1000);
-        
+
         $("body").on("click", "#hapuskategori", function(e) {
             var id = $(this).attr('data-id');
             var token = $('meta[name="csrf-token"]').attr('content');
-            //alert(token);
 
             if (confirm('Are you sure you want to save this thing into the database?')) {
                 $.ajax({
@@ -334,6 +379,29 @@
             if (confirm('Are you sure you want to save this thing into the database?')) {
                 $.ajax({
                     url: "{{url('suplier/delete')}}/" + id, //or you can use url: "company/"+id,
+                    type: 'DELETE',
+                    data: {
+                        _token: token,
+                        id: id
+                    },
+                    success: function(response) {
+                        alert(response.status);
+                        location.reload();
+                    }
+                });
+
+            } else {
+
+
+            }
+        });
+        $("body").on("click", "#hapuspelanggan", function(e) {
+            var id = $(this).attr('data-id');
+            var token = $('meta[name="csrf-token"]').attr('content');
+
+            if (confirm('Are you sure you want to save this thing into the database?')) {
+                $.ajax({
+                    url: "{{url('pelanggan/delete')}}/" + id, //or you can use url: "company/"+id,
                     type: 'DELETE',
                     data: {
                         _token: token,

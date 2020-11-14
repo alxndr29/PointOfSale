@@ -46,6 +46,14 @@ Route::get('/suplier/edit/{id}','SuplierController@edit')->name('suplieredit');
 Route::put('/suplier/update/{id}','SuplierController@update')->name('suplierupdate');
 Route::delete('/suplier/delete/{id}','SuplierController@destroy')->name('suplierdelete');
 
+//route pelanggan
+Route::get('/pelanggan','PelangganController@index')->name('pelangganindex');
+Route::get('/pelanggan/create','PelangganController@create')->name('pelanggancreate');
+Route::post('/pelanggan/store','PelangganController@store')->name('pelangganstore');
+Route::get('/pelanggan/edit/{id}','PelangganController@edit')->name('pelangganedit');
+Route::put('/pelanggan/update/{id}','PelangganController@update')->name('pelangganupdate');
+Route::delete('/pelanggan/delete/{id}','PelangganController@destroy')->name('pelanggandelete');
+
 //Route Penjualan
 Route::get('/penjualan','PenjualanController@index')->name('penjualanindex');
 Route::get('/penjualan/barang','PenjualanController@barang')->name('databarang');
