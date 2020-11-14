@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="col-3 text-left">
-                    <h1 class="p-3" id="jumlahtotal"> Rp. 69.000.00 </h1>
+                    <h1 class="p-3" id="jumlahtotal"> Rp. 0 </h1>
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <button type="button" class="btn btn-block btn-default btn-lg">Bayar</button>
+                    <button type="button" class="btn btn-block btn-default btn-lg" id="bayar">Bayar</button>
                     <button type="button" class="btn btn-block btn-default btn-lg">Transaksi Baru</button>
                     <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#exampleModalCenter">Cari Produk</button>
                 </div>
@@ -120,9 +120,34 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="barcode">Nama Produk</label>
-                            <input type="text" class="form-control" id="barcode" placeholder="Masukan Nama Produk" name="barcode">
+                            <input type="text" class="form-control" id="searchproduk" placeholder="Masukan Nama Produk">
                         </div>
+                        <div class="form-group">
+                            <label for="barcode">Hasil Pencarian</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>Task</th>
+                                        <th>Progress</th>
+                                        <th style="width: 40px">Label</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1.</td>
+                                        <td>Update software</td>
+                                        <td>
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-danger">55%</span></td>
+                                    </tr>
 
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -138,6 +163,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
+
         var result = [];
         var data = [];
         var counter = 0;
@@ -145,11 +171,24 @@
             var id = $(this).attr('data-id');
 
         });
+        $("body").on("change", "#inputqty", function(e) {
+            var id = $(this).attr('data-id');
+            var val = $(this).val()
+            updateQty(id, val);
+            loadData();
+        });
         $("#barcode").keyup(function() {
             var input = this.value;
             if (input.length >= 3) {
                 cariData(input);
             }
+        });
+        $("#searchproduk").keyup(function(){
+            var input = this.value;
+            alert(input);
+        });
+        $("#bayar").click(function() {
+            insertTransaksi();
         });
         $.ajax({
             url: "{{url('penjualan/barang')}}",
@@ -174,6 +213,7 @@
 
         var double = false;
         var indexDouble = 0;
+
         function cariData(id) {
             for (j = 0; j < data.length; j++) {
                 if (data[j].barcode == id) {
@@ -197,30 +237,56 @@
                         break;
                     }
                 }
-            }else{
+            } else {
                 data[indexDouble].qty++;
                 double = false;
             }
-
             loadData();
-
         }
 
         function hapusData(id) {
 
         }
 
+        function updateQty(id, qty) {
+            alert(id + "/" + qty);
+
+            for (i = 0; i < data.length; i++) {
+                if (id == data[i].barcode) {
+                    data[i].qty = qty;
+                    alert("qty berubah menjadi " + data[i].qty + "??" + qty);
+
+                }
+            }
+
+
+        }
+
         function loadData() {
-            /*
-            console.log("hello world!");
-            */
-            
             console.log(data);
-            
+            var total = 0;
+
             $("#list-data").empty();
             for (i = 0; i < data.length; i++) {
-                $("#list-data").append('<tr> <td>' + data[i].barcode + '</td> <td>' + data[i].nama + '</td> <td> Rp. ' + data[i].harga + '</td><td>' + '<input type="number" value="' + data[i].qty + '">' + '</td><td> Rp. ' + data[i].harga*data[i].qty + '</td><td><button name="hapuslist" id="hapuslist" data-id="' + data[i].barcode + '" class="btn"><i class="fa fa-trash"></i></button></td> </tr>');
+                total += (data[i].harga * data[i].qty);
+                $("#list-data").append('<tr> <td>' + data[i].barcode + '</td> <td>' + data[i].nama + '</td> <td> Rp. ' + data[i].harga + '</td><td>' + '<input type="number" id="inputqty" val="' + data[i].qty + '" data-id="' + data[i].barcode + '" value="' + data[i].qty + '">' + '</td><td> Rp. ' + data[i].harga * data[i].qty + '</td><td><button name="hapuslist" id="hapuslist" data-id="' + data[i].barcode + '" class="btn"><i class="fa fa-trash"></i></button></td> </tr>');
             }
+            $("#jumlahtotal").text("Rp. " + total);
+        }
+
+        function insertTransaksi() {
+            var token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ route('penjualanstore') }}",
+                type: 'POST',
+                data: {
+                    _token: token,
+                    id: data
+                },
+                success: function(response) {
+                    console.log(response.success);
+                }
+            });
         }
 
         function transaksiBaru() {
