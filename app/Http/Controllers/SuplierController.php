@@ -15,7 +15,7 @@ class SuplierController extends Controller
     public function index()
     {
         //
-        $suplier = Suplier::paginate(5);
+        $suplier = Suplier::paginate(1000);
         return view('admin.suplierindex', compact('suplier'));
     }
 

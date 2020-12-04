@@ -22,8 +22,12 @@
                         <input type="text" class="form-control" id="namabarang" value="{{$barang->nama}}" placeholder="Masukan Nama Barang" name="nama" required>
                     </div>
                     <div class="form-group">
-                        <label for="hargabarang">Harga Barang</label>
-                        <input type="text" class="form-control" id="hargabarang" value="{{$barang->harga}}" placeholder="Masukan Harga Barang" name="harga" required>
+                        <label for="hargabarang">Harga Jual Barang</label>
+                        <input type="text" class="form-control" id="hargabarang" value="{{$barang->hargajual}}" placeholder="Masukan Harga Barang" name="hargajual" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hargabarang">Harga Beli Barang</label>
+                        <input type="text" class="form-control" id="hargabarang" value="{{$barang->hargabeli}}" placeholder="Masukan Harga Barang" name="hargabeli" required>
                     </div>
                     <div class="form-group">
                         <label for="stokbarang">Stok Barang</label>

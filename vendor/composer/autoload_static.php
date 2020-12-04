@@ -524,6 +524,8 @@ class ComposerStaticInit99fa33bda5bfc83445b229ad9461ba61
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Kategori' => __DIR__ . '/../..' . '/app/Kategori.php',
+        'App\\NotaJual' => __DIR__ . '/../..' . '/app/NotaJual.php',
+        'App\\Pelanggan' => __DIR__ . '/../..' . '/app/Pelanggan.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',

@@ -4,7 +4,7 @@
 <!-- /.col (left) -->
 <div class="col mt-3">
     <div class="row">
-        <div class="col-4">
+        <div class="col">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Tambah Suplier</h3>
@@ -40,26 +40,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Daftar Suplier</h3>
-                                <div class="card-tools">
-
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-
-                                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-default">
-                                                <i class="fas fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <!-- /.card-header -->
 
-                            <div class="card-body table-responsive p-0 text-center">
-                                <table class="table table-head-fixed text-nowrap">
+                            <div class="card-body table-responsive text-center">
+                                <table class="table table-head-fixed text-nowrap" id="myTable">
                                     <thead>
                                         <tr>
                                             <th>Nomor</th>
@@ -81,17 +65,6 @@
                                             <td>{{$value->telepon}}</td>
 
                                             <td><a class="btn btn-block btn-success btn-sm" href="{{route('suplieredit',$value->id)}}">Edit</a></td>
-
-                                            <!--
-                                            <td>
-                                                <form method="post" action="{{route('kategoridelete',$value->id) }}">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="btn btn-block btn-danger btn-sm">Hapus</button>
-                                                </form>
-                                            </td>
-                                            -->
-
                                             <td>
                                                 <a href="javascript:void(0)" id="hapussuplier" name="hapussuplier" data-id="{{$value->id}}" class="btn btn-block btn-danger btn-sm">Hapus</a>
                                             </td>
@@ -100,10 +73,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-
-
-                                {{ $suplier->links() }}
-
 
                             </div>
                             <!-- /.card-body -->

@@ -15,7 +15,7 @@ class PelangganController extends Controller
     public function index()
     {
         //
-        $pelanggan = Pelanggan::paginate(5);
+        $pelanggan = Pelanggan::paginate(1000);
         return view('admin.pelangganindex',compact('pelanggan'));
     }
 

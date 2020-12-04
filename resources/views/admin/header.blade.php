@@ -31,6 +31,7 @@
     <!-- Toastr -->
     <link rel="stylesheet" href="{{asset('templateadmin/plugins/toastr/toastr.min.css')}}">
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 
 
 
@@ -68,6 +69,9 @@
     <script src="{{asset('templateadmin/dist/js/demo.js')}}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{asset('templateadmin/dist/js/pages/dashboard.js')}}"></script>
+
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
@@ -92,7 +96,7 @@
                         <img src="{{asset('templateadmin/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">{{Auth::user()->name}}</a>
                     </div>
                 </div>
 
@@ -146,17 +150,6 @@
                                         <p>Supplier</p>
                                     </a>
                                 </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-table"></i>
-                                <p>
-                                    Manajemen
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{route('kategoriindex')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -171,6 +164,7 @@
                                 </li>
                             </ul>
                         </li>
+
                         <li class="nav-item">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-table"></i>
@@ -285,7 +279,8 @@
 
 <script type="text/javascript">
     @if(session('status'))
-    alert('{{session('status')}}');
+    alert('{{session('
+        status ')}}');
     @endif
 
     function clockUpdate() {
@@ -323,6 +318,10 @@
     $(document).ready(function() {
         clockUpdate();
         setInterval(clockUpdate, 1000);
+
+
+        $('#myTable').DataTable();
+
 
         $("body").on("click", "#hapuskategori", function(e) {
             var id = $(this).attr('data-id');

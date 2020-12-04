@@ -20,7 +20,7 @@ class BarangController extends Controller
         $barang = DB::table('barangs')
                     ->join('kategoris','kategoris.id','=','barangs.kategori_id')
                     ->select('barangs.*','kategoris.nama as namakategori')
-                    ->paginate(10);
+                    ->paginate(1000);
        return view('admin.barangindex', compact('kategori','barang'));
     }
 
@@ -49,12 +49,14 @@ class BarangController extends Controller
             'nama' => 'required|alpha',
             'harga' => 'required|numeric|min:3',
             'stok' => 'required|numeric',
-            'kategori_id' => 'required'
+            'kategori_id' => 'required',
+            'hargabeli' => 'required'
         ]);
         $barang = new Barang();
         $barang->barcode = $request->get('barcode');
         $barang->nama = $request->get('nama');
-        $barang->harga = $request->get('harga');
+        $barang->hargajual = $request->get('harga');
+        $barang->hargabeli = $request->get('hargabeli');
         $barang->stok = $request->get('stok');
         $barang->kategori_id = $request->get('kategori_id');
         $barang->save();
@@ -105,7 +107,8 @@ class BarangController extends Controller
         $barang = Barang::find($id);
         $barang->barcode = $request->get('barcode');
         $barang->nama = $request->get('nama');
-        $barang->harga = $request->get('harga');
+        $barang->hargajual = $request->get('hargajual');
+        $barang->hargabeli = $request->get('hargabeli');
         $barang->stok = $request->get('stok');
         $barang->kategori_id = $request->get('kategori_id');
         $barang->save();

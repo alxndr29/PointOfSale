@@ -2,16 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
-use App\NotaJual;
-use App\Pelanggan;
-use App\Barang;
-use App\User;
-
 use Illuminate\Http\Request;
 
-class PenjualanController extends Controller
+class LaporanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,18 +14,8 @@ class PenjualanController extends Controller
     public function index()
     {
         //
-        $pelanggan = Pelanggan::all();
-        return view('admin.indexpenjualan', compact('pelanggan'));
     }
-    public function barang()
-    {
-        $barang = Barang::all();
-        return json_encode($barang);
-    }
-    public function search($name)
-    {
-        return json_encode($name);
-    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -51,36 +34,7 @@ class PenjualanController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->get('id');
-
-        $pelanggan = Pelanggan::findOrFail($request->get('idpelanggan'));
-        $user = User::findOrFail(Auth::user()->id);
-
-        $nota = new NotaJual();
-        $nota->pelanggan()->associate($pelanggan);
-        $nota->users()->associate($user);
-        $nota->save();
-
-
-        foreach ($data as $key => $value) {
-            $barang = Barang::findOrFail($value['id']);
-            $nota->barangs()->save($barang, ['jumlah' => $value['qty'], 'harga' => ($value['hargajual'] * $value['qty'])]);
-            $barang->stok = $value['stok'] - $value['qty'];
-            $barang->save();
-        }
-
-        return response()->json([
-            'success' => 'berhasil'
-        ]);
-    }
-    public function test()
-    {
-        $nota = NotaJual::all();
-        foreach ($nota as $notas) { }
-        $test = "";
-       foreach($nota->barangs as $a){
-           return a;
-       }
+        //
     }
 
     /**

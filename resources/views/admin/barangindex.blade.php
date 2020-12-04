@@ -4,7 +4,7 @@
 <!-- /.col (left) -->
 <div class="col mt-3">
     <div class="row">
-        <div class="col-4">
+        <div class="col">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Tambah Barang</h3>
@@ -21,8 +21,12 @@
                             <input type="text" class="form-control" id="namabarang" placeholder="Masukan Nama Barang" name="nama" required>
                         </div>
                         <div class="form-group">
-                            <label for="hargabarang">Harga Barang</label>
+                            <label for="hargabarang">Harga Jual Barang</label>
                             <input type="text" class="form-control" id="hargabarang" placeholder="Masukan Harga Barang" name="harga" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hargabarang">Harga Beli Barang</label>
+                            <input type="text" class="form-control" id="hargabarang" placeholder="Masukan Harga Barang" name="hargabeli" required>
                         </div>
                         <div class="form-group">
                             <label for="stokbarang">Stok Barang</label>
@@ -55,32 +59,16 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Daftar Barang</h3>
-                                <div class="card-tools">
 
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-
-                                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-default">
-                                                <i class="fas fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.card-header -->
-
-                            <div class="card-body table-responsive p-0 text-center">
-                                <table class="table table-head-fixed text-nowrap">
+                            <div class="card-body table-responsive text-center">
+                                <table class="table table-head-fixed text-nowrap" id="myTable">
                                     <thead>
                                         <tr>
                                             <th>Nomor</th>
                                             <th>Barcode</th>
                                             <th>Nama</th>
-                                            <th> Harga </th>
+                                            <th> Harga Jual </th>
+                                            <th> Harga Beli </th>
                                             <th> Stok </th>
                                             <th> Kategori </th>
                                             <th> Edit </th>
@@ -93,7 +81,8 @@
                                             <td>{{$barang->firstItem() + $key }}</td>
                                             <td>{{$value->barcode}}</td>
                                             <td>{{$value->nama}}</td>
-                                            <td>Rp. {{number_format($value->harga)}}</td>
+                                            <td>Rp. {{number_format($value->hargajual)}}</td>
+                                            <td>Rp. {{number_format($value->hargabeli)}}</td>
                                             <td>{{$value->stok}}</td>
                                             <td>{{$value->namakategori}}</td>
                                             <td><a class="btn btn-block btn-success btn-sm" href="{{route('barangedit',$value->id)}}">Edit</a></td>
@@ -105,7 +94,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{ $barang->links() }}
+                               
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -118,7 +107,8 @@
             </div>
         </div>
     </div>
-
 </div>
-
+<script type="text/javascript">
+    
+</script>
 @endsection
