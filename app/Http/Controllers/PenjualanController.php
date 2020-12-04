@@ -22,7 +22,9 @@ class PenjualanController extends Controller
     {
         //
         $pelanggan = Pelanggan::all();
-        return view('admin.indexpenjualan', compact('pelanggan'));
+        $barang = Barang::all();
+        return view('admin.indexpenjualan', compact('pelanggan','barang'));
+        
     }
     public function barang()
     {

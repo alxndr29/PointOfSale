@@ -111,47 +111,32 @@
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                    
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="barcode">Nama Produk</label>
-                            <input type="text" class="form-control" id="searchproduk" placeholder="Masukan Nama Produk">
-                        </div>
-                        <div class="form-group">
                             <label for="barcode">Hasil Pencarian</label>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="myTable">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px">#</th>
-                                        <th>Task</th>
-                                        <th>Progress</th>
-                                        <th style="width: 40px">Label</th>
+                                        <th>Nama</th>
+                                        <th>Harga</th>
+                                        <th>Pilih</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="list-datasearch" name="list-datasearch">
+                                    @foreach($barang as $key => $value)
                                     <tr>
-                                        <td>1.</td>
-                                        <td>Update software</td>
-                                        <td>
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-danger">55%</span></td>
+                                        <td>{{$value->nama}}</td>
+                                        <td>{{$value->hargajual}}</td>
+                                        <td>  <a href="javascript:void(0)" id="searchproduk" name="searchproduk" data-id="{{$value->barcode}}" class="btn btn-block btn-success btn-sm">Pilih</a> </td>
                                     </tr>
-
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -179,16 +164,23 @@
             updateQty(id, val);
             loadData();
         });
+        $("body").on("click", "#searchproduk", function(e) {
+            var id = $(this).attr('data-id');
+            cariData(id);
+            $('#exampleModalCenter').modal('hide');
+        });
         $("#barcode").keyup(function() {
             var input = this.value;
             if (input.length >= 3) {
                 cariData(input);
             }
         });
+        /*
         $("#searchproduk").keyup(function() {
             var input = this.value;
             alert(input);
         });
+        */
         $("#bayar").click(function() {
             insertTransaksi();
         });
@@ -207,6 +199,7 @@
                     result[i].hargajual = dt.hargajual;
                     result[i].stok = dt.stok;
                     result[i].qty = 0;
+
                     i++;
                 });
 
@@ -293,7 +286,7 @@
                     idpelanggan: idpelanggan
                 },
                 success: function(response) {
-                    if(response.success == "berhasil"){
+                    if (response.success == "berhasil") {
                         alert('transaksi baru cok');
                         location.reload();
                     }
@@ -301,6 +294,7 @@
             });
 
         }
+
         function transaksiBaru() {
             $("#barcode").val("");
             $("#namaproduk").val("");

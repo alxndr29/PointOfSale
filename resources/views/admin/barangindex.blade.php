@@ -38,8 +38,6 @@
                                 @foreach($kategori as $key => $value)
                                 <option value="{{$value->id}}">{{$value->nama}}</option>
                                 @endforeach
-
-
                             </select>
                         </div>
 
@@ -89,7 +87,6 @@
                                             <td>
                                                 <a href="javascript:void(0)" id="hapusbarang" name="hapusbarang" data-id="{{$value->id}}" class="btn btn-block btn-danger btn-sm">Hapus</a>
                                             </td>
-
                                         </tr>
                                         @endforeach
                                     </tbody>
