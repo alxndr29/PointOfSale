@@ -111,7 +111,7 @@
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    
+
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="barcode">Hasil Pencarian</label>
@@ -128,7 +128,7 @@
                                     <tr>
                                         <td>{{$value->nama}}</td>
                                         <td>{{$value->hargajual}}</td>
-                                        <td>  <a href="javascript:void(0)" id="searchproduk" name="searchproduk" data-id="{{$value->barcode}}" class="btn btn-block btn-success btn-sm">Pilih</a> </td>
+                                        <td> <a href="javascript:void(0)" id="searchproduk" name="searchproduk" data-id="{{$value->barcode}}" class="btn btn-block btn-success btn-sm">Pilih</a> </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -199,7 +199,6 @@
                     result[i].hargajual = dt.hargajual;
                     result[i].stok = dt.stok;
                     result[i].qty = 0;
-
                     i++;
                 });
 
@@ -274,25 +273,28 @@
         }
 
         function insertTransaksi() {
-            var token = $('meta[name="csrf-token"]').attr('content');
-            var idpelanggan = $("#idpelanggan").val();
+            if (data.length != 0) {
+                var token = $('meta[name="csrf-token"]').attr('content');
+                var idpelanggan = $("#idpelanggan").val();
 
-            $.ajax({
-                url: "{{ route('penjualanstore') }}",
-                type: 'POST',
-                data: {
-                    _token: token,
-                    id: data,
-                    idpelanggan: idpelanggan
-                },
-                success: function(response) {
-                    if (response.success == "berhasil") {
-                        alert('transaksi baru cok');
-                        location.reload();
+                $.ajax({
+                    url: "{{ route('penjualanstore') }}",
+                    type: 'POST',
+                    data: {
+                        _token: token,
+                        id: data,
+                        idpelanggan: idpelanggan
+                    },
+                    success: function(response) {
+                        if (response.success == "berhasil") {
+                            alert('transaksi baru cok');
+                            location.reload();
+                        }
                     }
-                }
-            });
-
+                });
+            }else{
+                alert("Belum ada data");
+            }
         }
 
         function transaksiBaru() {
