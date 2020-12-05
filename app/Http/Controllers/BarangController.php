@@ -46,7 +46,7 @@ class BarangController extends Controller
         //
         $request->validate([
             'barcode' => 'required|numeric|min:12',
-            'nama' => 'required|alpha',
+            'nama' => 'required',
             'harga' => 'required|numeric|min:3',
             'stok' => 'required|numeric',
             'kategori_id' => 'required',

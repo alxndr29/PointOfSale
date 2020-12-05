@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
+use PDF;
 
 class LaporanController extends Controller
 {
@@ -14,8 +16,32 @@ class LaporanController extends Controller
     public function index()
     {
         //
+        
+        $id = DB::table('notajuals')->max('id');
+        
+        $data = DB::table('notajuals')
+            ->join('users', 'users.id', '=', 'notajuals.user_id')
+            ->join('pelanggans', 'pelanggans.id', '=', 'notajuals.pelanggan_id')
+            ->where('notajuals.id', '=', $id)
+            ->select('notajuals.created_at as tanggal', 'users.name as nama_pegawai', 'pelanggans.nama as nama_pelanggan','notajuals.id as idnotajual')
+            ->first();
+        $barang = DB::table('notajuals')
+            ->join('notajualdetil', 'notajualdetil.notajual_id', '=', 'notajuals.id')
+            ->join('barangs', 'notajualdetil.barang_id', '=', 'barangs.id')
+            ->where('notajuals.id', '=', $id)
+            ->select('notajualdetil.jumlah as jumlah', 'barangs.nama as nama', 'notajualdetil.harga as harga')
+            ->get();
+        
+        return view('admin.kwitansi', compact('data', 'barang'));
+        
+        
     }
-
+    public function print()
+    {
+        $pdf = PDF::loadView('admin.kwitansi');
+        $name = "test.pdf";
+        return $pdf->download($name);
+    }
     /**
      * Show the form for creating a new resource.
      *

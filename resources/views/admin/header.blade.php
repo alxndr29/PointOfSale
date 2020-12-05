@@ -279,8 +279,7 @@
 
 <script type="text/javascript">
     @if(session('status'))
-    alert('{{session('
-        status ')}}');
+    alert('{{session('status')}}');
     @endif
 
     function clockUpdate() {

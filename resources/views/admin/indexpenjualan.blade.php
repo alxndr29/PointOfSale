@@ -98,8 +98,11 @@
                             @endforeach
                         </select>
                     </div>
-                    <button type="button" class="btn btn-block btn-default btn-lg" id="bayar">Bayar</button>
-                    <button type="button" class="btn btn-block btn-default btn-lg">Transaksi Baru</button>
+
+                    <!-- <button type="button" class="btn btn-block btn-default btn-lg" id="bayar">Bayar</button> -->
+                    <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#modalbayar">Bayar</button>
+
+                    <button type="button" class="btn btn-block btn-default btn-lg" id="transaksibaru">Transaksi Baru</button>
                     <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#exampleModalCenter">Cari Produk</button>
                 </div>
                 <div class="card-footer">
@@ -107,11 +110,39 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
+        <!-- Modal Pembayaran -->
+        <div class="modal fade" id="modalbayar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h3 class="modal-title w-100" id="totalmodal"> Total Pembayaran: Rp. 160,000</h3>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>Masukan Jumlah Uang: </label>
+                            <input type="number" class="form-control" placeholder="Masukan Jumlah Uang" id="jumlahuang">
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="checkuangpass">
+                                    Pilih jika uang pas.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-block btn-default btn-lg" id="bayar">Bayar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Pencarian Produk-->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="barcode">Hasil Pencarian</label>
@@ -153,6 +184,7 @@
         var data = [];
         var counter = 0;
         transaksiBaru();
+        var total = 0;
 
         $("body").on("click", "#hapuslist", function(e) {
             var id = $(this).attr('data-id');
@@ -181,9 +213,29 @@
             alert(input);
         });
         */
-        $("#bayar").click(function() {
-            insertTransaksi();
+        $("#transaksibaru").click(function() {
+            location.reload();
         });
+        $("#bayar").click(function() {
+            var jmlh = $("#jumlahuang").val();
+
+            if (jmlh < total) {
+                alert("Belum memenuhi nominal minimum");
+            } else {
+                insertTransaksi();
+            }
+
+
+        });
+
+        $("#checkuangpass").click(function() {
+            if ($('#checkuangpass').is(":checked")) {
+                $("#jumlahuang").val(total);
+            } else {
+                $("#jumlahuang").val(0);
+            }
+        });
+
         $.ajax({
             url: "{{url('penjualan/barang')}}",
             method: "GET",
@@ -262,14 +314,28 @@
 
         function loadData() {
             console.log(data);
-            var total = 0;
+            total = 0;
 
             $("#list-data").empty();
             for (i = 0; i < data.length; i++) {
                 total += (data[i].hargajual * data[i].qty);
-                $("#list-data").append('<tr> <td>' + data[i].barcode + '</td> <td>' + data[i].nama + '</td> <td> Rp. ' + data[i].hargajual + '</td><td>' + '<input type="number" id="inputqty" val="' + data[i].qty + '" data-id="' + data[i].barcode + '" value="' + data[i].qty + '">' + '</td><td> Rp. ' + data[i].hargajual * data[i].qty + '</td><td><button name="hapuslist" id="hapuslist" data-id="' + data[i].barcode + '" class="btn"><i class="fa fa-trash"></i></button></td> </tr>');
+                $("#list-data").append('<tr> <td>' + data[i].barcode + '</td> <td>' + data[i].nama + '</td> <td> Rp. ' + addCommas(data[i].hargajual) + '</td><td>' + '<input type="number" id="inputqty" val="' + data[i].qty + '" data-id="' + data[i].barcode + '" value="' + data[i].qty + '">' + '</td><td> Rp. ' + addCommas(data[i].hargajual * data[i].qty) + '</td><td><button name="hapuslist" id="hapuslist" data-id="' + data[i].barcode + '" class="btn"><i class="fa fa-trash"></i></button></td> </tr>');
             }
-            $("#jumlahtotal").text("Rp. " + total);
+
+            $("#jumlahtotal").text("Rp. " + addCommas(total));
+            $("#totalmodal").text("Rp. " + addCommas(total));
+        }
+
+        function addCommas(nStr) {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
         }
 
         function insertTransaksi() {
@@ -288,11 +354,17 @@
                     success: function(response) {
                         if (response.success == "berhasil") {
                             alert('transaksi baru cok');
+                            //window.location.href = "{{ route('cetak') }}";
+                            //location.reload();
+                            window.open(
+                                '{{ route("cetak") }}',
+                                '_blank' // <- This is what makes it open in a new window.
+                            );
                             location.reload();
                         }
                     }
                 });
-            }else{
+            } else {
                 alert("Belum ada data");
             }
         }

@@ -60,3 +60,5 @@ Route::get('/penjualan/barang','PenjualanController@barang')->name('databarang')
 Route::get('/penjualan/search/{name}','PenjualanController@search')->name('penjualansearch');
 Route::post('/penjualan/store','PenjualanController@store')->name('penjualanstore');
 Route::get('/test','PenjualanController@test');
+
+Route::get('/laporan/print/','LaporanController@index')->name('cetak');
