@@ -224,8 +224,6 @@
             } else {
                 insertTransaksi();
             }
-
-
         });
 
         $("#checkuangpass").click(function() {

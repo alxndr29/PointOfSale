@@ -91,7 +91,6 @@
                     <td class="price">Rp.{{number_format($value->harga,2)}}</td>
                 </tr>
                 @endforeach
-
                 <tr>
                     <td class="quantity"></td>
                     <td class="description">TOTAL</td>

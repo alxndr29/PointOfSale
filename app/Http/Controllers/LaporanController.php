@@ -32,15 +32,15 @@ class LaporanController extends Controller
             ->select('notajualdetil.jumlah as jumlah', 'barangs.nama as nama', 'notajualdetil.harga as harga')
             ->get();
         
-        return view('admin.kwitansi', compact('data', 'barang'));
+        //return view('admin.kwitansi', compact('data', 'barang'));
         
-        
+        $pdf = PDF::loadView('admin.kwitansi',['data'=>$data,'barang'=>$barang]);
+        $name = "notapenjualan".$id.".pdf";
+        return $pdf->download($name);
     }
     public function print()
     {
-        $pdf = PDF::loadView('admin.kwitansi');
-        $name = "test.pdf";
-        return $pdf->download($name);
+       
     }
     /**
      * Show the form for creating a new resource.
