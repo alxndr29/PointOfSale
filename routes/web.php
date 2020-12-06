@@ -62,3 +62,6 @@ Route::post('/penjualan/store','PenjualanController@store')->name('penjualanstor
 Route::get('/test','PenjualanController@test');
 
 Route::get('/laporan/print/','LaporanController@index')->name('cetak');
+
+//Route Pegawai
+Route::get('/pegawai','PegawaiController@index')->name('pegawaiindex');
