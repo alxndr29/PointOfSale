@@ -66,7 +66,7 @@ class PenjualanController extends Controller
 
         foreach ($data as $key => $value) {
             $barang = Barang::findOrFail($value['id']);
-            $nota->barangs()->save($barang, ['jumlah' => $value['qty'], 'harga' => ($value['hargajual'] * $value['qty'])]);
+            $nota->barangs()->save($barang, ['jumlah' => $value['qty'], 'harga' => ($value['hargajual'] * $value['qty']),'hargamodal' => ($value['hargabeli'] * $value['qty'])]);
             $barang->stok = $value['stok'] - $value['qty'];
             $barang->save();
         }

@@ -65,3 +65,4 @@ Route::get('/laporan/print/','LaporanController@index')->name('cetak');
 
 //Route Pegawai
 Route::get('/pegawai','PegawaiController@index')->name('pegawaiindex');
+Route::post('/pegawai/store','PegawaiController@store')->name('pegawaistore');

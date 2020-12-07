@@ -247,6 +247,7 @@
                     result[i].barcode = dt.barcode;
                     result[i].nama = dt.nama;
                     result[i].hargajual = dt.hargajual;
+                    result[i].hargabeli = dt.hargabeli;
                     result[i].stok = dt.stok;
                     result[i].qty = 0;
                     i++;
@@ -276,6 +277,7 @@
                         data[counter].barcode = result[i].barcode;
                         data[counter].nama = result[i].nama;
                         data[counter].hargajual = result[i].hargajual;
+                        data[counter].hargabeli = result[i].hargabeli;
                         data[counter].stok = result[i].stok;
                         data[counter].qty = 1;
                         counter++;

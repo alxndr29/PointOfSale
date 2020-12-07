@@ -10,6 +10,6 @@ class Barang extends Model
     protected $table = 'barangs';
     
     public function notajuals(){
-        return $this->belongsToMany('App\NotaJual','notajualdetil','notajual_id','barang_id')->withPivot('jumlah', 'harga')->as('notajualdetil');
+        return $this->belongsToMany('App\NotaJual','notajualdetil','notajual_id','barang_id')->withPivot('jumlah', 'harga','hargamodal')->as('notajualdetil');
     }
 }

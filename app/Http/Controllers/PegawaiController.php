@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use User;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
@@ -14,7 +15,8 @@ class PegawaiController extends Controller
     public function index()
     {
         //
-        return view('admin.indexpegawai');
+        $user = User::all();
+        return view('admin.indexpegawai',compact('user'));
     }
 
     /**
@@ -36,10 +38,11 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         User::create([
-            'name' => $request->get('name'),
-            'email' => $request->get('name'),
-            'password' => Hash::make($request->get('name')),
+            'name' => $request->get('nama'),
+            'email' => $request->get('email'),
+            'password' => Hash::make($request->get('password')),
         ]);
+        return redirect('pegawai')->with('status', 'Berhasil Menambah Pegawai Baru');
     }
 
     /**
