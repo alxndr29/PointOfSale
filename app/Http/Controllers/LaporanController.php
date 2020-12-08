@@ -42,6 +42,14 @@ class LaporanController extends Controller
     {
        
     }
+    public function laporanpenjualanindex()
+    {
+        return view('admin.laporanpenjualan');
+    }
+    public function invoice()
+    {
+        return view('admin.invoice');
+    }
     /**
      * Show the form for creating a new resource.
      *

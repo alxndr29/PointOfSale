@@ -186,7 +186,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('kategoriindex')}}" class="nav-link">
+                                    <a href="{{route('laporanpenjualanindex')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Transaksi Penjualan</p>
                                     </a>
@@ -331,7 +331,7 @@
 
 
         $('#myTable').DataTable();
-
+        $('#myTable2').DataTable();
 
         $("body").on("click", "#hapuskategori", function(e) {
             var id = $(this).attr('data-id');

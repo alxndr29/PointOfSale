@@ -61,8 +61,13 @@ Route::get('/penjualan/search/{name}','PenjualanController@search')->name('penju
 Route::post('/penjualan/store','PenjualanController@store')->name('penjualanstore');
 Route::get('/test','PenjualanController@test');
 
+//cetak pdf kwitansi penjualan
 Route::get('/laporan/print/','LaporanController@index')->name('cetak');
 
 //Route Pegawai
 Route::get('/pegawai','PegawaiController@index')->name('pegawaiindex');
 Route::post('/pegawai/store','PegawaiController@store')->name('pegawaistore');
+
+//Route Laporan
+Route::get('/laporan/penjualan','LaporanController@laporanpenjualanindex')->name('laporanpenjualanindex');
+Route::get('/laporan/penjualan/invoice','LaporanController@invoice')->name('laporanpenjualaninvoice');
