@@ -72,4 +72,4 @@ Route::post('/pegawai/store','PegawaiController@store')->name('pegawaistore');
 Route::get('/laporan/penjualan','LaporanController@laporanpenjualanindex')->name('laporanpenjualanindex');
 Route::get('/laporan/penjualan/invoice/{id}','LaporanController@invoice')->name('laporanpenjualaninvoice');
 Route::get('/laporan/penjualan/invoice/pdf/{id}','LaporanController@invoicepdf')->name('laporanpenjualaninvoicepdf');
-Route::get('/laporan/penjualan/daftarTransaksiPenjualan','LaporanController@daftarTransaksiPenjualan')->name('test');
+Route::get('/laporan/penjualan/{tglawal}/{tglakhir}','LaporanController@laporanpenjualanindexrange')->name('test');

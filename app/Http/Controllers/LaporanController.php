@@ -45,18 +45,18 @@ class LaporanController extends Controller
         $mytime = Carbon\Carbon::now();
         $date = $mytime->toDateString();
 
-        $jumlahjual = DB::table('notajuals')->count();
+        $jumlahjual = DB::table('notajuals')->where(DB::raw('DATE(notajuals.tanggal)'),'=',$date)->count();
 
         $totalPenjualan = DB::table('notajuals')->join('notajualdetil','notajualdetil.notajual_id','=','notajuals.id')
         ->select(DB::raw('SUM(notajualdetil.harga) as totaljual'),DB::raw('SUM(notajualdetil.hargamodal) as totalmodal'))
+        ->where(DB::raw('DATE(notajuals.tanggal)'),'=',$date)
         ->first();
-
-        //return $totalPenjualan->totaljual;
 
         $datajual = DB::table('notajuals')->join('notajualdetil','notajualdetil.notajual_id','=','notajuals.id')
         ->select('notajuals.id as idtransaksi','notajuals.tanggal as tanggal',DB::raw('SUM(notajualdetil.harga) as totaljual'),DB::raw('SUM(notajualdetil.hargamodal) as totalmodal'))
         ->groupBy('notajuals.id')
         ->orderBy('notajuals.id','desc')
+        ->where(DB::raw('DATE(notajuals.tanggal)'),'=',$date)
         ->get();
 
         $databarang = DB::table('notajuals')->join('notajualdetil','notajualdetil.notajual_id','=','notajuals.id')
@@ -64,6 +64,38 @@ class LaporanController extends Controller
         ->select('barangs.nama as namabarang','barangs.barcode as barcodebarang',DB::raw('SUM(notajualdetil.jumlah) as totalpenjualan'))
         ->groupBy('barangs.id')
         ->orderBy('totalpenjualan','desc')
+        ->where(DB::raw('DATE(notajuals.tanggal)'),'=',$date)
+        ->get();
+        
+        //return $databarang;
+        return view('admin.laporanpenjualan',compact('datajual','date','jumlahjual','totalPenjualan','databarang'));
+        
+    }
+    public function laporanpenjualanindexrange($tglawa, $tglakhir)
+    {
+        $mytime = Carbon\Carbon::now();
+        $date = $tglawa." sampai ".$tglakhir;
+
+        $jumlahjual = DB::table('notajuals')->where(DB::raw('DATE(notajuals.tanggal)'),'=',$date)->count();
+
+        $totalPenjualan = DB::table('notajuals')->join('notajualdetil','notajualdetil.notajual_id','=','notajuals.id')
+        ->select(DB::raw('SUM(notajualdetil.harga) as totaljual'),DB::raw('SUM(notajualdetil.hargamodal) as totalmodal'))
+        ->whereBetween(DB::raw('DATE(notajuals.tanggal)'),[$tglawa,$tglakhir])
+        ->first();
+
+        $datajual = DB::table('notajuals')->join('notajualdetil','notajualdetil.notajual_id','=','notajuals.id')
+        ->select('notajuals.id as idtransaksi','notajuals.tanggal as tanggal',DB::raw('SUM(notajualdetil.harga) as totaljual'),DB::raw('SUM(notajualdetil.hargamodal) as totalmodal'))
+        ->groupBy('notajuals.id')
+        ->orderBy('notajuals.id','desc')
+        ->whereBetween(DB::raw('DATE(notajuals.tanggal)'),[$tglawa,$tglakhir])
+        ->get();
+
+        $databarang = DB::table('notajuals')->join('notajualdetil','notajualdetil.notajual_id','=','notajuals.id')
+        ->join('barangs','notajualdetil.barang_id','=','barangs.id')
+        ->select('barangs.nama as namabarang','barangs.barcode as barcodebarang',DB::raw('SUM(notajualdetil.jumlah) as totalpenjualan'))
+        ->groupBy('barangs.id')
+        ->orderBy('totalpenjualan','desc')
+        ->whereBetween(DB::raw('DATE(notajuals.tanggal)'),[$tglawa,$tglakhir])
         ->get();
         
         //return $databarang;
@@ -114,6 +146,7 @@ class LaporanController extends Controller
         return $pdf->download($name);
         */
     }
+    
 
     /**
      * Show the form for creating a new resource.

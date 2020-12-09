@@ -14,9 +14,10 @@
                         </div>
                         <div class="col">
                             <label for="birthday">Tanggal:</label>
-                            <input type="date" id="birthday" name="birthday">
-                            <input type="date" id="birthday" name="birthday">
-                            <input type="submit" value="Cari">
+                            <input type="date" id="tglawal">
+                            <input type="date" id="tglakhir">
+                            <input type="submit" value="Cari" id="carirange">
+                            <input type="submit" value="Semua" id="carisemua">
                         </div>
                     </div>
 
@@ -40,7 +41,7 @@
                         <!-- small box -->
                         <div class="small-box bg-green">
                             <div class="inner">
-                            <h3>Rp. {{number_format($totalPenjualan->totaljual - $totalPenjualan->totalmodal,2) }}</h3>
+                                <h3>Rp. {{number_format($totalPenjualan->totaljual - $totalPenjualan->totalmodal,2) }}</h3>
                                 <p>Total Keuntungan</p>
                             </div>
                             <div class="icon">
@@ -55,7 +56,7 @@
                         <div class="small-box bg-yellow">
                             <div class="inner">
                                 <h3>{{$jumlahjual}} Transaksi</h3>
-                                <p>Pada Hari Ini</p>
+                                <p>Penjualan</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person-add"></i>
@@ -77,7 +78,7 @@
         <div class="col">
             <div class="card card-primary">
                 <div class="card-header">
-                    Daftar Penjualan 
+                    Daftar Penjualan
                 </div>
                 <div class="card-body">
                     <table class="table table-head-fixed text-nowrap" id="myTable">
@@ -132,7 +133,7 @@
                                 <td>{{$value->namabarang}}</td>
                                 <td>{{$value->totalpenjualan}}</td>
                             </tr>
-                           @endforeach
+                            @endforeach
 
                         </tbody>
                     </table>
@@ -145,5 +146,25 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $("#carirange").click(function() {
+            //alert('s');
+            var tglawal = $('#tglawal').val();
+            var tglakhir = $('#tglakhir').val();
+            //alert(tglawal + tglakhir);
+            var url = "{{route('test',['tglawal' => 'first' ,'tglakhir'=> 'second' ])}}";
+            url = url.replace('first',tglawal);
+            url = url.replace('second',tglakhir);
+            location.href = url;
+            
+        });
+        $("#carisemua").click(function() {
+            //alert('s');
+            
+            location.href = "{{route('laporanpenjualanindex')}}";
+        });
+    });
+</script>
 
 @endsection

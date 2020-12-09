@@ -42,7 +42,7 @@ class KategoriController extends Controller
     {
 
         $request->validate([
-            'nama' => 'required|alpha'
+            'nama' => 'required'
         ]);
 
         $kategori = new Kategori();
