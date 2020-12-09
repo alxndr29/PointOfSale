@@ -192,7 +192,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('barangindex')}}" class="nav-link">
+                                    <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Transaksi Pembelian</p>
                                     </a>
@@ -216,7 +216,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('penjualanindex')}}" class="nav-link">
+                                    <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Pembelian</p>
                                     </a>
@@ -224,17 +224,6 @@
                             </ul>
                         </li>
 
-                        <li class="nav-header">EXAMPLES</li>
-
-                        <li class="nav-item">
-                            <a href="{{route('barangcreate')}}" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                <p>
-                                    Calendar
-                                    <span class="badge badge-info right">2</span>
-                                </p>
-                            </a>
-                        </li>
 
                     </ul>
                 </nav>

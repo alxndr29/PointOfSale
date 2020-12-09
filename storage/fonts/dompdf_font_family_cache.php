@@ -81,4 +81,10 @@
     '200' => $fontDir . '/nunito-200_a39771e2c841086cf1dc7fda7fc5a4e6',
     '600' => $fontDir . '/nunito-600_ed034f13f5440897c711d2e4f402a5db',
   ),
+  'source sans pro' => array(
+    'italic' => $fontDir . '/source-sans-pro-italic_120f826d42ce02c5331340b891f821ef',
+    '300' => $fontDir . '/source-sans-pro-300_891cae020a7dc5d2aa8254f4fb770830',
+    'normal' => $fontDir . '/source-sans-pro-normal_b93742b4fdc85f7c597b89467e1a88ee',
+    'bold' => $fontDir . '/source-sans-pro-bold_0e2949c92ad09533088db418daa0361a',
+  ),
 ) ?>

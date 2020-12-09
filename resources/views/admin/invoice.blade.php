@@ -31,16 +31,16 @@
                 <div class="col-sm-4 invoice-col">
                     Penerima
                     <address>
-                        <strong>Gusti Bagus</strong><br>
-                        Rungkut Mejoyo Selatan V No. 3<br>
-                        Telp: 081312312391<br>
-                        
+                        <strong>{{$data->nama_pelanggan}}</strong><br>
+                        {{$data->alamat_pelanggan}}<br>
+                        Telp: {{$data->telepon_pelanggan}}<br>
+
                     </address>
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                    <b>ID Pembelian:</b> 4F3S8J<br>
-                    <b>Tanggal:</b> 2/22/2014<br>
+                    <b>ID Pembelian:</b> {{$data->idnotajual}}<br>
+                    <b>Tanggal:</b> {{$data->tanggal}}<br>
                 </div>
                 <!-- /.col -->
             </div>
@@ -52,58 +52,64 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Qty</th>
+                                <th>No.</th>
                                 <th>Nama</th>
-                                <th>Harga</th>
                                 <th>Jumlah</th>
+                                <th>Harga Modal</th>
+                                <th>Sub Total</th>
+                                <th>Harga Jual</th>
+                                
                                 <th>Sub Total</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($barang as $key => $value)
                             <tr>
-                                <td>1</td>
-                                <td>Call of Duty</td>
-                                <td>Rp. 22,000</td>
-                                <td>1</td>
-                                <td>Rp. 22,000</td>
+                                <td>{{$key+1}}</td>
+                                <td>{{$value->nama}}</td>
+                                <td>{{$value->jumlah}}</td>
+                                <td>Rp. {{number_format($value->hargamodal/$value->jumlah,2)}}</td>
+                                <td>Rp. {{number_format($value->hargamodal,2)}}</td>
+                                <td>Rp. {{number_format($value->harga/$value->jumlah,2)}}</td>
+                                <td>Rp. {{number_format($value->harga,2)}}</td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Call of Duty</td>
-                                <td>Rp. 22,000</td>
-                                <td>1</td>
-                                <td>Rp. 22,000</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Call of Duty</td>
-                                <td>Rp. 22,000</td>
-                                <td>1</td>
-                                <td>Rp. 22,000</td>
-                            </tr>
+                            @endforeach
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td>Total:</td>
-                                <td>Rp. 22,000</td>
+                                <td>Rp. {{number_format($data->totalmodal)}}</td>
+                                
+                                <td>Total:</td>
+                                <td>Rp. {{number_format($data->totaljual,2)}}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <!-- /.col -->
             </div>
-            
-    
+
+
             <!-- this row will not appear when printing -->
+            <div class="row">
+                <div class="col-xs-12">
+                  Total Pembayaran: Rp. {{number_format($data->totaljual,2)}}
+                  <br>
+                  Total Modal: Rp. {{number_format($data->totalmodal,2)}}
+                  <br>
+                  Total Keuntungan: Rp. {{number_format($data->totaljual - $data->totalmodal,2)}}
+                  <br>
+                  <br>
+                </div>
+            </div>
             <div class="row no-print">
                 <div class="col-xs-12">
-
-                    <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Kembali
-                    </button>
-                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                    <a type="button" href="{{route('laporanpenjualanindex')}}" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Kembali
+                    </a>
+                    <a type="button" href="{{route('laporanpenjualaninvoicepdf',$data->idnotajual)}}" class="btn btn-primary pull-right" style="margin-right: 5px;">
                         <i class="fa fa-download"></i> Buat PDF
-                    </button>
+                    </a>
                     <button type="button" class="btn btn-danger pull-right" style="margin-right: 5px;">
                         <i class="fa fa-download"></i> Batalkan Transaksi
                     </button>

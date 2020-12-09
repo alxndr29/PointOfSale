@@ -10,7 +10,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-8">
-                            <h3 class="card-title">Dashboard || Tanggal: 08/12/2020</h3>
+                            <h3 class="card-title">Dashboard || Tanggal: {{$date}}</h3>
                         </div>
                         <div class="col">
                             <label for="birthday">Tanggal:</label>
@@ -26,7 +26,7 @@
                         <!-- small box -->
                         <div class="small-box bg-aqua">
                             <div class="inner">
-                                <h3>Rp. 1,000,000</h3>
+                                <h3>Rp. {{number_format($totalPenjualan->totaljual,2)}}</h3>
                                 <p>Total Penjualan</p>
                             </div>
                             <div class="icon">
@@ -40,7 +40,7 @@
                         <!-- small box -->
                         <div class="small-box bg-green">
                             <div class="inner">
-                                <h3>Rp. 250,000</h3>
+                            <h3>Rp. {{number_format($totalPenjualan->totaljual - $totalPenjualan->totalmodal,2) }}</h3>
                                 <p>Total Keuntungan</p>
                             </div>
                             <div class="icon">
@@ -54,7 +54,7 @@
                         <!-- small box -->
                         <div class="small-box bg-yellow">
                             <div class="inner">
-                                <h3>22 Transaksi</h3>
+                                <h3>{{$jumlahjual}} Transaksi</h3>
                                 <p>Pada Hari Ini</p>
                             </div>
                             <div class="icon">
@@ -77,7 +77,7 @@
         <div class="col">
             <div class="card card-primary">
                 <div class="card-header">
-                    Daftar Penjualan Pada 22/12/2020
+                    Daftar Penjualan 
                 </div>
                 <div class="card-body">
                     <table class="table table-head-fixed text-nowrap" id="myTable">
@@ -91,21 +91,15 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($datajual as $key => $value)
                             <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
+                                <td>{{$key + 1}}</td>
+                                <td>{{$value->idtransaksi}}</td>
+                                <td>{{$value->tanggal}}</td>
+                                <td>Rp. {{number_format($value->totaljual,2)}}</td>
+                                <td><a class="btn btn-block btn-success btn-sm" href="{{route('laporanpenjualaninvoice',$value->idtransaksi)}}">Lihat</a></td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -131,19 +125,15 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($databarang as $key => $value)
                             <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>Coca Cola</td>
-                                <td>22 Produk</td>
+                                <td>{{$key +1}}</td>
+                                <td>{{$value->barcodebarang}}</td>
+                                <td>{{$value->namabarang}}</td>
+                                <td>{{$value->totalpenjualan}}</td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>321312312</td>
-                                <td>Aqua Cup</td>
-                                <td>21 Produk</td>
-                            </tr>
-                           
+                           @endforeach
+
                         </tbody>
                     </table>
                 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use PDF;
+Use Carbon;
 
 class LaporanController extends Controller
 {
@@ -13,17 +14,17 @@ class LaporanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // PENJUALAN PRINT SEHABIS TRANSAKSI
     public function index()
     {
-        //
         
         $id = DB::table('notajuals')->max('id');
-        
+
         $data = DB::table('notajuals')
             ->join('users', 'users.id', '=', 'notajuals.user_id')
             ->join('pelanggans', 'pelanggans.id', '=', 'notajuals.pelanggan_id')
             ->where('notajuals.id', '=', $id)
-            ->select('notajuals.created_at as tanggal', 'users.name as nama_pegawai', 'pelanggans.nama as nama_pelanggan','notajuals.id as idnotajual')
+            ->select('notajuals.created_at as tanggal', 'users.name as nama_pegawai', 'pelanggans.nama as nama_pelanggan', 'notajuals.id as idnotajual')
             ->first();
         $barang = DB::table('notajuals')
             ->join('notajualdetil', 'notajualdetil.notajual_id', '=', 'notajuals.id')
@@ -31,25 +32,89 @@ class LaporanController extends Controller
             ->where('notajuals.id', '=', $id)
             ->select('notajualdetil.jumlah as jumlah', 'barangs.nama as nama', 'notajualdetil.harga as harga')
             ->get();
-        
+
         //return view('admin.kwitansi', compact('data', 'barang'));
-        
-        $pdf = PDF::loadView('admin.kwitansi',['data'=>$data,'barang'=>$barang]);
-        $name = "notapenjualan".$id.".pdf";
+        $pdf = PDF::loadView('admin.kwitansi', ['data' => $data, 'barang' => $barang]);
+        $name = "kwitansipenjualan" . $id . ".pdf";
         return $pdf->download($name);
     }
-    public function print()
-    {
-       
-    }
+
+    // PENJUALAN
     public function laporanpenjualanindex()
     {
-        return view('admin.laporanpenjualan');
+        $mytime = Carbon\Carbon::now();
+        $date = $mytime->toDateString();
+
+        $jumlahjual = DB::table('notajuals')->count();
+
+        $totalPenjualan = DB::table('notajuals')->join('notajualdetil','notajualdetil.notajual_id','=','notajuals.id')
+        ->select(DB::raw('SUM(notajualdetil.harga) as totaljual'),DB::raw('SUM(notajualdetil.hargamodal) as totalmodal'))
+        ->first();
+
+        //return $totalPenjualan->totaljual;
+
+        $datajual = DB::table('notajuals')->join('notajualdetil','notajualdetil.notajual_id','=','notajuals.id')
+        ->select('notajuals.id as idtransaksi','notajuals.tanggal as tanggal',DB::raw('SUM(notajualdetil.harga) as totaljual'),DB::raw('SUM(notajualdetil.hargamodal) as totalmodal'))
+        ->groupBy('notajuals.id')
+        ->orderBy('notajuals.id','desc')
+        ->get();
+
+        $databarang = DB::table('notajuals')->join('notajualdetil','notajualdetil.notajual_id','=','notajuals.id')
+        ->join('barangs','notajualdetil.barang_id','=','barangs.id')
+        ->select('barangs.nama as namabarang','barangs.barcode as barcodebarang',DB::raw('SUM(notajualdetil.jumlah) as totalpenjualan'))
+        ->groupBy('barangs.id')
+        ->orderBy('totalpenjualan','desc')
+        ->get();
+        
+        //return $databarang;
+        return view('admin.laporanpenjualan',compact('datajual','date','jumlahjual','totalPenjualan','databarang'));
+        
     }
-    public function invoice()
+    // PENJUALAN
+    public function invoice($id)
     {
-        return view('admin.invoice');
+        
+        $data = DB::table('notajuals')
+            ->join('users', 'users.id', '=', 'notajuals.user_id')
+            ->join('pelanggans', 'pelanggans.id', '=', 'notajuals.pelanggan_id')
+            ->join('notajualdetil', 'notajualdetil.notajual_id', '=', 'notajuals.id')
+            ->where('notajuals.id', '=', $id)
+            ->groupBy('notajuals.id')
+            ->select(DB::raw('SUM(notajualdetil.harga) as totaljual'),DB::raw('SUM(notajualdetil.hargamodal) as totalmodal'), 'notajuals.created_at as tanggal', 'users.name as nama_pegawai', 'pelanggans.nama as nama_pelanggan', 'pelanggans.alamat as alamat_pelanggan', 'pelanggans.telepon as telepon_pelanggan', 'notajuals.id as idnotajual')
+            ->first();
+        $barang = DB::table('notajuals')
+            ->join('notajualdetil', 'notajualdetil.notajual_id', '=', 'notajuals.id')
+            ->join('barangs', 'notajualdetil.barang_id', '=', 'barangs.id')
+            ->where('notajuals.id', '=', $id)
+            ->select('notajualdetil.jumlah as jumlah', 'barangs.nama as nama', 'notajualdetil.harga as harga','notajualdetil.hargamodal as hargamodal')
+            ->get();
+        //return view('admin.laporanpenjualan',compact('data','barang'));
+        return view('admin.invoice', compact('data', 'barang'));
     }
+    // PENJUALAN
+    public function invoicepdf($id)
+    {
+        $data = DB::table('notajuals')
+            ->join('users', 'users.id', '=', 'notajuals.user_id')
+            ->join('pelanggans', 'pelanggans.id', '=', 'notajuals.pelanggan_id')
+            ->where('notajuals.id', '=', $id)
+            ->select('notajuals.created_at as tanggal', 'users.name as nama_pegawai', 'pelanggans.nama as nama_pelanggan', 'pelanggans.alamat as alamat_pelanggan', 'pelanggans.telepon as telepon_pelanggan', 'notajuals.id as idnotajual')
+            ->first();
+        $barang = DB::table('notajuals')
+            ->join('notajualdetil', 'notajualdetil.notajual_id', '=', 'notajuals.id')
+            ->join('barangs', 'notajualdetil.barang_id', '=', 'barangs.id')
+            ->where('notajuals.id', '=', $id)
+            ->select('notajualdetil.jumlah as jumlah', 'barangs.nama as nama', 'notajualdetil.harga as harga')
+            ->get();
+
+        return view('admin.invoiceprintpdf', compact('data', 'barang'));
+        /*
+        $pdf = PDF::loadView('admin.invoiceprintpdf', ['data' => $data, 'barang' => $barang])->setPaper('a4', 'landscape');;
+        $name = "kwitansipenjualan" . $id . ".pdf";
+        return $pdf->download($name);
+        */
+    }
+
     /**
      * Show the form for creating a new resource.
      *
