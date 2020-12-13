@@ -9,14 +9,15 @@
             <div class="card card-primary">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-8">
-                            <h3 class="card-title">Dashboard || Tanggal: {{$date}}</h3>
+                        <div class="col-7">
+                            <h3 class="card-title">Dashboard || <b>Tanggal: {{$date}}</b> </h3>
                         </div>
                         <div class="col">
                             <label for="birthday">Tanggal:</label>
                             <input type="date" id="tglawal">
                             <input type="date" id="tglakhir">
                             <input type="submit" value="Cari" id="carirange">
+                            <input type="submit" value="Hari Ini" id="carihariini">
                             <input type="submit" value="Semua" id="carisemua">
                         </div>
                     </div>
@@ -149,20 +150,22 @@
 <script>
     $(document).ready(function() {
         $("#carirange").click(function() {
-            //alert('s');
+    
             var tglawal = $('#tglawal').val();
             var tglakhir = $('#tglakhir').val();
-            //alert(tglawal + tglakhir);
+            
             var url = "{{route('test',['tglawal' => 'first' ,'tglakhir'=> 'second' ])}}";
             url = url.replace('first',tglawal);
             url = url.replace('second',tglakhir);
             location.href = url;
             
         });
-        $("#carisemua").click(function() {
-            //alert('s');
-            
+        $("#carihariini").click(function() {
+          
             location.href = "{{route('laporanpenjualanindex')}}";
+        });
+        $("#carisemua").click(function(){
+            location.href = "{{route('laporanpenjualansemua')}}";
         });
     });
 </script>

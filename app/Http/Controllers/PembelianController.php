@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Suplier;
+use App\Barang;
+use PDF;
+use Carbon;
 use Illuminate\Http\Request;
 
 class PembelianController extends Controller
@@ -14,7 +17,10 @@ class PembelianController extends Controller
     public function index()
     {
         //
-        return view('admin.indexpenjualan');
+        $suplier = Suplier::all();
+        $barang = Barang::all();
+
+        return view('admin.indexpembelian',compact('barang','suplier'));
     }
 
     /**

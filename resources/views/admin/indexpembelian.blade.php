@@ -7,7 +7,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-6">
-                    <h3 class="card-title">Penjualan</h3>
+                    <h3 class="card-title">Pembelian</h3>
                 </div>
                 <div class="col">
                     <h3 class="card-title" id="digital-clock">Tanggal: {{ date('Y-m-d H:i:s') }}</h3>
@@ -16,7 +16,6 @@
                     <h3 class="card-title" id="digital-clock">Pegawai: Alexander Evan</h3>
                 </div>
             </div>
-
         </div>
         <div class="card-body">
             <div class="row">
@@ -91,9 +90,9 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Pilih Pelanggan</label>
+                        <label>Pilih Suplier</label>
                         <select class="form-control" id="idpelanggan">
-                            @foreach($pelanggan as $key => $value)
+                            @foreach($suplier as $key => $value)
                             <option value="{{$value->id}}">{{$value->nama}}</option>
                             @endforeach
                         </select>

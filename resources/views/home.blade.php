@@ -7,20 +7,20 @@
         <div class="col">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Dashboard || Tanggal: 08/12/2020</h3>
+                    <h3 class="card-title">Dashboard || Tanggal: {{$date}}</h3>
                 </div>
                 <div class="row p-3">
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
                         <div class="small-box bg-aqua">
                             <div class="inner">
-                                <h3>100 Transaksi</h3>
+                                <h3>{{$jumlahjual}} Transaksi</h3>
                                 <p>Pembelian Hari Ini</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{{route('laporanpenjualanindex')}}" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -94,7 +94,7 @@
         <div class="col-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">10 Transaksi Penjualan Terakhir</h3>
+                    <h3 class="card-title">Transaksi Penjualan Terakhir</h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-head-fixed text-nowrap">
@@ -108,53 +108,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($datajual as $key => $value)
                             <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
+                                <td>{{$key + 1}}</td>
+                                <td>{{$value->idtransaksi}}</td>
+                                <td>{{$value->tanggal}}</td>
+                                <td>Rp. {{number_format($value->totaljual,2)}}</td>
+                                <td><a class="btn btn-block btn-success btn-sm" href="{{route('laporanpenjualaninvoice',$value->idtransaksi)}}">Lihat</a></td>
                             <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
+                                @endforeach
                         </tbody>
                     </table>
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{route('laporanpenjualansemua')}}" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
         <div class="col-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">10 Transaksi Pembelian Terakhir</h3>
+                    <h3 class="card-title">Transaksi Pembelian Terakhir</h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-head-fixed text-nowrap">
@@ -168,41 +142,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>291019992</td>
-                                <td>22 November 2020</td>
-                                <td>Rp. 1,250,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
+
+
                         </tbody>
                     </table>
                 </div>
