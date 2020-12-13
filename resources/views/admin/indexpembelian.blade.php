@@ -97,10 +97,18 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Pilih Jenis Transaksi</label>
+                        <select class="form-control" id="jenistransaksi">
+                            <option value="Cash">Cash</option>
+                            <option value="Kredit">Kredit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="jatuhtempo" placeholder="Hari Jatuh Tempo">
+                    </div>
 
-                    <!-- <button type="button" class="btn btn-block btn-default btn-lg" id="bayar">Bayar</button> -->
                     <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#modalbayar">Bayar</button>
-
                     <button type="button" class="btn btn-block btn-default btn-lg" id="transaksibaru">Transaksi Baru</button>
                     <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#exampleModalCenter">Cari Produk</button>
                 </div>
@@ -117,22 +125,10 @@
                         <h3 class="modal-title w-100" id="totalmodal"> Total Pembayaran: Rp. 160,000</h3>
                     </div>
                     <div class="modal-body">
-
-                        <div class="form-group">
-                            <label>Masukan Jumlah Uang: </label>
-                            <input type="number" class="form-control" placeholder="Masukan Jumlah Uang" id="jumlahuang">
-                        </div>
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" id="checkuangpass">
-                                    Pilih jika uang pas.
-                                </label>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-block btn-default btn-lg" id="bayar">Bayar</button>
+                        <button type="button" class="btn btn-block btn-default btn-lg" id="bayar">Proses</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -179,11 +175,25 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
+        transaksiBaru();
+
         var result = [];
         var data = [];
         var counter = 0;
-        transaksiBaru();
         var total = 0;
+        var jenispembayaran = "";
+        var suplier = "";
+        var jatuhtempo = 0;
+
+        $("#jenistransaksi").change(function() {
+            var data = $("#jenistransaksi").val();
+
+            if (data == "Cash") {
+                $("#jatuhtempo").prop("disabled", true);
+            } else {
+                $("#jatuhtempo").prop("disabled", false);
+            }
+        });
 
         $("body").on("click", "#hapuslist", function(e) {
             var id = $(this).attr('data-id');
@@ -214,31 +224,16 @@
                 cariData(input);
             }
         });
-        /*
-        $("#searchproduk").keyup(function() {
-            var input = this.value;
-            alert(input);
-        });
-        */
         $("#transaksibaru").click(function() {
             location.reload();
         });
         $("#bayar").click(function() {
-            var jmlh = $("#jumlahuang").val();
-            if (jmlh < total) {
-                alert("Belum memenuhi nominal minimum");
-            } else {
-                insertTransaksi();
-            }
+
+            insertTransaksi();
+
         });
 
-        $("#checkuangpass").click(function() {
-            if ($('#checkuangpass').is(":checked")) {
-                $("#jumlahuang").val(total);
-            } else {
-                $("#jumlahuang").val(0);
-            }
-        });
+
 
         $.ajax({
             url: "{{url('penjualan/barang')}}",
@@ -301,10 +296,6 @@
             loadData();
         }
 
-        function hapusData(id) {
-
-        }
-
         function updateQty(id, qty) {
 
             for (i = 0; i < data.length; i++) {
@@ -349,26 +340,19 @@
         function insertTransaksi() {
             if (data.length != 0) {
                 var token = $('meta[name="csrf-token"]').attr('content');
-                var idpelanggan = $("#idpelanggan").val();
-
                 $.ajax({
-                    url: "{{ route('penjualanstore') }}",
+                    url: "{{ route('pembelianstore') }}",
                     type: 'POST',
                     data: {
                         _token: token,
                         id: data,
-                        idpelanggan: idpelanggan
+                        jenispembayaran: jenispembayaran,
+                        suplier: suplier,
+                        jatuhtemp: jatuhtempo
                     },
                     success: function(response) {
                         if (response.success == "berhasil") {
-                            alert('transaksi baru cok');
-                            //window.location.href = "{{ route('cetak') }}";
-                            //location.reload();
-                            window.open(
-                                '{{ route("cetak") }}',
-                                '_blank' // <- This is what makes it open in a new window.
-                            );
-                            location.reload();
+                            alert("Hello World!");
                         }
                     }
                 });
@@ -381,6 +365,7 @@
             $("#barcode").val("");
             $("#namaproduk").val("");
             $("#hargaproduk").val("");
+            $("#jatuhtempo").prop("disabled", true);
         }
     });
 </script>

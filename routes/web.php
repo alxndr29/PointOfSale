@@ -64,6 +64,7 @@ Route::delete('/penjualan/delete/{id}','PenjualanController@destroy')->name('pen
 
 //Route Pembelian
 Route::get('/pembelian','PembelianController@index')->name('pembelianindex');
+Route::post('/pembelian/store','PembelianController@store')->name('pembelianstore');
 
 //cetak pdf kwitansi penjualan
 Route::get('/laporan/print/','LaporanController@index')->name('cetak');

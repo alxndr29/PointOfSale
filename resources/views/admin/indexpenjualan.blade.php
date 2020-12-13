@@ -115,7 +115,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header text-center">
-                        <h3 class="modal-title w-100" id="totalmodal"> Total Pembayaran: Rp. 160,000</h3>
+                        <h3 class="modal-title w-100" id="totalmodal"> Total Pembayaran: Rp. 0</h3>
                     </div>
                     <div class="modal-body">
 

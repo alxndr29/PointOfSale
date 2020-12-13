@@ -78,8 +78,6 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-
-
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
@@ -129,11 +127,7 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-
-                        <!--  <li class="nav-header">Data Master</li> -->
-                        <li class="nav-item">
+                        <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-table"></i>
                                 <p>
@@ -175,8 +169,7 @@
                                 </li>
                             </ul>
                         </li>
-
-                        <li class="nav-item">
+                        <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-table"></i>
                                 <p>
@@ -205,7 +198,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-table"></i>
                                 <p>
@@ -222,15 +215,13 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('pembelianindex')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Pembelian</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-
-
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -332,7 +323,7 @@
             var id = $(this).attr('data-id');
             var token = $('meta[name="csrf-token"]').attr('content');
 
-            if (confirm('Are you sure you want to save this thing into the database?')) {
+            if (confirm('Apa anda yakin ingin menghapus?')) {
                 $.ajax({
                     url: "{{url('kategori/delete')}}/" + id, //or you can use url: "company/"+id,
                     type: 'DELETE',
@@ -356,7 +347,7 @@
             var token = $('meta[name="csrf-token"]').attr('content');
             //alert(token);
 
-            if (confirm('Are you sure you want to save this thing into the database?')) {
+            if (confirm('Apa anda yakin ingin menghapus?')) {
                 $.ajax({
                     url: "{{url('barang/delete')}}/" + id, //or you can use url: "company/"+id,
                     type: 'DELETE',
@@ -378,7 +369,7 @@
         $("body").on("click", "#hapussuplier", function(e) {
             var id = $(this).attr('data-id');
             var token = $('meta[name="csrf-token"]').attr('content');
-            if (confirm('Are you sure you want to save this thing into the database?')) {
+            if (confirm('Apa anda yakin ingin menghapus?')) {
                 $.ajax({
                     url: "{{url('suplier/delete')}}/" + id, //or you can use url: "company/"+id,
                     type: 'DELETE',
@@ -401,7 +392,7 @@
             var id = $(this).attr('data-id');
             var token = $('meta[name="csrf-token"]').attr('content');
 
-            if (confirm('Are you sure you want to save this thing into the database?')) {
+            if (confirm('Apa anda yakin ingin menghapus?')) {
                 $.ajax({
                     url: "{{url('pelanggan/delete')}}/" + id, //or you can use url: "company/"+id,
                     type: 'DELETE',
@@ -424,7 +415,7 @@
             var id = $(this).attr('data-id');
             var token = $('meta[name="csrf-token"]').attr('content');
 
-            if (confirm('Are you sure you want to save this thing into the database?')) {
+            if (confirm('Apa anda yakin ingin menghapus?')) {
                 
                 $.ajax({
                     url: "{{url('penjualan/delete')}}/" + id, //or you can use url: "company/"+id,
