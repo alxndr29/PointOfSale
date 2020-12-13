@@ -127,6 +127,16 @@ class PenjualanController extends Controller
      */
     public function destroy($id)
     {
-        //
+       $notadetil = DB::table('notajualdetil')->where('notajual_id','=',$id)->get();
+       foreach($notadetil as $key => $value){
+           $barang = Barang::find($value->barang_id);
+           $barang->stok = $barang->stok + $value->jumlah;
+           $barang->save();
+       }
+       DB::table('notajualdetil')->where('notajual_id','=',$id)->delete();
+       DB::table('notajuals')->where('id','=',$id)->delete();
+       $response = ['status' => 'Berhasil Menghapus Data Penjualan'];   
+       return response()->json($response);
+
     }
 }

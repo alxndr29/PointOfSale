@@ -302,10 +302,6 @@
             loadData();
         }
 
-        function hapusData(id) {
-
-        }
-
         function updateQty(id, qty) {
 
             for (i = 0; i < data.length; i++) {
@@ -362,7 +358,9 @@
                     },
                     success: function(response) {
                         if (response.success == "berhasil") {
-                            alert('transaksi baru cok');
+                            //alert('transaksi baru cok');
+                            var jmlh = $("#jumlahuang").val();
+                            alert('Transaksi Berhasil. Uang Kembalian Sebesar: ' + (jmlh - total));
                             //window.location.href = "{{ route('cetak') }}";
                             //location.reload();
                             window.open(

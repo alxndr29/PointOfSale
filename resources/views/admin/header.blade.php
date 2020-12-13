@@ -378,8 +378,6 @@
         $("body").on("click", "#hapussuplier", function(e) {
             var id = $(this).attr('data-id');
             var token = $('meta[name="csrf-token"]').attr('content');
-
-
             if (confirm('Are you sure you want to save this thing into the database?')) {
                 $.ajax({
                     url: "{{url('suplier/delete')}}/" + id, //or you can use url: "company/"+id,
@@ -420,6 +418,30 @@
             } else {
 
 
+            }
+        });
+        $("body").on("click", "#hapuspenjualan", function(e) {
+            var id = $(this).attr('data-id');
+            var token = $('meta[name="csrf-token"]').attr('content');
+
+            if (confirm('Are you sure you want to save this thing into the database?')) {
+                
+                $.ajax({
+                    url: "{{url('penjualan/delete')}}/" + id, //or you can use url: "company/"+id,
+                    type: 'DELETE',
+                    data: {
+                        _token: token,
+                        id: id
+                    },
+                    success: function(response) {
+                        alert(response.status);
+                        location.href = "{{route('laporanpenjualanindex')}}";   
+                    }
+                });
+                
+
+            } else {
+               
             }
         });
     });

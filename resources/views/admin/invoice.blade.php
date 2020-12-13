@@ -58,7 +58,7 @@
                                 <th>Harga Modal</th>
                                 <th>Sub Total</th>
                                 <th>Harga Jual</th>
-                                
+
                                 <th>Sub Total</th>
                             </tr>
                         </thead>
@@ -80,7 +80,7 @@
                                 <td></td>
                                 <td>Total:</td>
                                 <td>Rp. {{number_format($data->totalmodal)}}</td>
-                                
+
                                 <td>Total:</td>
                                 <td>Rp. {{number_format($data->totaljual,2)}}</td>
                             </tr>
@@ -94,13 +94,13 @@
             <!-- this row will not appear when printing -->
             <div class="row">
                 <div class="col-xs-12">
-                  Total Pembayaran: Rp. {{number_format($data->totaljual,2)}}
-                  <br>
-                  Total Modal: Rp. {{number_format($data->totalmodal,2)}}
-                  <br>
-                  Total Keuntungan: Rp. {{number_format($data->totaljual - $data->totalmodal,2)}}
-                  <br>
-                  <br>
+                    Total Pembayaran: Rp. {{number_format($data->totaljual,2)}}
+                    <br>
+                    Total Modal: Rp. {{number_format($data->totalmodal,2)}}
+                    <br>
+                    Total Keuntungan: Rp. {{number_format($data->totaljual - $data->totalmodal,2)}}
+                    <br>
+                    <br>
                 </div>
             </div>
             <div class="row no-print">
@@ -110,9 +110,10 @@
                     <a type="button" href="{{route('laporanpenjualaninvoicepdf',$data->idnotajual)}}" class="btn btn-primary pull-right" style="margin-right: 5px;">
                         <i class="fa fa-download"></i> Buat PDF
                     </a>
-                    <button type="button" class="btn btn-danger pull-right" style="margin-right: 5px;">
+                    <a type="button" href="javascript:void(0)" id="hapuspenjualan" name="hapuspenjualan" data-id="{{$data->idnotajual}}" class="btn btn-danger pull-right" style="margin-right: 5px;">
                         <i class="fa fa-download"></i> Batalkan Transaksi
-                    </button>
+
+                    </a>
                 </div>
             </div>
         </div>
