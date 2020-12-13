@@ -91,7 +91,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label>Pilih Suplier</label>
-                        <select class="form-control" id="idpelanggan">
+                        <select class="form-control" id="idsuplier">
                             @foreach($suplier as $key => $value)
                             <option value="{{$value->id}}">{{$value->nama}}</option>
                             @endforeach
@@ -99,8 +99,8 @@
                     </div>
                     <div class="form-group">
                         <label>Pilih Jenis Transaksi</label>
-                        <select class="form-control" id="jenistransaksi">
-                            <option value="Cash">Cash</option>
+                        <select class="form-control" id="jenispembayaran">
+                            <option value="Cash" selected>Cash</option>
                             <option value="Kredit">Kredit</option>
                         </select>
                     </div>
@@ -108,7 +108,7 @@
                         <input type="number" class="form-control" id="jatuhtempo" placeholder="Hari Jatuh Tempo">
                     </div>
 
-                    <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#modalbayar">Bayar</button>
+                    <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#modalbayar">Proses</button>
                     <button type="button" class="btn btn-block btn-default btn-lg" id="transaksibaru">Transaksi Baru</button>
                     <button type="button" class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#exampleModalCenter">Cari Produk</button>
                 </div>
@@ -125,7 +125,7 @@
                         <h3 class="modal-title w-100" id="totalmodal"> Total Pembayaran: Rp. 160,000</h3>
                     </div>
                     <div class="modal-body">
-                        
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-block btn-default btn-lg" id="bayar">Proses</button>
@@ -153,7 +153,7 @@
                                     @foreach($barang as $key => $value)
                                     <tr>
                                         <td>{{$value->nama}}</td>
-                                        <td>{{$value->hargajual}}</td>
+                                        <td>{{$value->hargabeli}}</td>
                                         <td> <a href="javascript:void(0)" id="searchproduk" name="searchproduk" data-id="{{$value->barcode}}" class="btn btn-block btn-success btn-sm">Pilih</a> </td>
                                     </tr>
                                     @endforeach
@@ -181,14 +181,12 @@
         var data = [];
         var counter = 0;
         var total = 0;
-        var jenispembayaran = "";
-        var suplier = "";
-        var jatuhtempo = 0;
 
-        $("#jenistransaksi").change(function() {
-            var data = $("#jenistransaksi").val();
+        $("#jenispembayaran").change(function() {
+            var data = $("#jenispembayaran").val();
 
             if (data == "Cash") {
+                $('#jatuhtempo').val(0);
                 $("#jatuhtempo").prop("disabled", true);
             } else {
                 $("#jatuhtempo").prop("disabled", false);
@@ -206,11 +204,16 @@
                 }
             }
         });
-
         $("body").on("change", "#inputqty", function(e) {
             var id = $(this).attr('data-id');
             var val = $(this).val()
             updateQty(id, val);
+            loadData();
+        });
+        $("body").on("change", "#inputharga", function(e) {
+            var id = $(this).attr('data-id');
+            var val = $(this).val()
+            updateHarga(id, val);
             loadData();
         });
         $("body").on("click", "#searchproduk", function(e) {
@@ -228,12 +231,8 @@
             location.reload();
         });
         $("#bayar").click(function() {
-
             insertTransaksi();
-
         });
-
-
 
         $.ajax({
             url: "{{url('penjualan/barang')}}",
@@ -253,7 +252,6 @@
                     result[i].qty = 0;
                     i++;
                 });
-
             }
         });
 
@@ -268,7 +266,7 @@
                     indexDouble = j;
                     $("#barcode").val("");
                     $("#namaproduk").val(data[j].nama);
-                    $("#hargaproduk").val(data[j].hargajual);
+                    $("#hargaproduk").val(data[j].hargabeli);
                 }
             }
             if (double == false) {
@@ -285,7 +283,7 @@
                         counter++;
                         $("#barcode").val("");
                         $("#namaproduk").val(result[i].nama);
-                        $("#hargaproduk").val(result[i].hargajual);
+                        $("#hargaproduk").val(result[i].hargabeli);
                         break;
                     }
                 }
@@ -310,6 +308,15 @@
             }
         }
 
+        function updateHarga(id, harga) {
+            for (i = 0; i < data.length; i++) {
+                if (id == data[i].barcode) {
+                    data[i].hargabeli = harga;
+                }
+            }
+        }
+
+
         function loadData() {
 
             data = data.filter(Boolean);
@@ -317,8 +324,12 @@
 
             $("#list-data").empty();
             for (i = 0; i < data.length; i++) {
-                total += (data[i].hargajual * data[i].qty);
-                $("#list-data").append('<tr> <td>' + data[i].barcode + '</td> <td>' + data[i].nama + '</td> <td> Rp. ' + addCommas(data[i].hargajual) + '</td><td>' + '<input type="number" id="inputqty" val="' + data[i].qty + '" data-id="' + data[i].barcode + '" value="' + data[i].qty + '">' + '</td><td> Rp. ' + addCommas(data[i].hargajual * data[i].qty) + '</td><td><button name="hapuslist" id="hapuslist" data-id="' + data[i].barcode + '" class="btn"><i class="fa fa-trash"></i></button></td> </tr>');
+                total += (data[i].hargabeli * data[i].qty);
+                $("#list-data").append('<tr> <td>' + data[i].barcode + '</td> <td>' + data[i].nama + '</td> <td> Rp. ' +
+                    '<input type="number" id="inputharga" val="' + data[i].hargabeli + '" data-id="' + data[i].barcode + '" value="' + data[i].hargabeli + '">' + '</td><td>' + '<input type="number" id="inputqty" val="' + data[i].qty + '" data-id="' + data[i].barcode + '" value="' + data[i].qty + '">' +
+                    '</td><td> Rp. ' + addCommas(data[i].hargabeli * data[i].qty) +
+                    '</td><td><button name="hapuslist" id="hapuslist" data-id="' + data[i].barcode +
+                    '" class="btn"><i class="fa fa-trash"></i></button></td> </tr>');
             }
 
             $("#jumlahtotal").text("Rp. " + addCommas(total));
@@ -338,6 +349,10 @@
         }
 
         function insertTransaksi() {
+            var jenispembayaran = $('#jenispembayaran').val();
+            var suplier = $('#idsuplier').val();
+            var jatuhtempo = $('#jatuhtempo').val();
+
             if (data.length != 0) {
                 var token = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
@@ -348,12 +363,15 @@
                         id: data,
                         jenispembayaran: jenispembayaran,
                         suplier: suplier,
-                        jatuhtemp: jatuhtempo
+                        jatuhtempo: jatuhtempo
                     },
                     success: function(response) {
+                        /*
                         if (response.success == "berhasil") {
                             alert("Hello World!");
                         }
+                        */
+                        console.table(response);
                     }
                 });
             } else {

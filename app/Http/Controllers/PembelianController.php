@@ -43,7 +43,10 @@ class PembelianController extends Controller
     {
         //
         return response()->json([
-            'success' => 'berhasil'
+            'success' => 'berhasil',
+            'jenispembayaran' => $request->get('jenispembayaran'),
+            'suplier' => $request->get('suplier'),
+            'jatuhtempo' => $request->get('jatuhtempo')
         ]);
     }
 

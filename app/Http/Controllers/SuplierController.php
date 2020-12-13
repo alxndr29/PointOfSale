@@ -39,9 +39,9 @@ class SuplierController extends Controller
     {
         //
         $request->validate([
-            'nama' => 'required|alpha',
-            'alamat' => 'required|alpha',
-            'telepon' => 'required|numeric'
+            'nama' => 'required',
+            'alamat' => 'required',
+            'telepon' => 'required'
         ]);
 
         $suplier = new Suplier();
