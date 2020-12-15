@@ -12,7 +12,7 @@
                 <div class="col-xs-12">
                     <h2 class="page-header">
                         <i class="fa fa-globe"></i> Toko Sinjai.
-                        <small class="pull-right">Tanggal: 2/10/2014</small>
+                        <!--<small class="pull-right">Tanggal: 2/10/2014</small>-->
                     </h2>
                 </div>
                 <!-- /.col -->
@@ -39,9 +39,10 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                    <b>ID Pembelian:</b> {{$data->id}}<br>
+
+                    <b>ID Pembelian:</b> {{$data->id}} || Pembelian: {{$data->tipebayar}}<br>
                     <b>Tanggal:</b> {{$data->created_at}}<br>
-                    <b>Lama Kredit:</b> {{$data->jumlahhari}}<br>
+                    <b>Tanggal Terima:</b> {{$data->updated_at}}<br>
                     <b>Jatuh Tempo:</b> {{$data->jatuhtempo}}<br>
                 </div>
                 <!-- /.col -->
@@ -64,9 +65,20 @@
                         <tbody>
                             @foreach($barang as $key => $value)
                             <tr>
-                                <td></td>
+                                <td>{{$key+1}}</td>
+                                <td>{{$value->nama}}</td>
+                                <td>{{$value->jumlah}}</td>
+                                <td>Rp. {{number_format($value->harga/$value->jumlah,2)}}</td>
+                                <td>Rp. {{number_format($value->harga,2)}}</td>
                             </tr>
                             @endforeach
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total: </td>
+                                <td>{{$totalharga->total}}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -77,7 +89,21 @@
             <!-- this row will not appear when printing -->
             <div class="row">
                 <div class="col-xs-12">
-
+                    <a type="button" href="{{route('laporanpembelianindex')}}" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Kembali
+                    </a>
+                    <a type="button" href="#" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                        <i class="fa fa-download"></i> Buat PDF
+                    </a>
+                    @if($data->status == "Menunggu Pengantaran")
+                    <a type="button" href="{{route('laporanpembelianindex')}}" class="btn btn-danger pull-right"><i class="fa fa-credit-card"></i> Batalkan Transaksi
+                    </a>
+                    <a type="button" href="{{route('terimabarang',$data->id)}}" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Konfirmasi Terima Barang
+                    </a>
+                    @elseif ($data->status == "Belum Dibayar")
+                    <a type="button" href="{{route('bayarPembelian',$data->id)}}" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Bayar
+                    </a>
+                    @else
+                    @endif
                 </div>
             </div>
             <div class="row no-print">

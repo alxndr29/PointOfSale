@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Suplier;
 use App\Barang;
 use App\NotaBeli;
@@ -22,7 +23,7 @@ class PembelianController extends Controller
         $suplier = Suplier::all();
         $barang = Barang::all();
 
-        return view('admin.indexpembelian',compact('barang','suplier'));
+        return view('admin.indexpembelian', compact('barang', 'suplier'));
     }
 
     /**
@@ -42,7 +43,7 @@ class PembelianController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $nota = new NotaBeli();
         $nota->tipebayar = $request->get('jenispembayaran');
         $nota->jumlahhari = $request->get('jatuhtempo');
@@ -51,7 +52,7 @@ class PembelianController extends Controller
         $nota->save();
 
         $data = $request->get('id');
-        foreach($data as $key => $value){
+        foreach ($data as $key => $value) {
             DB::table('notabelidetil')->insert([
                 'id_notabeli' => $nota->id,
                 'id_barang' => $value['id'],
@@ -67,8 +68,42 @@ class PembelianController extends Controller
             'jatuhtempo' => $request->get('jatuhtempo')
         ]);
     }
-   
+    public function terimaBarang($id)
+    {
+        $notaBeli = NotaBeli::find($id);
 
+        if ($notaBeli->tipebayar == "Kredit") {
+            $date = Carbon\Carbon::now();
+            $jatuhTempo = $date->addDays($notaBeli->jumlahhari);
+            $notaBeli->jatuhtempo = $jatuhTempo->toDateString();
+            $notaBeli->status = "Belum Dibayar";
+            $notaBeli->save();
+        } else {
+            $notaBeli->status = "Selesai";
+            $notaBeli->save();
+            $this->updatestokharga($id);
+        }
+        return redirect('laporan/pembelian')->with('status', 'Pembelian anda selesai. Stok dan Harga akan di update');
+    }
+    public function bayarPembelian($id)
+    {
+        $notaBeli = NotaBeli::find($id);
+        $notaBeli->status = "Selesai";
+        $notaBeli->save();
+        $this->updatestokharga($id);
+        return redirect('laporan/pembelian')->with('status', 'Pembelian anda selesai. Stok dan Harga akan di update');
+    }
+    public function updatestokharga($id)
+    {
+        $data = DB::table('notabelidetil')->where('notabelidetil.id_notabeli', '=', $id)->get();
+
+        foreach ($data as $key => $value) {
+            $barang = Barang::find($value->id_barang);
+            $barang->stok = $barang->stok + $value->jumlah;
+            $barang->hargabeli = $value->harga / $value->jumlah;
+            $barang->save();
+        }
+    }
     /**
      * Display the specified resource.
      *

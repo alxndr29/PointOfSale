@@ -56,7 +56,7 @@
                                             <th>Nomor</th>
                                             <th>Nama</th>
                                             <th>Email</th>
-                                            <th>Telp</th>
+                                            
                                             <th>Hak Akses</th>
                                         </tr>
                                     </thead>
@@ -66,7 +66,7 @@
                                             <td>{{$key+1}}</td>
                                             <td>{{$value->name}}</td>
                                             <td>{{$value->email}}</td>
-                                            <td>Belum Coding</td>
+                                           
                                             <td>Belum Coding</td>
                                         </tr>
                                         @endforeach

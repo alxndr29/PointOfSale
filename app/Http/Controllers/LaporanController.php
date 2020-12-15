@@ -183,45 +183,25 @@ class LaporanController extends Controller
         $totalMenungguAntar = NotaBeli::where('status', '=', 'Menunggu Pengantaran')->count();
         $totalSelesai = NotaBeli::where('status', '=', 'Selesai')->count();
         $totalBayar = NotaBeli::where('status', '=', 'Belum Dibayar')->count();
-        //DATEDIFF(tabungans.tanggal_akhir,CURDATE())  as dayleft')
         $totalJatuhTempo = DB::table('notabelis')
             ->select(DB::raw('DATEDIFF(notabelis.created_at,CURDATE())  as dayleft'))
             ->get();
 
-        $dataselesai = NotaBeli::where('status','=','Selesai')->get();
-        $databelumbayar = NotaBeli::where('status','=','Belum Dibayar')->get();
-        $datamenungguantar = NotaBeli::where('status','=','Menunggu Pengantaran')->get();
-
-        return view('admin.laporanpembelian', compact('date','totalMenungguAntar','totalBayar','totalSelesai','totalJatuhTempo'
-        ,'dataselesai','databelumbayar','datamenungguantar'));
+        $datatransaksi = DB::table('notabelis')->join('notabelidetil','notabelidetil.id_notabeli','=','notabelis.id')
+        ->select('notabelis.*',DB::raw('DATE(notabelis.created_at) as created_at'),DB::raw('SUM(notabelidetil.harga) as total'))
+        ->groupBy('notabelis.id')
+        ->get();
+        
+        return view('admin.laporanpembelian', compact('date','totalMenungguAntar','totalBayar','totalSelesai','totalJatuhTempo','datatransaksi'));
     }
-    public function terimaBarang($id)
-    {
-        $notaBeli = NotaBeli::find($id);
-
-        if ($notaBeli->tipebayar == "Kredit") {
-            /*
-            $created_at = Carbon\Carbon::parse($notaBeli->created_at);
-            $date = Carbon\Carbon::createFromFormat('Y-m-d', $created_at->format('Y-m-d'));
-            */
-            $date = Carbon\Carbon::now();
-            $jatuhTempo = $date->addDays($notaBeli->jumlahhari);
-            $notaBeli->jatuhtempo = $jatuhTempo->toDateString();
-            $notaBeli->status = "Belum Dibayar";
-            $notaBeli->save();
-        }else{
-            $notaBeli->status = "Selesai";
-            $notaBeli->save();
-        }
-       
-
-    }
+   
+   
     public function invoicepembelian($id)
     {
         $data = DB::table('notabelis')
         ->join('supliers','supliers.id','=','notabelis.suplier_id')
         ->where('notabelis.id','=',$id)
-        ->select('notabelis.*','supliers.*')
+        ->select('notabelis.*','supliers.nama as nama','supliers.alamat as alamat','supliers.telepon as telepon')
         ->first();
         $barang = DB::table('notabelis')
         ->join('notabelidetil','notabelidetil.id_notabeli','=','notabelis.id')
@@ -229,8 +209,13 @@ class LaporanController extends Controller
         ->where('notabelis.id',$id)
         ->select('notabelidetil.*','barangs.*')
         ->get();
-        //return $barang;
-        return view('admin.invoicepembelian',compact('data'));
+        
+        $totalharga = DB::table('notabelidetil')
+        ->where('notabelidetil.id_notabeli','=',$id)
+        ->select(DB::raw('SUM(notabelidetil.harga) as total'))
+        ->first();
+        //return $totalharga->total;
+        return view('admin.invoicepembelian',compact('data','barang','totalharga'));
     }
     /**
      * Show the form for creating a new resource.

@@ -56,7 +56,7 @@
                         <!-- small box -->
                         <div class="small-box bg-yellow">
                             <div class="inner">
-                                <h3>{{$totalSelesai}} Transaksi</h3>
+                                <h3>{{$totalBayar}} Transaksi</h3>
                                 <p>Belum Dibayar</p>
                             </div>
                             <div class="icon">
@@ -87,10 +87,10 @@
 
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    Daftar Selesai
+                    Daftar Transaksi Pembelian
                 </div>
                 <div class="card-body">
                     <table class="table table-head-fixed text-nowrap" id="myTable">
@@ -100,31 +100,21 @@
                                 <th>ID Transaksi</th>
                                 <th>Waktu Transaksi</th>
                                 <th>Total Transaksi</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($datatransaksi as $key => $value)
                             <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
+                                <td>{{$key+1}}</td>
+                                <td>{{$value->id}}</td>
+                                <td>{{$value->created_at}}</td>
+                                <td>Rp. {{$value->total}}</td>
+                                <td>{{$value->status}}</td>
+                                <td><a class="btn btn-block btn-success btn-sm" href="{{route('invoicepembelian',$value->id)}}">Lihat</a></td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -134,10 +124,10 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    Daftar Menunggu Pengantaran
+                    Daftar Transaksi Mendekati Jatuh Tempo
                 </div>
                 <div class="card-body">
                     <table class="table table-head-fixed text-nowrap" id="myTable2">
@@ -147,80 +137,21 @@
                                 <th>ID Transaksi</th>
                                 <th>Waktu Transaksi</th>
                                 <th>Total Transaksi</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($datatransaksi as $key => $value)
                             <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
+                                <td>{{$key+1}}</td>
+                                <td>{{$value->id}}</td>
+                                <td>{{$value->created_at}}</td>
+                                <td>Rp. {{$value->total}}</td>
+                                <td>{{$value->status}}</td>
+                                <td><a class="btn btn-block btn-success btn-sm" href="{{route('invoicepembelian',$value->id)}}">Lihat</a></td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1234123</td>
-                                <td>29-10-1999</td>
-                                <td>Rp. 110,000</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="#">Lihat</a></td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -231,63 +162,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <div class="card card-primary">
-                <div class="card-header">
-                    Daftar Belum Dibayar
-                </div>
-                <div class="card-body">
-                    <table class="table table-head-fixed text-nowrap" id="myTable3">
-                        <thead>
-                            <tr>
-                                <th>Nomor</th>
-                                <th>ID Transaksi</th>
-                                <th>Waktu Transaksi</th>
-                                <th>Total Transaksi</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="card-footer">
-
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card card-primary">
-                <div class="card-header">
-                    Daftar Dekat Jatuh Tempo
-                </div>
-                <div class="card-body">
-                    <table class="table table-head-fixed text-nowrap" id="myTable4">
-                        <thead>
-                            <tr>
-                                <th>Nomor</th>
-                                <th>ID Transaksi</th>
-                                <th>Waktu Transaksi</th>
-                                <th>Total Transaksi</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="card-footer">
-
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
 </div>
 <script>
     $(document).ready(function() {

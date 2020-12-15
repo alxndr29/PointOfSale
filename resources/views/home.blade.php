@@ -150,7 +150,7 @@
                                 <td>{{$value->tanggal}}</td>
                                 <td>Rp. {{number_format($value->totalbeli,2)}}</td>
                                 <td>{{$value->status}}</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="{{route('laporanpenjualaninvoice',$value->idtransaksi)}}">Lihat</a></td>
+                                <td><a class="btn btn-block btn-success btn-sm" href="{{route('invoicepembelian',$value->idtransaksi)}}">Lihat</a></td>
                             <tr>
                                 @endforeach
                         </tbody>

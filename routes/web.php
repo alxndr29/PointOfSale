@@ -65,6 +65,8 @@ Route::delete('/penjualan/delete/{id}','PenjualanController@destroy')->name('pen
 //Route Pembelian
 Route::get('/pembelian','PembelianController@index')->name('pembelianindex');
 Route::post('/pembelian/store','PembelianController@store')->name('pembelianstore');
+Route::get('/pembelian/terima/{id}','PembelianController@terimaBarang')->name('terimabarang');
+Route::get('/pembelian/bayar/{id}','PembelianController@bayarPembelian')->name('bayarPembelian');
 
 //cetak pdf kwitansi penjualan
 Route::get('/laporan/print/','LaporanController@index')->name('cetak');
@@ -81,5 +83,4 @@ Route::get('/laporan/penjualan/invoice/pdf/{id}','LaporanController@invoicepdf')
 Route::get('/laporan/penjualan/{tglawal}/{tglakhir}','LaporanController@laporanpenjualanindexrange')->name('test');
 
 Route::get('/laporan/pembelian','LaporanController@laporanpembelianindex')->name('laporanpembelianindex');
-Route::get('/laporan/terima/{id}','LaporanController@terimaBarang')->name('terimabarang');
 Route::get('/laporan/invoice/pembelian/{id}','LaporanController@invoicepembelian')->name('invoicepembelian');
