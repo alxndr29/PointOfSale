@@ -191,8 +191,17 @@ class LaporanController extends Controller
         ->select('notabelis.*',DB::raw('DATE(notabelis.created_at) as created_at'),DB::raw('SUM(notabelidetil.harga) as total'))
         ->groupBy('notabelis.id')
         ->get();
+
+
+        $datatransaksiJatuhTempo = DB::table('notabelis')->join('notabelidetil','notabelidetil.id_notabeli','=','notabelis.id')
+        ->select('notabelis.*',DB::raw('DATEDIFF(notabelis.jatuhtempo,CURDATE()) as hitunghari'),DB::raw('DATE(notabelis.created_at) as created_at'),DB::raw('SUM(notabelidetil.harga) as total'))
+        ->groupBy('notabelis.id')
+        ->where('notabelis.tipebayar','=','Kredit')
+        ->where('notabelis.status','=','Belum Dibayar')
+        ->get();
         
-        return view('admin.laporanpembelian', compact('date','totalMenungguAntar','totalBayar','totalSelesai','totalJatuhTempo','datatransaksi'));
+        
+        return view('admin.laporanpembelian', compact('date','totalMenungguAntar','totalBayar','totalSelesai','totalJatuhTempo','datatransaksi','datatransaksiJatuhTempo'));
     }
    
    

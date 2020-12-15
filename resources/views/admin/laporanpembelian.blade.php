@@ -87,7 +87,7 @@
 
     </div>
     <div class="row">
-        <div class="col-6">
+        <div class="col">
             <div class="card card-primary">
                 <div class="card-header">
                     Daftar Transaksi Pembelian
@@ -124,7 +124,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col">
             <div class="card card-primary">
                 <div class="card-header">
                     Daftar Transaksi Mendekati Jatuh Tempo
@@ -137,18 +137,18 @@
                                 <th>ID Transaksi</th>
                                 <th>Waktu Transaksi</th>
                                 <th>Total Transaksi</th>
-                                <th>Status</th>
+                                <th>Countdown</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($datatransaksi as $key => $value)
+                            @foreach($datatransaksiJatuhTempo as $key => $value)
                             <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{$value->id}}</td>
                                 <td>{{$value->created_at}}</td>
                                 <td>Rp. {{$value->total}}</td>
-                                <td>{{$value->status}}</td>
+                                <td>{{$value->hitunghari}}</td>
                                 <td><a class="btn btn-block btn-success btn-sm" href="{{route('invoicepembelian',$value->id)}}">Lihat</a></td>
                             </tr>
                             @endforeach
