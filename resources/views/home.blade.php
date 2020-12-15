@@ -28,7 +28,7 @@
                         <!-- small box -->
                         <div class="small-box bg-green">
                             <div class="inner">
-                                <h3>13 Transaksi</h3>
+                                <h3>{{$totalBayar}} Transaksi</h3>
                                 <p>Tagihan Belum Terbayarkan</p>
                             </div>
                             <div class="icon">
@@ -56,7 +56,7 @@
                         <!-- small box -->
                         <div class="small-box bg-red">
                             <div class="inner">
-                                <h3>6 Produk</h3>
+                                <h3>{{$jumlahStokHabis}} Produk</h3>
                                 <p>Dengan Stok Dibawah 10</p>
                             </div>
                             <div class="icon">
@@ -136,19 +136,28 @@
                             <tr>
                                 <th>Nomor</th>
                                 <th>ID Transaksi</th>
-                                <th>Tanggal Transaksi</th>
+                                <th>Waktu Transaksi</th>
                                 <th>Total Transaksi</th>
+                                <th> Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-
-
+                            @foreach($databeli as $key => $value)
+                            <tr>
+                                <td>{{$key + 1}}</td>
+                                <td>{{$value->idtransaksi}}</td>
+                                <td>{{$value->tanggal}}</td>
+                                <td>Rp. {{number_format($value->totalbeli,2)}}</td>
+                                <td>{{$value->status}}</td>
+                                <td><a class="btn btn-block btn-success btn-sm" href="{{route('laporanpenjualaninvoice',$value->idtransaksi)}}">Lihat</a></td>
+                            <tr>
+                                @endforeach
                         </tbody>
                     </table>
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{route('laporanpenjualansemua')}}" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>

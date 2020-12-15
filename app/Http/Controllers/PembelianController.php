@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use App\Suplier;
 use App\Barang;
+use App\NotaBeli;
 use PDF;
+use DB;
 use Carbon;
 use Illuminate\Http\Request;
 
@@ -40,8 +42,24 @@ class PembelianController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $nota = new NotaBeli();
+        $nota->tipebayar = $request->get('jenispembayaran');
+        $nota->jumlahhari = $request->get('jatuhtempo');
+        $nota->suplier_id = $request->get('suplier');
+        $nota->status = "Menunggu Pengantaran";
+        $nota->save();
+
+        $data = $request->get('id');
+        foreach($data as $key => $value){
+            DB::table('notabelidetil')->insert([
+                'id_notabeli' => $nota->id,
+                'id_barang' => $value['id'],
+                'jumlah' => $value['qty'],
+                'harga' => $value['hargabeli'] * $value['qty']
+            ]);
+        }
+
         return response()->json([
             'success' => 'berhasil',
             'jenispembayaran' => $request->get('jenispembayaran'),
@@ -49,6 +67,7 @@ class PembelianController extends Controller
             'jatuhtempo' => $request->get('jatuhtempo')
         ]);
     }
+   
 
     /**
      * Display the specified resource.

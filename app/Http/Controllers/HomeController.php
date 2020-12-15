@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use DB;
 use PDF;
+use App\Barang;
+use App\NotaBeli;
 use Carbon;
 
 use Illuminate\Http\Request;
@@ -28,7 +30,10 @@ class HomeController extends Controller
     {
         $mytime = Carbon\Carbon::now();
         $date = $mytime->toDateString();
+        
         $jumlahjual = DB::table('notajuals')->where(DB::raw('DATE(notajuals.tanggal)'), '=', $date)->count();
+        $jumlahStokHabis = Barang::where('stok','<=',10)->count();
+        $totalBayar = NotaBeli::where('status', '=', 'Belum Dibayar')->count();
 
         $datajual = DB::table('notajuals')->join('notajualdetil', 'notajualdetil.notajual_id', '=', 'notajuals.id')
         ->select('notajuals.id as idtransaksi', 'notajuals.tanggal as tanggal', DB::raw('SUM(notajualdetil.harga) as totaljual'), DB::raw('SUM(notajualdetil.hargamodal) as totalmodal'))
@@ -37,8 +42,15 @@ class HomeController extends Controller
         ->limit(5)
         ->get();
 
-        //return $datajual;
-        return view('home',compact('date','jumlahjual','datajual'));
+        $databeli = DB::table('notabelis')
+        ->join('notabelidetil','notabelidetil.id_notabeli','=','notabelis.id')
+        ->select('notabelis.id as idtransaksi','notabelis.status as status','created_at as tanggal',DB::raw('SUM(notabelidetil.harga) as totalbeli'))
+        ->groupBy('notabelis.id')
+        ->orderBy('notabelis.id','desc')
+        ->limit(5)
+        ->get();
+
+        return view('home',compact('date','jumlahjual','datajual','databeli','jumlahStokHabis','totalBayar'));
     }
     public function dashboard()
     {

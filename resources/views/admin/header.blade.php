@@ -185,7 +185,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('laporanpembelianindex')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Transaksi Pembelian</p>
                                     </a>
@@ -316,8 +316,18 @@
         setInterval(clockUpdate, 1000);
 
 
-        $('#myTable').DataTable();
-        $('#myTable2').DataTable();
+        $('#myTable').DataTable({
+            pageLength : 5
+        });
+        $('#myTable2').DataTable({
+            pageLength : 5
+        });
+        $('#myTable3').DataTable({
+            pageLength : 5
+        });
+        $('#myTable4').DataTable({
+            pageLength : 5
+        });
 
         $("body").on("click", "#hapuskategori", function(e) {
             var id = $(this).attr('data-id');

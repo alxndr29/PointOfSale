@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\NotaBeli;
+use App\NotaJual;
 use Illuminate\Http\Request;
 use DB;
 use PDF;
@@ -101,14 +103,14 @@ class LaporanController extends Controller
     }
     public function laporanpenjualansemua()
     {
-        
+
         $tglawaraw = strtotime(DB::table('notajuals')->min('tanggal'));
         $tglakhirraw = strtotime(DB::table('notajuals')->max('tanggal'));
-       
-        $tglawa = date('Y-m-d',$tglawaraw);
-        $tglakhir = date('Y-m-d',$tglakhirraw);
 
-        $date = $tglawa  . " sampai " . $tglakhir ;
+        $tglawa = date('Y-m-d', $tglawaraw);
+        $tglakhir = date('Y-m-d', $tglakhirraw);
+
+        $date = $tglawa  . " sampai " . $tglakhir;
 
         $jumlahjual = DB::table('notajuals')->count();
 
@@ -130,7 +132,6 @@ class LaporanController extends Controller
             ->get();
 
         return view('admin.laporanpenjualan', compact('datajual', 'date', 'jumlahjual', 'totalPenjualan', 'databarang'));
-        
     }
     // PENJUALAN
     public function invoice($id)
@@ -151,7 +152,7 @@ class LaporanController extends Controller
             ->select('notajualdetil.jumlah as jumlah', 'barangs.nama as nama', 'notajualdetil.harga as harga', 'notajualdetil.hargamodal as hargamodal')
             ->get();
         //return view('admin.laporanpenjualan',compact('data','barang'));
-        return view('admin.invoice', compact('data', 'barang'));
+        return view('admin.invoicepenjualan', compact('data', 'barang'));
     }
     // PENJUALAN
     public function invoicepdf($id)
@@ -169,14 +170,68 @@ class LaporanController extends Controller
             ->select('notajualdetil.jumlah as jumlah', 'barangs.nama as nama', 'notajualdetil.harga as harga')
             ->get();
 
-        return view('admin.invoiceprintpdf', compact('data', 'barang'));
-        /*
-        $pdf = PDF::loadView('admin.invoiceprintpdf', ['data' => $data, 'barang' => $barang])->setPaper('a4', 'landscape');;
-        $name = "kwitansipenjualan" . $id . ".pdf";
-        return $pdf->download($name);
-        */
+        return view('admin.invoicepenjualanprintpdf', compact('data', 'barang'));
+        
     }
-    
+
+    //PEMBELIAN
+    public function laporanpembelianindex()
+    {
+        $mytime = Carbon\Carbon::now();
+        $date = $mytime->toDateString();
+
+        $totalMenungguAntar = NotaBeli::where('status', '=', 'Menunggu Pengantaran')->count();
+        $totalSelesai = NotaBeli::where('status', '=', 'Selesai')->count();
+        $totalBayar = NotaBeli::where('status', '=', 'Belum Dibayar')->count();
+        //DATEDIFF(tabungans.tanggal_akhir,CURDATE())  as dayleft')
+        $totalJatuhTempo = DB::table('notabelis')
+            ->select(DB::raw('DATEDIFF(notabelis.created_at,CURDATE())  as dayleft'))
+            ->get();
+
+        $dataselesai = NotaBeli::where('status','=','Selesai')->get();
+        $databelumbayar = NotaBeli::where('status','=','Belum Dibayar')->get();
+        $datamenungguantar = NotaBeli::where('status','=','Menunggu Pengantaran')->get();
+
+        return view('admin.laporanpembelian', compact('date','totalMenungguAntar','totalBayar','totalSelesai','totalJatuhTempo'
+        ,'dataselesai','databelumbayar','datamenungguantar'));
+    }
+    public function terimaBarang($id)
+    {
+        $notaBeli = NotaBeli::find($id);
+
+        if ($notaBeli->tipebayar == "Kredit") {
+            /*
+            $created_at = Carbon\Carbon::parse($notaBeli->created_at);
+            $date = Carbon\Carbon::createFromFormat('Y-m-d', $created_at->format('Y-m-d'));
+            */
+            $date = Carbon\Carbon::now();
+            $jatuhTempo = $date->addDays($notaBeli->jumlahhari);
+            $notaBeli->jatuhtempo = $jatuhTempo->toDateString();
+            $notaBeli->status = "Belum Dibayar";
+            $notaBeli->save();
+        }else{
+            $notaBeli->status = "Selesai";
+            $notaBeli->save();
+        }
+       
+
+    }
+    public function invoicepembelian($id)
+    {
+        $data = DB::table('notabelis')
+        ->join('supliers','supliers.id','=','notabelis.suplier_id')
+        ->where('notabelis.id','=',$id)
+        ->select('notabelis.*','supliers.*')
+        ->first();
+        $barang = DB::table('notabelis')
+        ->join('notabelidetil','notabelidetil.id_notabeli','=','notabelis.id')
+        ->join('barangs','barangs.id','=','notabelidetil.id_barang')
+        ->where('notabelis.id',$id)
+        ->select('notabelidetil.*','barangs.*')
+        ->get();
+        //return $barang;
+        return view('admin.invoicepembelian',compact('data'));
+    }
     /**
      * Show the form for creating a new resource.
      *

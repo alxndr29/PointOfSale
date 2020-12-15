@@ -79,3 +79,7 @@ Route::get('/laporan/penjualan/semua','LaporanController@laporanpenjualansemua')
 Route::get('/laporan/penjualan/invoice/{id}','LaporanController@invoice')->name('laporanpenjualaninvoice');
 Route::get('/laporan/penjualan/invoice/pdf/{id}','LaporanController@invoicepdf')->name('laporanpenjualaninvoicepdf');
 Route::get('/laporan/penjualan/{tglawal}/{tglakhir}','LaporanController@laporanpenjualanindexrange')->name('test');
+
+Route::get('/laporan/pembelian','LaporanController@laporanpembelianindex')->name('laporanpembelianindex');
+Route::get('/laporan/terima/{id}','LaporanController@terimaBarang')->name('terimabarang');
+Route::get('/laporan/invoice/pembelian/{id}','LaporanController@invoicepembelian')->name('invoicepembelian');

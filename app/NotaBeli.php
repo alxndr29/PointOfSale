@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class NotaBeli extends Model
 {
     //
+    protected $table = 'notabelis';
 }
