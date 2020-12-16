@@ -42,7 +42,6 @@
 
                     <b>ID Pembelian:</b> {{$data->id}} || Pembelian: {{$data->tipebayar}}<br>
                     <b>Tanggal:</b> {{$data->created_at}}<br>
-                    <b>Tanggal Terima:</b> {{$data->updated_at}}<br>
                     <b>Jatuh Tempo:</b> {{$data->jatuhtempo}}<br>
                 </div>
                 <!-- /.col -->
@@ -95,7 +94,8 @@
                         <i class="fa fa-download"></i> Buat PDF
                     </a>
                     @if($data->status == "Menunggu Pengantaran")
-                    <a type="button" href="{{route('laporanpembelianindex')}}" class="btn btn-danger pull-right"><i class="fa fa-credit-card"></i> Batalkan Transaksi
+                    <a type="button" href="javascript:void(0)" id="hapuspembelian" name="hapuspembelian" data-id="{{$data->id}}" class="btn btn-danger pull-right" style="margin-right: 5px;">
+                        <i class="fa fa-download"></i> Batalkan Transaksi
                     </a>
                     <a type="button" href="{{route('terimabarang',$data->id)}}" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Konfirmasi Terima Barang
                     </a>

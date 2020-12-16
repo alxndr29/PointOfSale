@@ -78,12 +78,14 @@ class PembelianController extends Controller
             $notaBeli->jatuhtempo = $jatuhTempo->toDateString();
             $notaBeli->status = "Belum Dibayar";
             $notaBeli->save();
+            return redirect('laporan/pembelian')->with('status', 'Barang Sudah Terima. Tanggal Jatuh Tempo Akan Dimulai Pada Hari Ini.');
         } else {
             $notaBeli->status = "Selesai";
             $notaBeli->save();
             $this->updatestokharga($id);
+            return redirect('laporan/pembelian')->with('status', 'Pembelian anda selesai. Stok dan Harga akan di update');
         }
-        return redirect('laporan/pembelian')->with('status', 'Pembelian anda selesai. Stok dan Harga akan di update');
+       
     }
     public function bayarPembelian($id)
     {
@@ -145,7 +147,10 @@ class PembelianController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    {   
+        DB::table('notabelidetil')->where('id_notabeli','=',$id)->delete();
+        DB::table('notabelis')->where('id','=',$id)->delete();
+        $response = ['status' => 'Berhasil Membatalkan Pesanan'];   
+        return response()->json($response);
     }
 }

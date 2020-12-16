@@ -191,7 +191,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('laporanproduk')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Laporan Produk</p>
                                     </a>
@@ -437,6 +437,30 @@
                     success: function(response) {
                         alert(response.status);
                         location.href = "{{route('laporanpenjualanindex')}}";   
+                    }
+                });
+                
+
+            } else {
+               
+            }
+        });
+        $("body").on("click", "#hapuspembelian", function(e) {
+            var id = $(this).attr('data-id');
+            var token = $('meta[name="csrf-token"]').attr('content');
+
+            if (confirm('Apa anda yakin ingin menghapus?')) {
+                
+                $.ajax({
+                    url: "{{url('pembelian/delete')}}/" + id, //or you can use url: "company/"+id,
+                    type: 'DELETE',
+                    data: {
+                        _token: token,
+                        id: id
+                    },
+                    success: function(response) {
+                        alert(response.status);
+                        location.href = "{{route('laporanpembelianindex')}}";   
                     }
                 });
                 

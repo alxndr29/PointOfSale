@@ -17,7 +17,6 @@
                             <input type="date" id="tglawal">
                             <input type="date" id="tglakhir">
                             <input type="submit" value="Cari" id="carirange">
-                            <input type="submit" value="Hari Ini" id="carihariini">
                             <input type="submit" value="Semua" id="carisemua">
                         </div>
                     </div>
@@ -68,7 +67,7 @@
                         <!-- small box -->
                         <div class="small-box bg-red">
                             <div class="inner">
-                                <h3>10 Transaksi</h3>
+                                <h3>{{$totalJatuhTempo}} Transaksi</h3>
                                 <p>Dekat Jatuh Tempo</p>
                             </div>
                             <div class="icon">
@@ -137,7 +136,7 @@
                                 <th>ID Transaksi</th>
                                 <th>Waktu Transaksi</th>
                                 <th>Total Transaksi</th>
-                                <th>Countdown</th>
+                                <th>Sisa Hari</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -148,7 +147,7 @@
                                 <td>{{$value->id}}</td>
                                 <td>{{$value->created_at}}</td>
                                 <td>Rp. {{$value->total}}</td>
-                                <td>{{$value->hitunghari}}</td>
+                                <td>{{$value->hitunghari}} Hari</td>
                                 <td><a class="btn btn-block btn-success btn-sm" href="{{route('invoicepembelian',$value->id)}}">Lihat</a></td>
                             </tr>
                             @endforeach
@@ -171,7 +170,7 @@
             var tglawal = $('#tglawal').val();
             var tglakhir = $('#tglakhir').val();
 
-            var url = "{{route('test',['tglawal' => 'first' ,'tglakhir'=> 'second' ])}}";
+            var url = "{{route('pembelianrange',['tglawal' => 'first' ,'tglakhir'=> 'second' ])}}";
             url = url.replace('first', tglawal);
             url = url.replace('second', tglakhir);
             location.href = url;
@@ -179,10 +178,10 @@
         });
         $("#carihariini").click(function() {
 
-            location.href = "{{route('laporanpenjualanindex')}}";
+            location.href = "{{route('laporanpembelianindex')}}";
         });
         $("#carisemua").click(function() {
-            location.href = "{{route('laporanpenjualansemua')}}";
+            location.href = "{{route('laporanpembelianindex')}}";
         });
     });
 </script>

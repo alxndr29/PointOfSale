@@ -34,7 +34,7 @@
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
                             </div>
-                            <a href="#" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{{route('laporanpembelianindex')}}" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -42,13 +42,13 @@
                         <!-- small box -->
                         <div class="small-box bg-yellow">
                             <div class="inner">
-                                <h3>2 Transaksi</h3>
+                                <h3>{{$totalJatuhTempo}} Transaksi</h3>
                                 <p>Mendekati Jatuh Tempo</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person-add"></i>
                             </div>
-                            <a href="#" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{{route('laporanpembelianindex')}}" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -91,70 +91,76 @@
     </div>
     -->
     <div class="row">
-        <div class="col-6">
+        <div class="col-5">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Transaksi Penjualan Terakhir</h3>
                 </div>
                 <div class="card-body">
-                    <table class="table table-head-fixed text-nowrap">
-                        <thead>
-                            <tr>
-                                <th>Nomor</th>
-                                <th>ID Transaksi</th>
-                                <th>Waktu Transaksi</th>
-                                <th>Total Transaksi</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($datajual as $key => $value)
-                            <tr>
-                                <td>{{$key + 1}}</td>
-                                <td>{{$value->idtransaksi}}</td>
-                                <td>{{$value->tanggal}}</td>
-                                <td>Rp. {{number_format($value->totaljual,2)}}</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="{{route('laporanpenjualaninvoice',$value->idtransaksi)}}">Lihat</a></td>
-                            <tr>
-                                @endforeach
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-head-fixed text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Nomor</th>
+                                    <th>ID Transaksi</th>
+                                    <th>Waktu Transaksi</th>
+                                    <th>Total Transaksi</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($datajual as $key => $value)
+                                <tr>
+                                    <td>{{$key + 1}}</td>
+                                    <td>{{$value->idtransaksi}}</td>
+                                    <td>{{$value->tanggal}}</td>
+                                    <td>Rp. {{number_format($value->totaljual,2)}}</td>
+                                    <td><a class="btn btn-block btn-success btn-sm" href="{{route('laporanpenjualaninvoice',$value->idtransaksi)}}">Lihat</a></td>
+                                <tr>
+                                    @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
                 <div class="card-footer">
                     <a href="{{route('laporanpenjualansemua')}}" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-7">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Transaksi Pembelian Terakhir</h3>
                 </div>
                 <div class="card-body">
-                    <table class="table table-head-fixed text-nowrap">
-                        <thead>
-                            <tr>
-                                <th>Nomor</th>
-                                <th>ID Transaksi</th>
-                                <th>Waktu Transaksi</th>
-                                <th>Total Transaksi</th>
-                                <th> Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($databeli as $key => $value)
-                            <tr>
-                                <td>{{$key + 1}}</td>
-                                <td>{{$value->idtransaksi}}</td>
-                                <td>{{$value->tanggal}}</td>
-                                <td>Rp. {{number_format($value->totalbeli,2)}}</td>
-                                <td>{{$value->status}}</td>
-                                <td><a class="btn btn-block btn-success btn-sm" href="{{route('invoicepembelian',$value->idtransaksi)}}">Lihat</a></td>
-                            <tr>
-                                @endforeach
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-head-fixed text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Nomor</th>
+                                    <th>ID Transaksi</th>
+                                    <th>Waktu Transaksi</th>
+                                    <th>Total Transaksi</th>
+                                    <th> Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($databeli as $key => $value)
+                                <tr>
+                                    <td>{{$key + 1}}</td>
+                                    <td>{{$value->idtransaksi}}</td>
+                                    <td>{{$value->tanggal}}</td>
+                                    <td>Rp. {{number_format($value->totalbeli,2)}}</td>
+                                    <td>{{$value->status}}</td>
+                                    <td><a class="btn btn-block btn-success btn-sm" href="{{route('invoicepembelian',$value->idtransaksi)}}">Lihat</a></td>
+                                <tr>
+                                    @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
                 <div class="card-footer">
                     <a href="{{route('laporanpenjualansemua')}}" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>

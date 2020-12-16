@@ -154,7 +154,7 @@
             var tglawal = $('#tglawal').val();
             var tglakhir = $('#tglakhir').val();
             
-            var url = "{{route('test',['tglawal' => 'first' ,'tglakhir'=> 'second' ])}}";
+            var url = "{{route('penjualanrange',['tglawal' => 'first' ,'tglakhir'=> 'second' ])}}";
             url = url.replace('first',tglawal);
             url = url.replace('second',tglakhir);
             location.href = url;

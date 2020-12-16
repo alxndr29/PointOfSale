@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\NotaBeli;
 use App\NotaJual;
+use App\Barang;
+use App\Kategori;
 use Illuminate\Http\Request;
 use DB;
 use PDF;
@@ -76,7 +78,7 @@ class LaporanController extends Controller
         $mytime = Carbon\Carbon::now();
         $date = $tglawa . " sampai " . $tglakhir;
 
-        $jumlahjual = DB::table('notajuals')->where(DB::raw('DATE(notajuals.tanggal)'), '=', $date)->count();
+        $jumlahjual = DB::table('notajuals')->whereBetween(DB::raw('DATE(notajuals.tanggal)'), '=', $date)->count();
 
         $totalPenjualan = DB::table('notajuals')->join('notajualdetil', 'notajualdetil.notajual_id', '=', 'notajuals.id')
             ->select(DB::raw('SUM(notajualdetil.harga) as totaljual'), DB::raw('SUM(notajualdetil.hargamodal) as totalmodal'))
@@ -171,7 +173,6 @@ class LaporanController extends Controller
             ->get();
 
         return view('admin.invoicepenjualanprintpdf', compact('data', 'barang'));
-        
     }
 
     //PEMBELIAN
@@ -183,48 +184,102 @@ class LaporanController extends Controller
         $totalMenungguAntar = NotaBeli::where('status', '=', 'Menunggu Pengantaran')->count();
         $totalSelesai = NotaBeli::where('status', '=', 'Selesai')->count();
         $totalBayar = NotaBeli::where('status', '=', 'Belum Dibayar')->count();
+        /*
         $totalJatuhTempo = DB::table('notabelis')
             ->select(DB::raw('DATEDIFF(notabelis.created_at,CURDATE())  as dayleft'))
             ->get();
+        */
+        $datatransaksi = DB::table('notabelis')->join('notabelidetil', 'notabelidetil.id_notabeli', '=', 'notabelis.id')
+            ->select('notabelis.*', DB::raw('DATE(notabelis.created_at) as created_at'), DB::raw('SUM(notabelidetil.harga) as total'))
+            ->groupBy('notabelis.id')
+            ->orderBy('notabelis.id', 'desc')
+            ->get();
 
-        $datatransaksi = DB::table('notabelis')->join('notabelidetil','notabelidetil.id_notabeli','=','notabelis.id')
-        ->select('notabelis.*',DB::raw('DATE(notabelis.created_at) as created_at'),DB::raw('SUM(notabelidetil.harga) as total'))
-        ->groupBy('notabelis.id')
-        ->get();
 
+        $datatransaksiJatuhTempo = DB::table('notabelis')->join('notabelidetil', 'notabelidetil.id_notabeli', '=', 'notabelis.id')
+            ->select('notabelis.*', DB::raw('DATEDIFF(notabelis.jatuhtempo,CURDATE()) as hitunghari'), DB::raw('DATE(notabelis.created_at) as created_at'), DB::raw('SUM(notabelidetil.harga) as total'))
+            ->groupBy('notabelis.id')
+            ->where('notabelis.tipebayar', '=', 'Kredit')
+            ->where('notabelis.status', '=', 'Belum Dibayar')
+            ->get();
 
-        $datatransaksiJatuhTempo = DB::table('notabelis')->join('notabelidetil','notabelidetil.id_notabeli','=','notabelis.id')
-        ->select('notabelis.*',DB::raw('DATEDIFF(notabelis.jatuhtempo,CURDATE()) as hitunghari'),DB::raw('DATE(notabelis.created_at) as created_at'),DB::raw('SUM(notabelidetil.harga) as total'))
-        ->groupBy('notabelis.id')
-        ->where('notabelis.tipebayar','=','Kredit')
-        ->where('notabelis.status','=','Belum Dibayar')
-        ->get();
-        
-        
-        return view('admin.laporanpembelian', compact('date','totalMenungguAntar','totalBayar','totalSelesai','totalJatuhTempo','datatransaksi','datatransaksiJatuhTempo'));
+        $totalJatuhTempo = 0;
+        foreach ($datatransaksiJatuhTempo as $key => $value) {
+            if ($value->hitunghari <= 3) {
+                $totalJatuhTempo++;
+            }
+        }
+
+        return view('admin.laporanpembelian', compact('date', 'totalMenungguAntar', 'totalBayar', 'totalSelesai', 'totalJatuhTempo', 'datatransaksi', 'datatransaksiJatuhTempo'));
     }
-   
-   
+    public function laporanpembelianrange($tglawal, $tglakhir)
+    {
+        $date = $tglawal . " - " . $tglakhir;
+        
+        $totalMenungguAntar = NotaBeli::where('status', '=', 'Menunggu Pengantaran')->whereBetween('created_at', [$tglawal, $tglakhir])->count();
+        $totalSelesai = NotaBeli::where('status', '=', 'Selesai')->whereBetween('created_at', [$tglawal, $tglakhir])->count();
+        $totalBayar = NotaBeli::where('status', '=', 'Belum Dibayar')->whereBetween('created_at', [$tglawal, $tglakhir])->count();
+
+        $datatransaksi = DB::table('notabelis')->join('notabelidetil', 'notabelidetil.id_notabeli', '=', 'notabelis.id')
+            ->select('notabelis.*', DB::raw('DATE(notabelis.created_at) as created_at'), DB::raw('SUM(notabelidetil.harga) as total'))
+            ->groupBy('notabelis.id')
+            ->orderBy('notabelis.id', 'desc')
+            ->whereBetween(DB::raw('DATE(notabelis.created_at)'), [$tglawal, $tglakhir])
+            ->get();
+        $datatransaksiJatuhTempo = DB::table('notabelis')->join('notabelidetil', 'notabelidetil.id_notabeli', '=', 'notabelis.id')
+            ->select('notabelis.*', DB::raw('DATEDIFF(notabelis.jatuhtempo,CURDATE()) as hitunghari'), DB::raw('DATE(notabelis.created_at) as created_at'), DB::raw('SUM(notabelidetil.harga) as total'))
+            ->groupBy('notabelis.id')
+            ->where('notabelis.tipebayar', '=', 'Kredit')
+            ->where('notabelis.status', '=', 'Belum Dibayar')
+            ->whereBetween(DB::raw('DATE(notabelis.created_at)'), [$tglawal, $tglakhir])
+            ->get();
+
+        $totalJatuhTempo = 0;
+        foreach ($datatransaksiJatuhTempo as $key => $value) {
+            if ($value->hitunghari <= 3) {
+                $totalJatuhTempo++;
+            }
+        }
+
+        return view('admin.laporanpembelian', compact('date', 'totalMenungguAntar', 'totalBayar', 'totalSelesai', 'totalJatuhTempo', 'datatransaksi', 'datatransaksiJatuhTempo'));
+    }
+
+
     public function invoicepembelian($id)
     {
         $data = DB::table('notabelis')
-        ->join('supliers','supliers.id','=','notabelis.suplier_id')
-        ->where('notabelis.id','=',$id)
-        ->select('notabelis.*','supliers.nama as nama','supliers.alamat as alamat','supliers.telepon as telepon')
-        ->first();
+            ->join('supliers', 'supliers.id', '=', 'notabelis.suplier_id')
+            ->where('notabelis.id', '=', $id)
+            ->select('notabelis.*', 'supliers.nama as nama', 'supliers.alamat as alamat', 'supliers.telepon as telepon')
+            ->first();
         $barang = DB::table('notabelis')
-        ->join('notabelidetil','notabelidetil.id_notabeli','=','notabelis.id')
-        ->join('barangs','barangs.id','=','notabelidetil.id_barang')
-        ->where('notabelis.id',$id)
-        ->select('notabelidetil.*','barangs.*')
-        ->get();
-        
+            ->join('notabelidetil', 'notabelidetil.id_notabeli', '=', 'notabelis.id')
+            ->join('barangs', 'barangs.id', '=', 'notabelidetil.id_barang')
+            ->where('notabelis.id', $id)
+            ->select('notabelidetil.*', 'barangs.*')
+            ->get();
+
         $totalharga = DB::table('notabelidetil')
-        ->where('notabelidetil.id_notabeli','=',$id)
-        ->select(DB::raw('SUM(notabelidetil.harga) as total'))
-        ->first();
+            ->where('notabelidetil.id_notabeli', '=', $id)
+            ->select(DB::raw('SUM(notabelidetil.harga) as total'))
+            ->first();
         //return $totalharga->total;
-        return view('admin.invoicepembelian',compact('data','barang','totalharga'));
+        return view('admin.invoicepembelian', compact('data', 'barang', 'totalharga'));
+    }
+    public function laporanproduk()
+    {
+        $mytime = Carbon\Carbon::now();
+        $date = $mytime->toDateString();
+
+        $data = DB::table('barangs')
+            ->join('kategoris', 'kategoris.id', '=', 'barangs.kategori_id')
+            ->select('kategoris.nama as namakategori', 'barangs.*')
+            ->orderBy('kategoris.id')
+            ->orderBy('barangs.stok', 'asc')
+            ->get();
+        $jumlahStokDibawah = Barang::where('stok', '<=', 10)->count();
+        $jumlahKategori = Kategori::count();
+        return view('admin.laporanproduk', compact('date', 'data', 'jumlahStokDibawah', 'jumlahKategori'));
     }
     /**
      * Show the form for creating a new resource.
