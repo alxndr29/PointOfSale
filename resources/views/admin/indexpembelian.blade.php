@@ -366,13 +366,14 @@
                         jatuhtempo: jatuhtempo
                     },
                     success: function(response) {
-                        /*
-                        if (response.success == "berhasil") {
-                            alert("Hello World!");
-                        }
-                        */
-                       alert(response.success);
-                        console.table(response);
+                       if(response.success == "berhasil"){
+                           alert('Pencatatan Pembelian Berhasil Tercatat.');
+                           window.open(
+                                '{{ route("laporanpembelianindex") }}',
+                                '_blank' // <- This is what makes it open in a new window.
+                            );
+                            location.reload();
+                       }
                     }
                 });
             } else {

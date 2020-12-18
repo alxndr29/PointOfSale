@@ -20,7 +20,6 @@ class PenjualanController extends Controller
      */
     public function index()
     {
-        //
         $pelanggan = Pelanggan::all();
         $barang = Barang::all();
         return view('admin.indexpenjualan', compact('pelanggan','barang'));

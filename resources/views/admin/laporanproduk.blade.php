@@ -91,6 +91,7 @@
                             @foreach($data as $key => $value)
                             <tr>
                                 <td>{{$key + 1}}</td>
+
                                 <td>{{$value->namakategori}}</td>
                                 <td>{{$value->barcode}}</td>
                                 <td>{{$value->nama}}</td>

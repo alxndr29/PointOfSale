@@ -62,7 +62,7 @@
                             <div class="icon">
                                 <i class="ion ion-android-notifications"></i>
                             </div>
-                            <a href="#" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{{route('laporanproduk')}}" class="small-box-footer">Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->

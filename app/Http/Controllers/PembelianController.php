@@ -65,7 +65,8 @@ class PembelianController extends Controller
             'success' => 'berhasil',
             'jenispembayaran' => $request->get('jenispembayaran'),
             'suplier' => $request->get('suplier'),
-            'jatuhtempo' => $request->get('jatuhtempo')
+            'jatuhtempo' => $request->get('jatuhtempo'),
+            'notaid' => $nota->id
         ]);
     }
     public function terimaBarang($id)

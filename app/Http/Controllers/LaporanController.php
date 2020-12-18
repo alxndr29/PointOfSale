@@ -70,7 +70,6 @@ class LaporanController extends Controller
             ->where(DB::raw('DATE(notajuals.tanggal)'), '=', $date)
             ->get();
 
-        //return $databarang;
         return view('admin.laporanpenjualan', compact('datajual', 'date', 'jumlahjual', 'totalPenjualan', 'databarang'));
     }
     public function laporanpenjualanindexrange($tglawa, $tglakhir)
@@ -78,7 +77,7 @@ class LaporanController extends Controller
         $mytime = Carbon\Carbon::now();
         $date = $tglawa . " sampai " . $tglakhir;
 
-        $jumlahjual = DB::table('notajuals')->whereBetween(DB::raw('DATE(notajuals.tanggal)'), '=', $date)->count();
+        $jumlahjual = DB::table('notajuals')->whereBetween(DB::raw('DATE(notajuals.tanggal)'),[$tglawa, $tglakhir])->count();
 
         $totalPenjualan = DB::table('notajuals')->join('notajualdetil', 'notajualdetil.notajual_id', '=', 'notajuals.id')
             ->select(DB::raw('SUM(notajualdetil.harga) as totaljual'), DB::raw('SUM(notajualdetil.hargamodal) as totalmodal'))
@@ -153,7 +152,7 @@ class LaporanController extends Controller
             ->where('notajuals.id', '=', $id)
             ->select('notajualdetil.jumlah as jumlah', 'barangs.nama as nama', 'notajualdetil.harga as harga', 'notajualdetil.hargamodal as hargamodal')
             ->get();
-        //return view('admin.laporanpenjualan',compact('data','barang'));
+        
         return view('admin.invoicepenjualan', compact('data', 'barang'));
     }
     // PENJUALAN

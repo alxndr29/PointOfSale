@@ -26,10 +26,10 @@
                         </div>
                         <div class="form-group">
                             <label for="stokbarang">Hak Akses Pegawai</label>
-                            <select class="form-control" name="kategori_id" required>
-                                <option value="1">Administrator</option>
-                                <option value="2">Kasir</option>
-                                <option value="3">Umum</option>
+                            <select class="form-control" name="role_id" required>
+                                <option value="Pemilik">Pemilik</option>
+                                <option value="Kasir">Kasir</option>
+                                <option value="Umum">Umum</option>
                             </select>
                         </div>
                         <button class="btn btn-primary">Tambah</button>
@@ -66,8 +66,7 @@
                                             <td>{{$key+1}}</td>
                                             <td>{{$value->name}}</td>
                                             <td>{{$value->email}}</td>
-                                           
-                                            <td>Belum Coding</td>
+                                            <td>{{$value->role}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

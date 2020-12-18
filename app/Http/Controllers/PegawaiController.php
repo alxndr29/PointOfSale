@@ -41,6 +41,7 @@ class PegawaiController extends Controller
             'name' => $request->get('nama'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
+            'role' => $request->get('role_id')
         ]);
         return redirect('pegawai')->with('status', 'Berhasil Menambah Pegawai Baru');
     }

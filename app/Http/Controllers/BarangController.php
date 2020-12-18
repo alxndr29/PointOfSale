@@ -15,7 +15,7 @@ class BarangController extends Controller
      */
     public function index()
     {
-        //
+        
         $kategori = Kategori::all();
         $barang = DB::table('barangs')
                     ->join('kategoris','kategoris.id','=','barangs.kategori_id')
@@ -50,7 +50,7 @@ class BarangController extends Controller
             'harga' => 'required|numeric|min:3',
             'stok' => 'required|numeric',
             'kategori_id' => 'required',
-            'hargabeli' => 'required'
+            'hargabeli' => 'required||numeric'
         ]);
         $barang = new Barang();
         $barang->barcode = $request->get('barcode');
@@ -60,7 +60,7 @@ class BarangController extends Controller
         $barang->stok = $request->get('stok');
         $barang->kategori_id = $request->get('kategori_id');
         $barang->save();
-        //return "hello world!";
+        
         return redirect('barang')->with('status','Berhasil Menambahkan Barang Baru');
     }
 
@@ -84,6 +84,7 @@ class BarangController extends Controller
     public function edit($id)
     {
         //
+      
         $barang = DB::table('barangs')
                     ->join('kategoris','kategoris.id','=','barangs.kategori_id')
                     ->select('barangs.*','kategoris.nama as namakategori','kategoris.id as idkategori')
@@ -103,7 +104,16 @@ class BarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'barcode' => 'required|numeric|min:12',
+            'nama' => 'required',
+            'hargajual' => 'required|numeric|min:3',
+            'hargabeli' => 'required|numeric|min:3',
+            'stok' => 'required|numeric',
+            'kategori_id' => 'required',
+            'hargabeli' => 'required||numeric'
+        ]);
+        
         $barang = Barang::find($id);
         $barang->barcode = $request->get('barcode');
         $barang->nama = $request->get('nama');
@@ -124,7 +134,6 @@ class BarangController extends Controller
      */
     public function destroy($id)
     {
-        //
         $barang = Barang::find($id);
         $barang->delete();
         $response = ['status' => 'Berhasil Menghapus Barang'];
