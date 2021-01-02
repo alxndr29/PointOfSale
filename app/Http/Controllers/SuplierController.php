@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\NotaBeli;
 use App\Suplier;
 use Illuminate\Http\Request;
 
@@ -41,7 +42,7 @@ class SuplierController extends Controller
         $request->validate([
             'nama' => 'required',
             'alamat' => 'required',
-            'telepon' => 'required'
+            'telepon' => 'required|numeric'
         ]);
 
         $suplier = new Suplier();
@@ -49,7 +50,7 @@ class SuplierController extends Controller
         $suplier->alamat = $request->get('alamat');
         $suplier->telepon = $request->get('telepon');
         $suplier->save();
-        return redirect('suplier')->with('status','Berhasil Menambah Suplier Baru');
+        return redirect('suplier')->with('status', 'Berhasil Menambah Suplier Baru');
     }
 
     /**
@@ -91,13 +92,13 @@ class SuplierController extends Controller
             'alamat' => 'required',
             'telepon' => 'required|numeric'
         ]);
-        
+
         $suplier = Suplier::find($id);
         $suplier->nama = $request->get('nama');
         $suplier->alamat = $request->get('alamat');
         $suplier->telepon = $request->get('telepon');
         $suplier->save();
-        return redirect('suplier')->with('status','Berhasil Mengubah Data Suplier');
+        return redirect('suplier')->with('status', 'Berhasil Mengubah Data Suplier');
     }
 
     /**
@@ -108,10 +109,15 @@ class SuplierController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $suplier = Suplier::find($id);
-        $suplier->delete();
-        $response = ['status' => 'Berhasil Menghapus Suplier'];
-        return response()->json($response);
+        $count = NotaBeli::where('suplier_id', '=', $id)->count();
+        if ($count == 0) {
+            $suplier = Suplier::find($id);
+            $suplier->delete();
+            $response = ['status' => 'Berhasil Menghapus Suplier'];
+            return response()->json($response);
+        } else {
+            $response = ['status' => 'Tidak Dapat Menghapus. Data Suplier Digunakan Pada Nota Beli'];
+            return response()->json($response);
+         }
     }
 }

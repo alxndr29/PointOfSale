@@ -50,8 +50,9 @@ class BarangController extends Controller
             'harga' => 'required|numeric|min:3',
             'stok' => 'required|numeric',
             'kategori_id' => 'required',
-            'hargabeli' => 'required||numeric'
+            'hargabeli' => 'required|numeric|min:3'
         ]);
+
         $barang = new Barang();
         $barang->barcode = $request->get('barcode');
         $barang->nama = $request->get('nama');
@@ -110,8 +111,7 @@ class BarangController extends Controller
             'hargajual' => 'required|numeric|min:3',
             'hargabeli' => 'required|numeric|min:3',
             'stok' => 'required|numeric',
-            'kategori_id' => 'required',
-            'hargabeli' => 'required||numeric'
+            'kategori_id' => 'required'
         ]);
         
         $barang = Barang::find($id);

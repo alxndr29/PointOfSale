@@ -90,7 +90,7 @@ class KategoriController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required|alpha'
+            'nama' => 'required'
         ]);
 
         $kategori = Kategori::find($id);

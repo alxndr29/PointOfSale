@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\NotaJual;
 use DB;
 use App\Pelanggan;
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ class PelangganController extends Controller
     {
         //
         $pelanggan = Pelanggan::paginate(1000);
-        return view('admin.pelangganindex',compact('pelanggan'));
+        return view('admin.pelangganindex', compact('pelanggan'));
     }
 
     /**
@@ -41,7 +43,7 @@ class PelangganController extends Controller
         $request->validate([
             'nama' => 'required',
             'alamat' => 'required',
-            'telepon' => 'required'
+            'telepon' => 'required|numeric'
         ]);
         $pelanggan = new Pelanggan();
         $pelanggan->nama = $request->get('nama');
@@ -73,7 +75,7 @@ class PelangganController extends Controller
     {
         //
         $pelanggan = Pelanggan::findOrFail($id);
-       
+
         return view('admin.pelangganupdate', compact('pelanggan'));
     }
 
@@ -90,14 +92,14 @@ class PelangganController extends Controller
         $request->validate([
             'nama' => 'required',
             'alamat' => 'required',
-            'telepon' => 'required'
+            'telepon' => 'required|numeric'
         ]);
         $pelanggan = Pelanggan::find($id);
         $pelanggan->nama = $request->get('nama');
         $pelanggan->alamat = $request->get('alamat');
         $pelanggan->telepon = $request->get('telepon');
         $pelanggan->save();
-        
+
         return redirect('pelanggan')->with('status', 'Berhasil Mengubah Data Pelanggan');
     }
 
@@ -109,11 +111,15 @@ class PelangganController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $pelanggan = Pelanggan::find($id);
-        $pelanggan->delete();
-        $response = ['status' => 'Berhasil Menghapus Data Pelanggan'];
-        return response()->json($response);
-
+        $count = NotaJual::where('pelanggan_id', '=', $id)->count();
+        if ($count == 0) {
+            $pelanggan = Pelanggan::find($id);
+            $pelanggan->delete();
+            $response = ['status' => 'Berhasil Menghapus Data Pelanggan'];
+            return response()->json($response);
+        }else{
+            $response = ['status' => 'Tidak Dapat Menghapus. Data Pelanggan Ada Di Nota Jual.'];
+            return response()->json($response);
+        }
     }
 }

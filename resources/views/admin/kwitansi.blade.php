@@ -68,7 +68,7 @@
 
 <body>
     <div class="ticket">
-        <img src="https://my.ubaya.ac.id/img/mhs/160417084_l.jpg" alt="Logo">
+        
         <p class="centered">NOTA PEMBELIAN
             <br>Tanggal: {{$data->tanggal}}
             <br>No. Nota: {{$data->idnotajual}}
@@ -99,7 +99,7 @@
 
             </tbody>
         </table>
-        <p class="centered">Terimakasih sudah berbelanja
+        <p class="centered">Terimakasih sudah berbelanja.
             <br>Toko Sinjai</p>
     </div>
    
