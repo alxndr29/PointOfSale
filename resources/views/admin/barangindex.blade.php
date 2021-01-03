@@ -22,15 +22,15 @@
                         </div>
                         <div class="form-group">
                             <label for="hargabarang">Harga Jual Barang</label>
-                            <input type="text" class="form-control" id="hargabarang" placeholder="Masukan Harga Barang" name="harga" required>
+                            <input type="number" class="form-control" id="hargabarang" placeholder="Masukan Harga Barang" name="harga" required>
                         </div>
                         <div class="form-group">
                             <label for="hargabarang">Harga Beli Barang</label>
-                            <input type="text" class="form-control" id="hargabarang" placeholder="Masukan Harga Barang" name="hargabeli" required>
+                            <input type="number" class="form-control" id="hargabarang" placeholder="Masukan Harga Barang" name="hargabeli" required>
                         </div>
                         <div class="form-group">
                             <label for="stokbarang">Stok Barang</label>
-                            <input type="text" class="form-control" id="stokbarang" placeholder="Masukan Stok Barang" name="stok" required>
+                            <input type="number" class="form-control" id="stokbarang" placeholder="Masukan Stok Barang" name="stok" required>
                         </div>
                         <div class="form-group">
                             <label for="stokbarang">Kategori Barang</label>

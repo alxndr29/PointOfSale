@@ -35,9 +35,12 @@ class LaporanController extends Controller
             ->where('notajuals.id', '=', $id)
             ->select('notajualdetil.jumlah as jumlah', 'barangs.nama as nama', 'notajualdetil.harga as harga')
             ->get();
-
+        $total = 0;
+        foreach($barang as $key => $value){
+            $total+= $value->harga;
+        }
         //return view('admin.kwitansi', compact('data', 'barang'));
-        $pdf = PDF::loadView('admin.kwitansi', ['data' => $data, 'barang' => $barang]);
+        $pdf = PDF::loadView('admin.kwitansi', ['data' => $data, 'barang' => $barang,'total'=>$total]);
         $name = "kwitansipenjualan" . $id . ".pdf";
         return $pdf->download($name);
     }

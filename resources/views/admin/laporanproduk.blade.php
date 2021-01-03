@@ -38,7 +38,7 @@
                         <div class="small-box bg-yellow">
                             <div class="inner">
                                 <h3>{{$jumlahStokDibawah}} Produk</h3>
-                                <p>Dengan Stok Dibawah 10</p>
+                                <p>Dengan Stok Dibawah 10 Pcs</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
@@ -84,7 +84,8 @@
                                 <th>Kategori</th>
                                 <th>Barcode</th>
                                 <th>Nama</th>
-                                <th>Stok</th>
+                                <th>Stok(Pcs)</th>
+                                <th>Stok(Karton)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,7 +101,7 @@
                                 @else
                                     <td>{{$value->stok}}</td>
                                 @endif
-                               
+                                <td>OnGoing</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -78,9 +78,9 @@
         <table>
             <thead>
                 <tr>
-                    <th class="quantity">Q.</th>
-                    <th class="description">Description</th>
-                    <th class="price">$$</th>
+                    <th class="quantity">Qty</th>
+                    <th class="description">Deskripsi</th>
+                    <th class="price">Harga</th>
                 </tr>
             </thead>
             <tbody>
@@ -94,7 +94,7 @@
                 <tr>
                     <td class="quantity"></td>
                     <td class="description">TOTAL</td>
-                    <td class="price">Belum Coding</td>
+                    <td class="price">Rp. {{number_format($total,2)}}</td>
                 </tr>
 
             </tbody>

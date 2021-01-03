@@ -127,6 +127,7 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        @if(Auth::user()->role == "Pemilik")
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-table"></i>
@@ -222,6 +223,28 @@
                                 </li>
                             </ul>
                         </li>
+                        @elseif(Auth::user()->role == "Kasir")
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    Kasir
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('penjualanindex')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Penjualan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @else
+                        @endif
+                     
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

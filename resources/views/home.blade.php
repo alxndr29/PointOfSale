@@ -57,7 +57,7 @@
                         <div class="small-box bg-red">
                             <div class="inner">
                                 <h3>{{$jumlahStokHabis}} Produk</h3>
-                                <p>Dengan Stok Dibawah 10</p>
+                                <p>Dengan Stok Dibawah 10 Pcs</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-android-notifications"></i>
