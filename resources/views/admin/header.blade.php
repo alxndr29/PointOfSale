@@ -492,6 +492,29 @@
                
             }
         });
+        $("body").on("click", "#hapuspegawai", function(e) {
+            var id = $(this).attr('data-id');
+            var token = $('meta[name="csrf-token"]').attr('content');
+
+            if (confirm('Apa anda yakin ingin menghapus?')) {
+                
+                $.ajax({
+                    url: "{{url('pegawai/delete')}}/" + id, //or you can use url: "company/"+id,
+                    type: 'DELETE',
+                    data: {
+                        _token: token,
+                        id: id
+                    },
+                    success: function(response) {
+                        alert(response.status);
+                        location.href = "{{route('pegawaiindex')}}";   
+                    }
+                });
+                
+            } else {
+               
+            }
+        });
     });
 </script>
 

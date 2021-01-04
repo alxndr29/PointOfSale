@@ -109,7 +109,7 @@
                                 <td>{{$key+1}}</td>
                                 <td>{{$value->id}}</td>
                                 <td>{{$value->created_at}}</td>
-                                <td>Rp. {{$value->total}}</td>
+                                <td>Rp. {{number_format($value->total,2)}}</td>
                                 <td>{{$value->status}}</td>
                                 <td><a class="btn btn-block btn-success btn-sm" href="{{route('invoicepembelian',$value->id)}}">Lihat</a></td>
                             </tr>

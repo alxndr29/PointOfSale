@@ -279,9 +279,12 @@ class LaporanController extends Controller
             ->orderBy('kategoris.id')
             ->orderBy('barangs.stok', 'asc')
             ->get();
+        
         $jumlahStokDibawah = Barang::where('stok', '<=', 10)->count();
         $jumlahKategori = Kategori::count();
         return view('admin.laporanproduk', compact('date', 'data', 'jumlahStokDibawah', 'jumlahKategori'));
+        
+        //return $data;
     }
     /**
      * Show the form for creating a new resource.

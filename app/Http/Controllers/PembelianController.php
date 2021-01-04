@@ -79,6 +79,7 @@ class PembelianController extends Controller
             $notaBeli->jatuhtempo = $jatuhTempo->toDateString();
             $notaBeli->status = "Belum Dibayar";
             $notaBeli->save();
+            $this->updatestokharga($id);
             return redirect('laporan/pembelian')->with('status', 'Barang Sudah Terima. Tanggal Jatuh Tempo Akan Dimulai Pada Hari Ini.');
         } else {
             $notaBeli->status = "Selesai";
@@ -93,7 +94,7 @@ class PembelianController extends Controller
         $notaBeli = NotaBeli::find($id);
         $notaBeli->status = "Selesai";
         $notaBeli->save();
-        $this->updatestokharga($id);
+        
         return redirect('laporan/pembelian')->with('status', 'Pembelian anda selesai. Stok dan Harga akan di update');
     }
     public function updatestokharga($id)

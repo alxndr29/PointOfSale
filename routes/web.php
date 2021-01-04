@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
-
+*/
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 //route barang
 Route::get('/barang','BarangController@index')->name('barangindex');
@@ -75,6 +75,9 @@ Route::get('/laporan/print/','LaporanController@index')->name('cetak');
 //Route Pegawai
 Route::get('/pegawai','PegawaiController@index')->name('pegawaiindex');
 Route::post('/pegawai/store','PegawaiController@store')->name('pegawaistore');
+Route::get('/pegawai/edit/{id}','PegawaiController@edit')->name('pegawaiedit');
+Route::delete('/pegawai/delete/{id}','PegawaiController@destroy')->name('pegawaidelete');
+Route::put('/pegawai/update/{id}','PegawaiController@update')->name('pegawaiupdate');
 
 //Route Laporan
 Route::get('/laporan/penjualan','LaporanController@laporanpenjualanindex')->name('laporanpenjualanindex');

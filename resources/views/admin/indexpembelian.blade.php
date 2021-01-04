@@ -333,7 +333,7 @@
             }
 
             $("#jumlahtotal").text("Rp. " + addCommas(total));
-            $("#totalmodal").text("Rp. " + addCommas(total));
+            $("#totalmodal").text("Total Pembayaran Rp. " + addCommas(total));
         }
 
         function addCommas(nStr) {

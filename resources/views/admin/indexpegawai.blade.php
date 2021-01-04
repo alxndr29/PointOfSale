@@ -56,8 +56,9 @@
                                             <th>Nomor</th>
                                             <th>Nama</th>
                                             <th>Email</th>
-                                            
                                             <th>Hak Akses</th>
+                                            <th> Edit </th>
+                                            <th> Hapus </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -67,6 +68,10 @@
                                             <td>{{$value->name}}</td>
                                             <td>{{$value->email}}</td>
                                             <td>{{$value->role}}</td>
+                                            <td><a class="btn btn-block btn-success btn-sm" href="{{route('pegawaiedit',$value->id)}}">Edit</a></td>
+                                            <td>
+                                                <a href="javascript:void(0)" id="hapuspegawai" name="hapuspegawai" data-id="{{$value->id}}" class="btn btn-block btn-danger btn-sm">Hapus</a>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

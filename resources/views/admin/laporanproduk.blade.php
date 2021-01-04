@@ -84,6 +84,7 @@
                                 <th>Kategori</th>
                                 <th>Barcode</th>
                                 <th>Nama</th>
+                                <th>Harga</th>
                                 <th>Stok(Pcs)</th>
                                 <th>Stok(Karton)</th>
                             </tr>
@@ -96,6 +97,7 @@
                                 <td>{{$value->namakategori}}</td>
                                 <td>{{$value->barcode}}</td>
                                 <td>{{$value->nama}}</td>
+                                <td>Rp. {{number_format($value->hargajual,2)}}</td>
                                 @if($value->stok <= 10)
                                     <td><b>{{$value->stok}}</b></td>
                                 @else

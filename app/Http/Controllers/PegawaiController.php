@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\User;
+use App\NotaJual;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
@@ -66,6 +67,8 @@ class PegawaiController extends Controller
     public function edit($id)
     {
         //
+        $user = User::findOrFail($id);
+        return view('admin.pegawaiupdate',compact('user'));
     }
 
     /**
@@ -78,6 +81,15 @@ class PegawaiController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $user = User::findOrFail($id);
+        $user->name = $request->get('nama');
+        $user->email = $request->get('email');
+        if($request->has('password')){
+            $user->password = Hash::make($request->get('password'));
+        }
+        $user->role = $request->get('role_id');
+        $user->save();
+        return redirect('pegawai')->with('status', 'Berhasil Mengubah Data Pegawai');
     }
 
     /**
@@ -89,5 +101,15 @@ class PegawaiController extends Controller
     public function destroy($id)
     {
         //
+        $count = NotaJual::where('user_id','=',$id)->count();
+        if($count == 0){
+            $user = User::find($id);
+            $user->delete();
+            $response = ['status' => 'Berhasil Menghapus Pegawai'];
+            return response()->json($response);
+        }else{
+            $response = ['status' => 'Tidak Dapat Menghapus. Data Pegawai Digunakan Pada Nota Beli'];
+            return response()->json($response);
+        }
     }
 }

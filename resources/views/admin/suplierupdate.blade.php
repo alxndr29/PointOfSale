@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <label for="namakategori">Telepon Suplier</label>
-                    <input type="text" class="form-control" id="namakategori" value="{{$suplier->telepon}}" placeholder="Masukan Telepon Suplier" name="telepon">
+                    <input type="number" class="form-control" id="namakategori" value="{{$suplier->telepon}}" placeholder="Masukan Telepon Suplier" name="telepon">
                 </div>
                 <button class="btn btn-primary">Edit</button>
             </div>
