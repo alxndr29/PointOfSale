@@ -13,16 +13,16 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="namasuplier">Nama Suplier</label>
-                    <input type="text" class="form-control" id="namasuplier" value="{{$pelanggan->nama}}" placeholder="Masukan Nama Suplier" name="nama">
+                    <label for="namasuplier">Nama Pelanggan</label>
+                    <input type="text" class="form-control" id="namasuplier" value="{{$pelanggan->nama}}" placeholder="Masukan Nama Suplier" name="nama" required>
                 </div>
                 <div class="form-group">
-                    <label for="alamatsuplier">Alamat Suplier</label>
-                    <input type="text" class="form-control" id="alamatsuplier" value="{{$pelanggan->alamat}}" placeholder="Masukan Alamat Suplier" name="alamat">
+                    <label for="alamatsuplier">Alamat Pelanggan</label>
+                    <input type="text" class="form-control" id="alamatsuplier" value="{{$pelanggan->alamat}}" placeholder="Masukan Alamat Suplier" name="alamat" required>
                 </div>
                 <div class="form-group">
-                    <label for="namakategori">Telepon Suplier</label>
-                    <input type="text" class="form-control" id="namakategori" value="{{$pelanggan->telepon}}" placeholder="Masukan Telepon Suplier" name="telepon">
+                    <label for="namakategori">Telepon Pelanggan</label>
+                    <input type="number" class="form-control" id="namakategori" value="{{$pelanggan->telepon}}" placeholder="Masukan Telepon Suplier" name="telepon" required>
                 </div>
                 <button class="btn btn-primary">Edit</button>
             </div>

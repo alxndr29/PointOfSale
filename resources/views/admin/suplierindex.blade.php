@@ -14,15 +14,15 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="namasuplier">Nama Suplier</label>
-                            <input type="text" class="form-control" id="namasuplier" placeholder="Masukan Nama Suplier" name="nama">
+                            <input type="text" class="form-control" id="namasuplier" placeholder="Masukan Nama Suplier" name="nama" required>
                         </div>
                         <div class="form-group">
                             <label for="alamatsuplier">Alamat Suplier</label>
-                            <input type="text" class="form-control" id="alamatsuplier" placeholder="Masukan Alamat Suplier" name="alamat">
+                            <input type="text" class="form-control" id="alamatsuplier" placeholder="Masukan Alamat Suplier" name="alamat" required>
                         </div>
                         <div class="form-group">
                             <label for="namakategori">Telepon Suplier</label>
-                            <input type="number" class="form-control" id="namakategori" placeholder="Masukan Telepon Suplier" name="telepon">
+                            <input type="number" class="form-control" id="namakategori" placeholder="Masukan Telepon Suplier" name="telepon" required>
                         </div>
                         <button class="btn btn-primary">Tambah</button>
                     </div>

@@ -243,6 +243,23 @@
                             </ul>
                         </li>
                         @else
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    Laporan
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('laporanproduk')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Laporan Produk</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         @endif
                      
                     </ul>

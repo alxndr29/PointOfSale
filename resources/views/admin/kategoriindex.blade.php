@@ -15,7 +15,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="namakategori">Nama Kategori</label>
-                            <input type="text" class="form-control" id="namakategori" placeholder="Masukan Nama Kategori" name="nama">
+                            <input type="text" class="form-control" id="namakategori" placeholder="Masukan Nama Kategori" name="nama" required>
                         </div>
                         <button class="btn btn-primary">Tambah</button>
                     </div>

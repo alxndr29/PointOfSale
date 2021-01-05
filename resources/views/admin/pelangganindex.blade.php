@@ -15,15 +15,15 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="namapelanggan">Nama Pelanggan</label>
-                            <input type="text" class="form-control" id="namapelanggan" placeholder="Masukan Nama Pelanggan" name="nama">
+                            <input type="text" class="form-control" id="namapelanggan" placeholder="Masukan Nama Pelanggan" name="nama" required>
                         </div>
                         <div class="form-group">
                             <label for="alamatpelanggan">Alamat Pelanggan</label>
-                            <input type="text" class="form-control" id="alamatpelanggan" placeholder="Masukan Alamat Pelanggan" name="alamat">
+                            <input type="text" class="form-control" id="alamatpelanggan" placeholder="Masukan Alamat Pelanggan" name="alamat" required>
                         </div>
                         <div class="form-group">
                             <label for="teleponpelanggan">Telepon Pelanggan</label>
-                            <input type="text" class="form-control" id="teleponpelanggan" placeholder="Masukan Telepon Pelanggan" name="telepon">
+                            <input type="number" class="form-control" id="teleponpelanggan" placeholder="Masukan Telepon Pelanggan" name="telepon" required>
                         </div>
                         <button class="btn btn-primary">Tambah</button>
                     </div>

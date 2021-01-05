@@ -72,7 +72,7 @@ class HomeController extends Controller
         }else if(Auth::user()->role == "Kasir"){
             return redirect('penjualan');
         }else{
-
+            return redirect('laporanproduk');
         }
     }
     public function dashboard()

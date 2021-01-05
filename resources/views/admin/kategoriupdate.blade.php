@@ -14,7 +14,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="namakategori">Nama Kategori</label>
-                    <input type="text" class="form-control" id="namakategori" placeholder="Masukan Nama Kategori" name="nama" value="{{$kategori->nama}}">
+                    <input type="text" class="form-control" id="namakategori" placeholder="Masukan Nama Kategori" name="nama" value="{{$kategori->nama}}" required>
                 </div>
                 <button class="btn btn-primary">Edit</button>
             </div>
