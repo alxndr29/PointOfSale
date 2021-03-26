@@ -76,7 +76,7 @@
                                 <td></td>
                                 <td></td>
                                 <td>Total: </td>
-                                <td>{{$totalharga->total}}</td>
+                                <td>Rp. {{number_format($totalharga->total,2)}}</td>
                             </tr>
                         </tbody>
                     </table>

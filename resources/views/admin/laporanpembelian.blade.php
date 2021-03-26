@@ -142,6 +142,8 @@
                         </thead>
                         <tbody>
                             @foreach($datatransaksiJatuhTempo as $key => $value)
+                            
+                            @if($value->hitunghari <= 3)
                             <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{$value->id}}</td>
@@ -150,6 +152,8 @@
                                 <td>{{$value->hitunghari}} Hari</td>
                                 <td><a class="btn btn-block btn-success btn-sm" href="{{route('invoicepembelian',$value->id)}}">Lihat</a></td>
                             </tr>
+                            @endif
+                           
                             @endforeach
                         </tbody>
                     </table>

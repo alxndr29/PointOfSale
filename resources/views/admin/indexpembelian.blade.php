@@ -298,11 +298,9 @@
 
             for (i = 0; i < data.length; i++) {
                 if (id == data[i].barcode) {
-                    if (qty > data[i].stok) {
-                        alert("Qty melebihi Stok. Sisa stok adalah: " + data[i].stok)
-                    } else {
+                   
                         data[i].qty = qty;
-                    }
+                    
 
                 }
             }

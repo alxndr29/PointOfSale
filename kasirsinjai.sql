@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2020 at 10:34 AM
+-- Generation Time: Mar 26, 2021 at 02:21 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -45,10 +45,10 @@ CREATE TABLE `barangs` (
 --
 
 INSERT INTO `barangs` (`id`, `barcode`, `nama`, `hargajual`, `hargabeli`, `stok`, `kategori_id`, `created_at`, `updated_at`) VALUES
-(2, '1234512345124', 'Coca Cola Zero 600ml', 150000, 120000, 100, 30, '2020-10-16 07:40:39', '2020-12-12 22:25:39'),
-(3, '8765312341234', 'Fuel Pump Assy Innova', 1000000, 130000, 67, 25, '2020-10-17 07:22:29', '2020-12-13 01:07:42'),
-(4, '1234512345169', 'Aqua 600ml', 3000, 2500, 292, 30, '2020-12-04 07:08:05', '2020-12-13 00:59:51'),
-(5, '1230512345124', 'Coca Cola 1500ml', 16000, 14000, 48, 30, '2020-12-09 08:11:10', '2020-12-13 01:07:42');
+(1, '123456789123', 'Coca Cola 1500 ml', 15000, 14050, 58, 2, '2020-12-17 08:49:48', '2021-01-05 21:38:18'),
+(2, '123456789121', 'Aqua 600 ml', 6000, 5550, 41, 2, '2020-12-17 08:50:49', '2021-02-04 07:05:17'),
+(9, '123456789124', 'Pocky 100gr', 10000, 7050, 23, 3, '2020-12-21 06:14:41', '2021-01-05 19:42:53'),
+(10, '123456789125', 'Lifebuoy Merah', 5000, 3050, 27, 5, '2020-12-21 20:05:25', '2021-02-04 07:05:17');
 
 -- --------------------------------------------------------
 
@@ -83,8 +83,9 @@ CREATE TABLE `kategoris` (
 --
 
 INSERT INTO `kategoris` (`id`, `nama`, `created_at`, `updated_at`) VALUES
-(25, 'Makanan', '2020-10-16 07:26:44', '2020-12-09 08:08:59'),
-(30, 'Minuman', '2020-10-17 07:15:28', '2020-12-09 08:09:04');
+(2, 'Minuman', '2020-12-17 08:47:45', '2020-12-17 08:47:45'),
+(3, 'Makanan', '2020-12-21 06:13:20', '2020-12-21 06:13:45'),
+(5, 'Sabun Mandi', '2020-12-21 20:05:00', '2020-12-21 20:05:00');
 
 -- --------------------------------------------------------
 
@@ -98,21 +99,36 @@ CREATE TABLE `migrations` (
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `migrations`
+-- Table structure for table `notabelidetil`
 --
 
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(6, '2014_10_12_000000_create_users_table', 1),
-(7, '2014_10_12_100000_create_password_resets_table', 1),
-(8, '2019_08_19_000000_create_failed_jobs_table', 1),
-(9, '2020_09_16_133743_create_kategoris_table', 1),
-(10, '2020_09_16_134404_create_barangs_table', 1),
-(11, '2020_09_20_040313_create_supliers_table', 2),
-(12, '2020_09_20_040435_create_notabelis_table', 3),
-(13, '2020_11_13_132118_create_pelanggans_table', 4),
-(14, '2020_11_20_144649_create_notajuals_table', 5),
-(16, '2020_11_20_150901_create_notajualdetil_table', 6);
+CREATE TABLE `notabelidetil` (
+  `id_notabeli` bigint(20) UNSIGNED NOT NULL,
+  `id_barang` bigint(20) UNSIGNED NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `harga` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `notabelidetil`
+--
+
+INSERT INTO `notabelidetil` (`id_notabeli`, `id_barang`, `jumlah`, `harga`) VALUES
+(4, 1, 2, 27000),
+(5, 2, 1, 5000),
+(6, 1, 1, 13000),
+(7, 2, 10, 55000),
+(8, 9, 2, 14000),
+(9, 1, 1, 13000),
+(10, 10, 1, 3000),
+(12, 9, 12, 84600),
+(12, 2, 12, 66600),
+(12, 1, 12, 168600),
+(12, 10, 12, 36600),
+(13, 1, 24, 337200);
 
 -- --------------------------------------------------------
 
@@ -122,15 +138,30 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `notabelis` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `total` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tipebayar` enum('tunai','kredit') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `jatuhtempo` date NOT NULL,
+  `tipebayar` enum('Cash','Kredit') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jumlahhari` int(11) DEFAULT 0,
+  `jatuhtempo` date DEFAULT NULL,
   `terverifikasi` enum('yes','no') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'no',
   `status` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `suplier_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `notabelis`
+--
+
+INSERT INTO `notabelis` (`id`, `tipebayar`, `jumlahhari`, `jatuhtempo`, `terverifikasi`, `status`, `suplier_id`, `created_at`, `updated_at`) VALUES
+(4, 'Kredit', 7, '2020-12-19', 'no', 'Selesai', 1, '2020-12-17 09:06:53', '2020-12-17 09:08:03'),
+(5, 'Kredit', 7, '2020-12-28', 'no', 'Selesai', 1, '2020-12-21 06:19:16', '2020-12-21 06:20:17'),
+(6, 'Cash', NULL, NULL, 'no', 'Selesai', 1, '2020-12-21 06:21:48', '2020-12-21 06:21:56'),
+(7, 'Cash', NULL, NULL, 'no', 'Selesai', 1, '2020-12-21 20:10:42', '2020-12-21 20:11:36'),
+(8, 'Kredit', 7, '2021-01-11', 'no', 'Selesai', 1, '2021-01-04 09:14:36', '2021-01-04 09:17:06'),
+(9, 'Cash', NULL, NULL, 'no', 'Selesai', 1, '2021-01-04 09:15:48', '2021-01-04 09:18:25'),
+(10, 'Cash', NULL, NULL, 'no', 'Selesai', 1, '2021-01-04 09:16:30', '2021-01-04 09:19:38'),
+(12, 'Cash', NULL, NULL, 'no', 'Selesai', 1, '2021-01-05 19:38:59', '2021-01-05 19:42:53'),
+(13, 'Kredit', 4, '2021-01-10', 'no', 'Selesai', 1, '2021-01-05 19:48:41', '2021-01-05 20:04:01');
 
 -- --------------------------------------------------------
 
@@ -151,14 +182,12 @@ CREATE TABLE `notajualdetil` (
 --
 
 INSERT INTO `notajualdetil` (`notajual_id`, `barang_id`, `jumlah`, `harga`, `hargamodal`) VALUES
-(23, 2, 3, 450000, 360000),
-(23, 4, 3, 7500, 4500),
-(23, 3, 1, 1000000, 130000),
-(24, 4, 2, 5000, 3000),
-(25, 3, 1, 1000000, 130000),
-(26, 4, 1, 3000, 2000),
-(27, 5, 2, 32000, 28000),
-(28, 2, 1, 150000, 120000);
+(2, 2, 1, 5000, 4000),
+(3, 1, 1, 15000, 13000),
+(6, 1, 1, 15000, 13000),
+(8, 1, 1, 15000, 14050),
+(9, 2, 1, 6000, 5550),
+(9, 10, 1, 5000, 3050);
 
 -- --------------------------------------------------------
 
@@ -180,12 +209,11 @@ CREATE TABLE `notajuals` (
 --
 
 INSERT INTO `notajuals` (`id`, `tanggal`, `pelanggan_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(23, '2020-12-08 09:00:09', 3, 1, '2020-12-08 19:00:09', '2020-12-08 19:00:09'),
-(24, '2020-12-09 10:13:35', 2, 1, '2020-12-08 20:13:35', '2020-12-08 20:13:35'),
-(25, '2020-12-09 11:33:55', 3, 1, '2020-12-08 21:33:55', '2020-12-08 21:33:55'),
-(26, '2020-12-09 11:54:24', 3, 1, '2020-12-08 21:54:24', '2020-12-08 21:54:24'),
-(27, '2020-12-09 22:12:09', 2, 1, '2020-12-09 08:12:09', '2020-12-09 08:12:09'),
-(28, '2020-12-13 12:25:39', 2, 1, '2020-12-12 22:25:39', '2020-12-12 22:25:39');
+(2, '2020-12-17 23:13:15', 1, 2, '2020-12-17 09:13:15', '2020-12-17 09:13:15'),
+(3, '2020-12-18 10:54:22', 1, 1, '2020-12-17 20:54:22', '2020-12-17 20:54:22'),
+(6, '2021-01-03 20:59:21', 1, 1, '2021-01-03 06:59:21', '2021-01-03 06:59:21'),
+(8, '2021-01-06 11:38:18', 1, 2, '2021-01-05 21:38:18', '2021-01-05 21:38:18'),
+(9, '2021-02-04 23:05:17', 1, 1, '2021-02-04 07:05:17', '2021-02-04 07:05:17');
 
 -- --------------------------------------------------------
 
@@ -219,8 +247,8 @@ CREATE TABLE `pelanggans` (
 --
 
 INSERT INTO `pelanggans` (`id`, `nama`, `alamat`, `telepon`, `created_at`, `updated_at`) VALUES
-(2, 'Pelanggan Umum', 'Toko Sinjai', '0000', '2020-11-13 06:58:44', '2020-11-13 07:13:12'),
-(3, 'Richardo Hartanto', 'RMS 5 No. 3', '08862312831', '2020-11-20 07:39:23', '2020-11-20 07:39:23');
+(1, 'Pelanggan Umum', 'Toko Sinjai', '000000', '2020-12-17 08:53:41', '2021-01-05 07:36:47'),
+(4, 'Richardo Barrett', 'Rungkut Mejoyo Sleatan V No. 3', '08123321', '2021-01-05 08:13:58', '2021-01-05 08:13:58');
 
 -- --------------------------------------------------------
 
@@ -242,7 +270,7 @@ CREATE TABLE `supliers` (
 --
 
 INSERT INTO `supliers` (`id`, `nama`, `alamat`, `telepon`, `created_at`, `updated_at`) VALUES
-(4, 'Karunia 60', 'kokos raya no 34', '085222211123', '2020-10-17 07:29:35', '2020-11-13 06:17:01');
+(1, 'Alam Jaya Corp', 'Kokos Raya No. 35', '08123321', '2020-12-17 08:52:24', '2020-12-17 08:52:41');
 
 -- --------------------------------------------------------
 
@@ -254,6 +282,7 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('Pemilik','Kasir','Umum','') COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -265,10 +294,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Alexander Evan', 'admin@admin.com', NULL, '$2y$10$E7EcQoNCsY/G4MO0oY.8fuHDNLUhbrCYQOUpvVYk1e9pW1Sf1q4ym', NULL, '2020-11-20 08:03:19', '2020-11-20 08:03:19'),
-(3, 'Tantod Sulaemah', 'tantod@tantod.com', NULL, '$2y$10$muH2ZBtkAutR5py79O83Vu/lQ.qc.nxRfnuq/o3H8sF.5FMIYgkOS', NULL, '2020-12-07 08:28:17', '2020-12-07 08:28:17'),
-(4, 'Fernando Kontol', 'nando@nando.com', NULL, '$2y$10$tV/DXEtGGKATB.PKdDrR9ejT1rFx2xy94JV9U.h0NEHVio3K0FSoO', NULL, '2020-12-08 21:55:46', '2020-12-08 21:55:46');
+INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Administrator', 'admin@admin.com', 'Pemilik', NULL, '$2y$10$FrLb6afTJg.gMWz3BIt5je58/W3RvUTfOnR12VXXL2y2pQ87CBHXC', NULL, '2020-12-17 06:55:07', '2020-12-17 06:55:07'),
+(2, 'Evan', 'epan@epan.com', 'Kasir', NULL, '$2y$10$mb20kyO7ZqqCByDeyUWb3uzoDOuui5PGKXJjg9jCxsqFi25zTbteO', NULL, '2020-12-17 07:08:33', '2021-01-05 21:37:59'),
+(4, 'Tanto', 'tantod@tantod.com', 'Umum', NULL, '$2y$10$kOang3JYwBYej0J4DjpSg.bo4eYT.mMSrdKaAze4hVRKouW2HM9eG', NULL, '2021-02-04 06:28:24', '2021-02-04 06:28:24');
 
 --
 -- Indexes for dumped tables
@@ -298,6 +327,13 @@ ALTER TABLE `kategoris`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notabelidetil`
+--
+ALTER TABLE `notabelidetil`
+  ADD KEY `notabelidetil_id_notabeli_foreign` (`id_notabeli`),
+  ADD KEY `notabelidetil_id_barang_foreign` (`id_barang`);
 
 --
 -- Indexes for table `notabelis`
@@ -354,7 +390,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `barangs`
 --
 ALTER TABLE `barangs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -366,37 +402,37 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `kategoris`
 --
 ALTER TABLE `kategoris`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `notabelis`
 --
 ALTER TABLE `notabelis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `notajuals`
 --
 ALTER TABLE `notajuals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `pelanggans`
 --
 ALTER TABLE `pelanggans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `supliers`
 --
 ALTER TABLE `supliers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -413,6 +449,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `barangs`
   ADD CONSTRAINT `barangs_kategori_id_foreign` FOREIGN KEY (`kategori_id`) REFERENCES `kategoris` (`id`);
+
+--
+-- Constraints for table `notabelidetil`
+--
+ALTER TABLE `notabelidetil`
+  ADD CONSTRAINT `notabelidetil_id_barang_foreign` FOREIGN KEY (`id_barang`) REFERENCES `barangs` (`id`),
+  ADD CONSTRAINT `notabelidetil_id_notabeli_foreign` FOREIGN KEY (`id_notabeli`) REFERENCES `notabelis` (`id`);
 
 --
 -- Constraints for table `notabelis`

@@ -95,7 +95,7 @@ class PembelianController extends Controller
         $notaBeli->status = "Selesai";
         $notaBeli->save();
         
-        return redirect('laporan/pembelian')->with('status', 'Pembelian anda selesai. Stok dan Harga akan di update');
+        return redirect('laporan/pembelian')->with('status', 'Pembelian anda selesai.');
     }
     public function updatestokharga($id)
     {
